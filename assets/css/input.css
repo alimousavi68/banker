@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #004A8F;    
+  --color-secondary: #CD3737;  
+  --color-grayText: #858585;   
+  --color-lightBg: #F6F6F6;    
+  --color-border:#CCCCCC;
+  --color-black:#202020;
+}
+@font-face {
+  font-family: "IranYekan";
+  src: url('../fonts/iranyekan-medium.ttf') format("truetype");
+  font-weight: 400; 
+  font-style: normal; 
+}
+
+@font-face {
+  font-family: "IranYekan";
+  src: url('../fonts/iranyekan-bold.ttf') format("truetype");
+  font-weight: 700; 
+  font-style: normal; 
+}
+/* @font-face {
+  font-family: "IranYekanFarsiNumber";
+  src: url('../fonts/IranSansX/Farsi\ numerals/IRANSansXFaNum-Medium.ttf') format("truetype");
+  font-weight: 400; 
+  font-style: normal; 
+} */
+body {
+  font-family: "IranYekan", sans-serif;
+}
+ .heroImage {
+    height: 142px !important;
+  }
+.custom-counter {
+  counter-reset: section; /* شمارنده اولیه */
+  list-style: none; /* حذف شماره پیش‌فرض */
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  
+  direction: rtl; /* متن راست‌به‌چپ */
+}
+
+.custom-counter li {
+  counter-increment: section; /* شمارنده برای هر آیتم */
+  margin: 8px 0;
+  position: relative;
+  color: white;
+  font-size: 14px;
+  border-bottom: 1px solid #535353;
+    padding: 16px 40px 16px 0;
+
+}
+
+.custom-counter li::before {
+  font-family: "IranYekanFarsiNumber" !important;
+    padding: 16px 0;
+
+  content: counter(section, decimal-leading-zero); /* نمایش با صفر پیش‌فرض */
+  position: absolute;
+  right: 0; /* شماره سمت راست */
+  top: -4px;
+  font-weight: 500;
+  font-size: 20px;
+  color: #FFFFFF;
+}
+
+ @keyframes scroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+  .animate-scroll {
+    display: inline-flex;
+    animation: scroll 30s linear infinite;
+  }
+
+/* Line Clamp Styles */
+.line-clamp-1 { 
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-5 {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-6 {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+ 
+ 
