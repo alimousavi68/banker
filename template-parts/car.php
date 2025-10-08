@@ -1,8 +1,11 @@
 <?php
+// Get car section settings from customizer
+$car_settings = banker_get_car_section_settings();
+
 // کوئری مجزا برای بخش خودرو (2 پست)
 $car_query = new WP_Query(array(
-    'cat' => 8,
-    'posts_per_page' => 2,
+    'cat' => $car_settings['car_category'],
+    'posts_per_page' => $car_settings['car_posts_count'],
     'post_status' => 'publish'
 ));
 
@@ -25,8 +28,8 @@ if ($car_query->have_posts()) {
 
 // کوئری مجزا برای بخش اقتصاد و بیمه (3 پست)
 $economy_query = new WP_Query(array(
-    'cat' => 8,
-    'posts_per_page' => 3,
+    'cat' => $car_settings['economy_category'],
+    'posts_per_page' => $car_settings['economy_posts_count'],
     'offset' => 2,
     'post_status' => 'publish'
 ));
@@ -55,7 +58,7 @@ if ($economy_query->have_posts()) {
   <div class="w-full md:w-2/3 md:border-l md:ml-4 md:pl-4 border-border">
     <div class="flex  justify-between items-center">
       <h4 class="font-medium text-2xl text-black">
-        خودرو
+        <?php echo esc_html($car_settings['car_title']); ?>
       </h4>
       <div class="flex items-center gap-2">
         <a href="#" class="text-[12px] text-secondary font-medium">
@@ -168,7 +171,7 @@ if ($economy_query->have_posts()) {
   <div class="w-full md:w-1/3">
     <div class="flex justify-between items-center">
       <h4 class="font-medium text-2xl text-black">
-        اقتصاد و بیمه
+        <?php echo esc_html($car_settings['economy_title']); ?>
       </h4>
       <div class="flex items-center gap-2">
         <a href="#" class="text-[12px] text-secondary font-medium">

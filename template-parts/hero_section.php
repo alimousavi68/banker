@@ -1,8 +1,12 @@
 <?php
+// Get hero section settings from customizer
+$hero_settings = banker_get_hero_section_settings();
+
 // Query for featured posts
     $featured_query = new WP_Query(array(
-        'cat' => 8, // Change this to your desired category ID (integer) or use 'category_name' for slug
-        'posts_per_page' => 5,
+        'cat' => $hero_settings['category'],
+        'posts_per_page' => $hero_settings['posts_count'],
+        'post_status' => 'publish'
     ));
 
 // Prepare posts array

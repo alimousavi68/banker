@@ -1,15 +1,18 @@
 <?php
+// Get history section settings from customizer
+$history_settings = banker_get_history_section_settings();
+
 // Query for History and Economy section (5 posts from category 8)
 $history_posts = new WP_Query(array(
-    'cat' => 8,
-    'posts_per_page' => 5,
+    'cat' => $history_settings['main_category'],
+    'posts_per_page' => $history_settings['main_posts_count'],
     'post_status' => 'publish'
 ));
 
 // Query for Notes section (3 posts from category 8)
 $notes_posts = new WP_Query(array(
-    'cat' => 8,
-    'posts_per_page' => 3,
+    'cat' => $history_settings['notes_category'],
+    'posts_per_page' => $history_settings['notes_posts_count'],
     'post_status' => 'publish'
 ));
 ?>
@@ -19,7 +22,7 @@ $notes_posts = new WP_Query(array(
   <div class="w-full md:border-l md:border-border md:ml-4 md:pl-4 md:w-3/4">
     <div class="flex justify-between items-center">
       <h4 class="font-medium text-2xl text-black">
-        تاریخ و اقتصاد
+        <?php echo esc_html($history_settings['main_title']); ?>
       </h4>
       <div class="flex items-center gap-2">
         <a href="#" class="text-[12px] text-secondary  font-medium">
@@ -140,7 +143,7 @@ $notes_posts = new WP_Query(array(
   <div class="w-full md:w-1/4">
     <div class="flex justify-between items-center">
       <h4 class="font-medium text-2xl text-black">
-        یادداشت ها
+        <?php echo esc_html($history_settings['notes_title']); ?>
       </h4>
 
     </div>

@@ -1,8 +1,11 @@
 <?php
+// Get banker view section settings from customizer
+$banker_view_settings = banker_get_banker_view_section_settings();
+
 // WordPress query for category ID 8 (banker view main section)
 $banker_main_query = new WP_Query(array(
-    'cat' => 8,
-    'posts_per_page' => 5,
+    'cat' => $banker_view_settings['main_category'],
+    'posts_per_page' => $banker_view_settings['main_posts_count'],
     'post_status' => 'publish',
 
 ));
@@ -27,8 +30,8 @@ if ($banker_main_query->have_posts()) {
 
 // WordPress query for category ID 8 (what else is new section)
 $news_query = new WP_Query(array(
-    'cat' => 8,
-    'posts_per_page' => 6,
+    'cat' => $banker_view_settings['news_category'],
+    'posts_per_page' => $banker_view_settings['news_posts_count'],
     'post_status' => 'publish',
     
 ));
@@ -60,7 +63,7 @@ if ($news_query->have_posts()) {
     <div class="w-full md:w-2/3 ">
       <div class="flex justify-between items-center">
         <h4 class="font-medium text-2xl text-white">
-          نگاه بکر
+          <?php echo esc_html($banker_view_settings['main_title']); ?>
         </h4>
         <div class="flex items-center gap-2">
           <a href="#" class="text-[12px] text-secondary  font-medium">

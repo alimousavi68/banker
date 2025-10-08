@@ -1,8 +1,11 @@
 <?php
+// Get banking section settings from customizer
+$banking_settings = banker_get_banking_section_settings();
+
 // Query for banking posts
 $banking_query = new WP_Query(array(
-    'cat' => 8, // Banking category ID
-    'posts_per_page' => 5, // 1 for main section + 4 for sidebar
+    'cat' => $banking_settings['category'], // Banking category ID
+    'posts_per_page' => $banking_settings['posts_count'], // 1 for main section + 4 for sidebar
     'post_status' => 'publish'
 ));
 
@@ -31,7 +34,7 @@ if ($banking_query->have_posts()) {
 <section class="mt-8 max-w-[1400px] mx-auto px-4 sm:px-4 lg:px-6 ">
   <div class="flex  justify-between items-center">
     <h4 class="font-medium text-2xl text-black">
-      بانکداری
+      <?php echo esc_html($banking_settings['title']); ?>
     </h4>
     <div class="flex items-center gap-2">
       <a href="#" class="text-[12px] text-secondary  font-medium">
@@ -97,9 +100,11 @@ if ($banking_query->have_posts()) {
 
         <!-- متن -->
         <div class="flex w-3/4 md:w-3/4 flex-col gap-3">
+          <?php if ($banking_settings['show_category']): ?>
           <p class="bg-lightBg text-secondary text-[10px] py-[2px] px-2 w-fit">
             <?php echo esc_html($banking_posts[$i]['category']); ?>
           </p>
+          <?php endif; ?>
           <p class="font-semibold text-black text-[14px] transition-colors duration-300 group-hover:text-secondary">
             <?php echo esc_html($banking_posts[$i]['title']); ?>
           </p>

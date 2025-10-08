@@ -1,8 +1,11 @@
 <?php
+// Get pishkhan section settings from customizer
+$pishkhan_settings = banker_get_pishkhan_section_settings();
+
 // Query for pishkhan posts
 $pishkhan_query = new WP_Query(array(
-    'cat' => 8,// Change this to your desired category slug
-    'posts_per_page' => 6, // 3 for main section + 6 for timeline
+    'cat' => $pishkhan_settings['main_category'],
+    'posts_per_page' => $pishkhan_settings['main_posts_count'],
     'post_status' => 'publish'
 ));
 
@@ -27,8 +30,8 @@ if ($pishkhan_query->have_posts()) {
 
 // Query for latest news posts (Latest News section)
 $latest_news_query = new WP_Query(array(
-    'cat' => 8,// Change this to your desired category slug for latest news
-    'posts_per_page' => 7, // 6 for timeline
+    'cat' => $pishkhan_settings['latest_category'],
+    'posts_per_page' => $pishkhan_settings['latest_posts_count'],
     'post_status' => 'publish'
 ));
 
@@ -54,7 +57,7 @@ if ($latest_news_query->have_posts()) {
       <?php if (!empty($pishkhan_posts) && count($pishkhan_posts) > 0): ?>
       <div class="ml-4">
         <h4 class="font-medium text-2xl text-black">
-          پیشخوان اخبار
+          <?php echo esc_html($pishkhan_settings['main_title']); ?>
         </h4>
         <div class="space-y-[2px] mt-2">
           <div class="border-t-2  border-dotted border-border"></div>
@@ -109,7 +112,7 @@ if ($latest_news_query->have_posts()) {
       <div class="md:pr-4 flex flex-col md:flex-row  md:border-r md:border-border">
         <div class="bg-lightBg  md:px-4 w-full md:w-2/3 ml-4 ">
           <h4 class="font-medium text-2xl text-black">
-            آخرین اخبار
+            <?php echo esc_html($pishkhan_settings['latest_title']); ?>
           </h4>
 
           <!-- تایم‌لاین -->

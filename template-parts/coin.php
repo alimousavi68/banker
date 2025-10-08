@@ -1,9 +1,12 @@
 
 <?php
+// Get crypto section settings from customizer
+$crypto_settings = banker_get_crypto_section_settings();
+
 // کوئری برای دریافت پست‌های ارز دیجیتال
 $crypto_query = new WP_Query(array(
-    'cat' => 8,
-    'posts_per_page' => 4,
+    'cat' => $crypto_settings['category'],
+    'posts_per_page' => $crypto_settings['posts_count'],
     'post_status' => 'publish',
     'meta_query' => array(
         array(
@@ -38,7 +41,7 @@ if ($crypto_query->have_posts()) {
   <div class="w-full md:border-l border-border md:ml-4 md:pl-4 md:w-2/3">
     <div class="flex justify-between items-center">
       <h4 class="font-medium text-2xl text-black">
-        ارز دیجیتال
+        <?php echo esc_html($crypto_settings['title']); ?>
       </h4>
       <div class="flex items-center gap-2">
         <a href="#" class="text-[12px] text-secondary  font-medium">

@@ -81,6 +81,12 @@ function banker_manual_persian_date($format = 'l j F Y') {
 }
 
 /**
+ * Include Customizer Files
+ */
+require_once get_template_directory() . '/inc/customizer/homepage-customizer.php';
+require_once get_template_directory() . '/inc/customizer/homepage-helpers.php';
+
+/**
  * Customizer Settings
  */
 function banker_customize_register($wp_customize) {
