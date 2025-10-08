@@ -218,10 +218,13 @@ if ($crypto_query->have_posts()) {
 
   <!--start left section-->
   <?php
-  // WordPress query for gold and currency posts from category ID 8
+  // Get crypto section settings
+  $crypto_settings = banker_get_crypto_section_settings();
+
+  // WordPress query for gold and currency posts
   $gold_query = new WP_Query(array(
-    'cat' => 8,
-    'posts_per_page' => 9, // 1 for main image + 8 for news list
+    'cat' => $crypto_settings['gold_category'],
+    'posts_per_page' => $crypto_settings['gold_posts_count'], // 1 for main image + 8 for news list
     'post_status' => 'publish',
     
   ));
@@ -248,7 +251,7 @@ if ($crypto_query->have_posts()) {
   <div class="w-full md:w-1/3  h-full flex flex-col ">
     <div class="flex justify-between items-center">
       <h4 class="font-medium text-2xl text-black">
-        طلا و ارز
+        <?php echo esc_html($crypto_settings['gold_title']); ?>
       </h4>
       <div class="flex items-center gap-2">
         <a href="#" class="text-[12px] text-secondary  font-medium">

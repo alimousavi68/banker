@@ -6,14 +6,16 @@ $history_settings = banker_get_history_section_settings();
 $history_posts = new WP_Query(array(
     'cat' => $history_settings['main_category'],
     'posts_per_page' => $history_settings['main_posts_count'],
-    'post_status' => 'publish'
+    'post_status' => 'publish',
+    'offset' => 1,
 ));
 
 // Query for Notes section (3 posts from category 8)
 $notes_posts = new WP_Query(array(
     'cat' => $history_settings['notes_category'],
     'posts_per_page' => $history_settings['notes_posts_count'],
-    'post_status' => 'publish'
+    'post_status' => 'publish',
+
 ));
 ?>
 

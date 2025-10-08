@@ -117,7 +117,24 @@ function banker_homepage_customize_register($wp_customize) {
         'type'    => 'text',
     ));
 
-    // Pishkhan Latest News Category
+    // Pishkhan Latest News Type
+    $wp_customize->add_setting('banker_pishkhan_latest_type', array(
+        'default'           => 'recent',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ));
+
+    $wp_customize->add_control('banker_pishkhan_latest_type', array(
+        'label'    => __('نوع نمایش آخرین اخبار', 'banker'),
+        'section'  => 'banker_pishkhan_section',
+        'type'     => 'select',
+        'choices'  => array(
+            'recent'   => __('آخرین پست‌های منتشر شده', 'banker'),
+            'category' => __('پست‌های دسته خاص', 'banker'),
+        ),
+    ));
+
+    // Pishkhan Latest News Category (conditional)
     $wp_customize->add_setting('banker_pishkhan_latest_category', array(
         'default'           => 8,
         'sanitize_callback' => 'absint',
@@ -129,6 +146,9 @@ function banker_homepage_customize_register($wp_customize) {
         'section'  => 'banker_pishkhan_section',
         'type'     => 'select',
         'choices'  => banker_get_categories_choices(),
+        'active_callback' => function() {
+            return get_theme_mod('banker_pishkhan_latest_type', 'recent') === 'category';
+        },
     ));
 
     // Pishkhan Latest News Posts Count
@@ -276,6 +296,50 @@ function banker_homepage_customize_register($wp_customize) {
 
     $wp_customize->add_control('banker_crypto_title', array(
         'label'   => __('عنوان هدر بخش', 'banker'),
+        'section' => 'banker_crypto_section',
+        'type'    => 'text',
+    ));
+
+    // Gold Category
+    $wp_customize->add_setting('banker_crypto_gold_category', array(
+        'default'           => 8,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'postMessage',
+    ));
+
+    $wp_customize->add_control('banker_crypto_gold_category', array(
+        'label'    => __('دسته‌بندی بخش طلا و ارز', 'banker'),
+        'section'  => 'banker_crypto_section',
+        'type'     => 'select',
+        'choices'  => banker_get_categories_choices(),
+    ));
+
+    // Gold Posts Count
+    $wp_customize->add_setting('banker_crypto_gold_posts_count', array(
+        'default'           => 9,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'postMessage',
+    ));
+
+    $wp_customize->add_control('banker_crypto_gold_posts_count', array(
+        'label'       => __('تعداد پست‌های طلا و ارز', 'banker'),
+        'section'     => 'banker_crypto_section',
+        'type'        => 'number',
+        'input_attrs' => array(
+            'min' => 1,
+            'max' => 20,
+        ),
+    ));
+
+    // Gold Title
+    $wp_customize->add_setting('banker_crypto_gold_title', array(
+        'default'           => 'طلا و ارز',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ));
+
+    $wp_customize->add_control('banker_crypto_gold_title', array(
+        'label'   => __('عنوان بخش طلا و ارز', 'banker'),
         'section' => 'banker_crypto_section',
         'type'    => 'text',
     ));

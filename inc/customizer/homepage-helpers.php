@@ -30,6 +30,7 @@ function banker_get_pishkhan_section_settings() {
         'main_category'     => get_theme_mod('banker_pishkhan_main_category', 8),
         'main_posts_count'  => get_theme_mod('banker_pishkhan_main_posts_count', 6),
         'main_title'        => get_theme_mod('banker_pishkhan_main_title', 'پیشخوان اخبار'),
+        'latest_type'       => get_theme_mod('banker_pishkhan_latest_type', 'recent'),
         'latest_category'   => get_theme_mod('banker_pishkhan_latest_category', 8),
         'latest_posts_count' => get_theme_mod('banker_pishkhan_latest_posts_count', 7),
         'latest_title'      => get_theme_mod('banker_pishkhan_latest_title', 'آخرین اخبار'),
@@ -53,9 +54,12 @@ function banker_get_banking_section_settings() {
  */
 function banker_get_crypto_section_settings() {
     return array(
-        'category'    => get_theme_mod('banker_crypto_category', 8),
-        'posts_count' => get_theme_mod('banker_crypto_posts_count', 4),
-        'title'       => get_theme_mod('banker_crypto_title', 'ارز دیجیتال'),
+        'category'           => get_theme_mod('banker_crypto_category', 8),
+        'posts_count'        => get_theme_mod('banker_crypto_posts_count', 4),
+        'title'              => get_theme_mod('banker_crypto_title', 'ارز دیجیتال'),
+        'gold_category'      => get_theme_mod('banker_crypto_gold_category', 8),
+        'gold_posts_count'   => get_theme_mod('banker_crypto_gold_posts_count', 9),
+        'gold_title'         => get_theme_mod('banker_crypto_gold_title', 'طلا و ارز'),
     );
 }
 

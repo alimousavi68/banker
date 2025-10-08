@@ -29,11 +29,21 @@ if ($pishkhan_query->have_posts()) {
 }
 
 // Query for latest news posts (Latest News section)
-$latest_news_query = new WP_Query(array(
-    'cat' => $pishkhan_settings['latest_category'],
+$latest_news_args = array(
     'posts_per_page' => $pishkhan_settings['latest_posts_count'],
     'post_status' => 'publish'
-));
+);
+
+// Add category filter only if type is 'category'
+if ($pishkhan_settings['latest_type'] === 'category') {
+    $latest_news_args['cat'] = $pishkhan_settings['latest_category'];
+} else {
+    // For 'recent' type, order by date (default behavior)
+    $latest_news_args['orderby'] = 'date';
+    $latest_news_args['order'] = 'DESC';
+}
+
+$latest_news_query = new WP_Query($latest_news_args);
 
 // Prepare posts array for Latest News
 $latest_news_posts = array();

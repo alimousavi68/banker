@@ -65,7 +65,7 @@ if ($featured_query->have_posts()) {
             </div>
             <p class="flex items-start gap-2 pr-2">
               <span class="w-[10px] h-[10px] bg-secondary mt-2 rounded-full  inline-block"></span>
-              <span class="text-md  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium">
+              <span class="text-md  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium line-clamp-3 min-h-[70px]">
                 <?php echo esc_html($posts_array[1]['title']); ?>
               </span>
             </p>
@@ -79,7 +79,7 @@ if ($featured_query->have_posts()) {
             </div>
             <p class="flex items-start gap-2 pr-2">
               <span class="w-[10px] h-[10px] bg-secondary mt-2 rounded-full inline-block"></span>
-              <span class="text-md  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium">
+              <span class="text-md  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium line-clamp-3 min-h-[70px]">
                 <?php echo esc_html($posts_array[2]['title']); ?>
               </span>
             </p>
@@ -96,7 +96,7 @@ if ($featured_query->have_posts()) {
             </div>
             <p class="flex items-start gap-2 pr-2">
               <span class="w-[10px] h-[10px] bg-secondary mt-2 rounded-full inline-block"></span>
-              <span class="text-md  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium">
+              <span class="text-md  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium line-clamp-3 min-h-[70px]">
                 <?php echo esc_html($posts_array[3]['title']); ?>
               </span>
             </p>
@@ -110,7 +110,7 @@ if ($featured_query->have_posts()) {
             </div>
             <p class="flex items-start gap-2 pr-2">
               <span class="w-[10px] h-[10px] bg-secondary mt-2 rounded-full inline-block"></span>
-              <span class="text-md  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium">
+              <span class="text-md  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium  line-clamp-3 min-h-[70px]">
                 <?php echo esc_html($posts_array[4]['title']); ?>
               </span>
             </p>
