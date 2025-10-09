@@ -6,9 +6,9 @@
 ?>
 
 <!-- Search Widget -->
-<div class="widget mb-6 bg-white border border-border rounded-lg p-4">
+<div class="widget mb-6 bg-white border border-border  p-4">
     <h3 class="widget-title text-lg font-bold text-black mb-4 pb-2 border-b border-border flex items-center gap-2">
-        <div class="w-1 h-5 bg-secondary rounded"></div>
+        <div class="w-1 h-5 bg-secondary "></div>
         جستجو
     </h3>
     <form role="search" method="get" action="<?php echo home_url('/'); ?>" class="search-form">
@@ -18,7 +18,7 @@
                 name="s" 
                 placeholder="جستجو در سایت..." 
                 value="<?php echo get_search_query(); ?>"
-                class="w-full px-4 py-2 pr-10 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+                class="w-full px-4 py-2 pr-10 border border-border  focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
             >
             <button 
                 type="submit" 
@@ -33,9 +33,9 @@
 </div>
 
 <!-- Recent Posts Widget -->
-<div class="widget mb-6 bg-white border border-border rounded-lg p-4">
+<div class="widget mb-6 bg-white border border-border  p-4">
     <h3 class="widget-title text-lg font-bold text-black mb-4 pb-2 border-b border-border flex items-center gap-2">
-        <div class="w-1 h-5 bg-secondary rounded"></div>
+        <div class="w-1 h-5 bg-secondary "></div>
         آخرین مطالب
     </h3>
     <?php
@@ -51,7 +51,7 @@
                 <li class="group">
                     <a href="<?php echo get_permalink($post['ID']); ?>" class="flex gap-3 items-start">
                         <?php if (has_post_thumbnail($post['ID'])) : ?>
-                            <div class="flex-shrink-0 w-16 h-16 rounded overflow-hidden">
+                            <div class="flex-shrink-0 w-16 h-16  overflow-hidden">
                                 <?php echo get_the_post_thumbnail($post['ID'], 'thumbnail', array(
                                     'class' => 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-200'
                                 )); ?>
@@ -73,9 +73,9 @@
 </div>
 
 <!-- Categories Widget -->
-<div class="widget mb-6 bg-white border border-border rounded-lg p-4">
+<div class="widget mb-6 bg-white border border-border  p-4">
     <h3 class="widget-title text-lg font-bold text-black mb-4 pb-2 border-b border-border flex items-center gap-2">
-        <div class="w-1 h-5 bg-secondary rounded"></div>
+        <div class="w-1 h-5 bg-secondary "></div>
         دسته‌بندی‌ها
     </h3>
     <?php
@@ -93,12 +93,12 @@
                 <li>
                     <a 
                         href="<?php echo get_category_link($category->term_id); ?>" 
-                        class="flex items-center justify-between py-2 px-3 rounded hover:bg-lightBg transition-colors group"
+                        class="flex items-center justify-between py-2 px-3  hover:bg-lightBg transition-colors group"
                     >
                         <span class="text-sm text-black group-hover:text-secondary">
                             <?php echo esc_html($category->name); ?>
                         </span>
-                        <span class="text-xs bg-secondary text-white px-2 py-1 rounded-full">
+                        <span class="text-xs bg-secondary text-white px-2 py-1 -full">
                             <?php echo $category->count; ?>
                         </span>
                     </a>
@@ -109,9 +109,9 @@
 </div>
 
 <!-- Tags Widget -->
-<div class="widget mb-6 bg-white border border-border rounded-lg p-4">
+<div class="widget mb-6 bg-white border border-border  p-4">
     <h3 class="widget-title text-lg font-bold text-black mb-4 pb-2 border-b border-border flex items-center gap-2">
-        <div class="w-1 h-5 bg-secondary rounded"></div>
+        <div class="w-1 h-5 bg-secondary "></div>
         برچسب‌های محبوب
     </h3>
     <?php
@@ -128,7 +128,7 @@
             <?php foreach ($tags as $tag) : ?>
                 <a 
                     href="<?php echo get_tag_link($tag->term_id); ?>" 
-                    class="inline-block px-3 py-1 text-xs bg-lightBg border border-border rounded-full text-grayText hover:bg-secondary hover:text-white hover:border-secondary transition-all"
+                    class="inline-block px-3 py-1 text-xs bg-lightBg border border-border -full text-grayText hover:bg-secondary hover:text-white hover:border-secondary transition-all"
                 >
                     #<?php echo esc_html($tag->name); ?>
                 </a>
@@ -138,9 +138,9 @@
 </div>
 
 <!-- Newsletter Widget -->
-<div class="widget mb-6 bg-gradient-to-br from-secondary to-blue-600 text-white rounded-lg p-4">
+<div class="widget mb-6 bg-gradient-to-br from-secondary to-blue-600 text-white  p-4">
     <h3 class="widget-title text-lg font-bold mb-4 pb-2 border-b border-white/20 flex items-center gap-2">
-        <div class="w-1 h-5 bg-white rounded"></div>
+        <div class="w-1 h-5 bg-white "></div>
         خبرنامه
     </h3>
     <p class="text-sm mb-4 text-white/90">
@@ -150,11 +150,11 @@
         <input 
             type="email" 
             placeholder="ایمیل شما..." 
-            class="w-full px-3 py-2 rounded text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white"
+            class="w-full px-3 py-2  text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white"
         >
         <button 
             type="submit" 
-            class="w-full bg-white text-secondary py-2 rounded font-medium hover:bg-gray-100 transition-colors"
+            class="w-full bg-white text-secondary py-2  font-medium hover:bg-gray-100 transition-colors"
         >
             عضویت در خبرنامه
         </button>

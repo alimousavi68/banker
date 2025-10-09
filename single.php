@@ -6,12 +6,8 @@ get_header();
     <div class="flex flex-col lg:flex-row gap-8">
         
         <!-- ستون راست - محتوای اصلی -->
-        <div class="w-full lg:w-3/4">
-            
-            <!-- بخش breadcrumb و اطلاعات پست -->
-            <div class="mb-6">
-                <?php get_template_part('template-parts/content/breadcrumb'); ?>
-            </div>
+        <div class="w-full lg:w-3/4  border-e border-border pe-6">
+        
             
             <!-- بخش intro -->
             <div class="mb-8">
