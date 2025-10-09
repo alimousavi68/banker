@@ -8,18 +8,35 @@
   --color-border:#CCCCCC;
   --color-black:#202020;
 }
-@font-face {
+/* @font-face {
   font-family: "IranYekan";
-  src: url('../fonts/iranyekan-medium.ttf') format("truetype");
+  src: url('../fonts/IRANYekanXVF.ttf') format("truetype");
   font-weight: 400; 
   font-style: normal; 
 }
 
 @font-face {
   font-family: "IranYekan";
-  src: url('../fonts/iranyekan-bold.ttf') format("truetype");
+  src: url('../fonts/IRANYekanXVF.ttf') format("truetype");
   font-weight: 700; 
   font-style: normal; 
+} */
+
+@font-face {
+    font-family: 'IranYekan';
+    src: url('../fonts/IRANYekanXVF.woff') format('woff-variations'),
+    /* will be the standard and works in Safari now */
+    url('../fonts/IRANYekanXVF.woff') format('woff');
+    /* for the other supporting browsers */
+    font-weight: 100 1000;
+    font-display: fallback;
+    font-variation-settings: 'dots' 1;
+    -moz-font-feature-settings: "ss02";
+    -webkit-font-feature-settings: "ss02"; 
+    font-feature-settings: "ss02";
+     -moz-font-feature-settings: "ss03";
+    -webkit-font-feature-settings: "ss03";
+    font-feature-settings: "ss03";
 }
 /* @font-face {
   font-family: "IranYekanFarsiNumber";

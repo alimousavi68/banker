@@ -35,6 +35,22 @@ function banker_theme_setup() {
 add_action('after_setup_theme', 'banker_theme_setup');
 
 /**
+ * Register Sidebars
+ */
+function banker_register_sidebars() {
+    register_sidebar(array(
+        'name'          => __('Primary Sidebar', 'banker'),
+        'id'            => 'primary-sidebar',
+        'description'   => __('سایدبار اصلی برای صفحات مقاله', 'banker'),
+        'before_widget' => '<div id="%1$s" class="widget mb-6 bg-white border border-border rounded-lg p-4 %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title text-lg font-bold text-black mb-4 pb-2 border-b border-border flex items-center gap-2"><div class="w-1 h-5 bg-secondary rounded"></div>',
+        'after_title'   => '</h3>',
+    ));
+}
+add_action('widgets_init', 'banker_register_sidebars');
+
+/**
  * Persian Date Function
  * Compatible with Persian date plugins like WP Parsidate
  */
