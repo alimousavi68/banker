@@ -27,9 +27,9 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
             </div>
 
             <!-- Right Column: Content -->
-            <div class="lg:w-1/2 flex flex-col lg:flex-col gap-4">
+            <div class="lg:w-1/2 flex flex-col lg:flex-col gap-4 ">
                 <!-- Title: full width -->
-                <div class="w-full flex flex-col lg:flex-row gap-4">
+                <div class="w-full flex flex-col lg:flex-row gap-4 justify-between">
                     <h1 class="text-2xl md:text-[25px] lg:text-[27px] font-bold line-clamp-4 text-black leading-relaxed mb-4">
                         <?php the_title(); ?>
                     </h1>
@@ -104,7 +104,7 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
 
                 <!-- Post Excerpt: full width -->
                 <?php if (has_excerpt()): ?>
-                    <div class="w-full text-grayText leading-relaxed">
+                    <div class="w-full text-grayText line-clamp-2 leading-relaxed">
                         <?php the_excerpt(); ?>
                     </div>
                 <?php endif; ?>

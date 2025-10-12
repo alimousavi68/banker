@@ -26,6 +26,9 @@ function banker_theme_setup() {
     // Add theme support for title tag
     add_theme_support('title-tag');
     
+    // Add theme support for comments
+    add_theme_support('html5', array('comment-list', 'comment-form', 'search-form'));
+    
     // Register navigation menus
     register_nav_menus(array(
         'primary' => __('Primary Menu', 'banker'),
@@ -42,10 +45,10 @@ function banker_register_sidebars() {
         'name'          => __('Primary Sidebar', 'banker'),
         'id'            => 'primary-sidebar',
         'description'   => __('سایدبار اصلی برای صفحات مقاله', 'banker'),
-        'before_widget' => '<div id="%1$s" class="widget mb-6 bg-white border border-border rounded-lg p-4 %2$s">',
+        'before_widget' => '<div id="%1$s" class="widget mb-6 bg-white border-b border-border pb-4 %2$s">',
         'after_widget'  => '</div>',
-        'before_title'  => '<h3 class="widget-title text-lg font-bold text-black mb-4 pb-2 border-b border-border flex items-center gap-2"><div class="w-1 h-5 bg-secondary rounded"></div>',
-        'after_title'   => '</h3>',
+        'before_title'  => '<h3 class="widget-title text-lg font-bold text-black mb-4 flex items-center gap-2"><div class="w-1 h-5 bg-secondary rounded"></div>',
+        'after_title'   => '</h3><div class="space-y-[2px] mb-4"><div class="border-t-2 border-dotted border-border"></div><div class="border-t-2 border-dotted border-border"></div><div class="border-t-2 border-dotted border-border"></div></div>',
     ));
 }
 add_action('widgets_init', 'banker_register_sidebars');
@@ -64,6 +67,76 @@ function banker_get_persian_date($format = 'l j F Y') {
         return banker_manual_persian_date($format);
     }
 }
+
+/**
+ * Comment System Functions
+ */
+
+// Enqueue comment reply script
+function banker_enqueue_comment_reply() {
+    if (is_singular() && comments_open() && get_option('thread_comments')) {
+        wp_enqueue_script('comment-reply');
+    }
+}
+add_action('wp_enqueue_scripts', 'banker_enqueue_comment_reply');
+
+// Custom comment form fields
+function banker_comment_form_fields($fields) {
+    $commenter = wp_get_current_commenter();
+    $req = get_option('require_name_email');
+    $aria_req = ($req ? " aria-required='true'" : '');
+    
+    $fields['author'] = '<div class="mb-4">
+        <input id="author" name="author" type="text" value="' . esc_attr($commenter['comment_author']) . '" 
+               placeholder="نام شما' . ($req ? ' *' : '') . '" 
+               class="w-full px-4 py-3 border border-border rounded-sm focus:outline-none focus:border-secondary text-sm"' . $aria_req . ' />
+    </div>';
+    
+    $fields['email'] = '<div class="mb-4">
+        <input id="email" name="email" type="email" value="' . esc_attr($commenter['comment_author_email']) . '" 
+               placeholder="ایمیل شما' . ($req ? ' *' : '') . '" 
+               class="w-full px-4 py-3 border border-border rounded-sm focus:outline-none focus:border-secondary text-sm"' . $aria_req . ' />
+    </div>';
+    
+    $fields['url'] = '<div class="mb-4">
+        <input id="url" name="url" type="url" value="' . esc_attr($commenter['comment_author_url']) . '" 
+               placeholder="وبسایت شما (اختیاری)" 
+               class="w-full px-4 py-3 border border-border rounded-sm focus:outline-none focus:border-secondary text-sm" />
+    </div>';
+    
+    return $fields;
+}
+add_filter('comment_form_default_fields', 'banker_comment_form_fields');
+
+// Custom comment form args
+function banker_comment_form_args($args) {
+    $args['comment_field'] = '<div class="mb-4">
+        <textarea id="comment" name="comment" rows="6" 
+                  placeholder="دیدگاه شما..." 
+                  class="w-full px-4 py-3 border border-border rounded-sm focus:outline-none focus:border-secondary text-sm resize-none" 
+                  aria-required="true"></textarea>
+    </div>';
+    
+    $args['submit_button'] = '<button type="submit" class="bg-secondary text-white px-6 py-3 rounded-sm hover:bg-opacity-90 transition-colors text-sm font-medium">
+        ارسال دیدگاه
+    </button>';
+    
+    $args['title_reply'] = 'دیدگاه شما';
+    $args['title_reply_to'] = 'پاسخ به %s';
+    $args['cancel_reply_link'] = 'لغو پاسخ';
+    $args['label_submit'] = 'ارسال دیدگاه';
+    $args['comment_notes_before'] = '';
+    $args['comment_notes_after'] = '';
+    
+    return $args;
+}
+add_filter('comment_form_defaults', 'banker_comment_form_args');
+
+// Add custom CSS classes to comment form
+function banker_comment_form_class($form_class) {
+    return 'bg-white border border-border rounded-sm p-6 mb-8';
+}
+add_filter('comment_form_class', 'banker_comment_form_class');
 
 /**
  * Manual Persian Date Conversion (Fallback)
@@ -106,6 +179,8 @@ require_once get_template_directory() . '/inc/customizer/homepage-helpers.php';
  * Customizer Settings
  */
 function banker_customize_register($wp_customize) {
+    
+
     
     // Social Media Section
     $wp_customize->add_section('banker_social_media', array(
@@ -184,6 +259,8 @@ function banker_enqueue_assets() {
     
     // Enqueue custom JavaScript if needed
     wp_enqueue_script('banker-script', get_template_directory_uri() . '/assets/js/main.js', array(), '1.0.0', true);
+    
+
 }
 add_action('wp_enqueue_scripts', 'banker_enqueue_assets');
 

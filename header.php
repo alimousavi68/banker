@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="<?php echo get_template_directory_uri(); ?>/assets/css/output.css" rel="stylesheet">
+  <?php wp_head(); ?>
 </head>
 
 <body>
@@ -107,7 +108,7 @@
             </svg>
           </a>
           <!-- منوی همبرگر (موبایل) -->
-          <button id="menu-btn" class=" text-gray-600 text-2xl focus:outline-none">
+          <button id="menu-btn" class=" text-gray-600 text-2xl cursor-pointer focus:outline-none">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M3.125 13H21.875M3.125 6.5H21.875M3.125 19.5H21.875" stroke="#858585" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round" />
             </svg>

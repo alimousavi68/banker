@@ -3,7 +3,7 @@ $post_id = get_the_ID();
 $content = get_the_content();
 ?>
 
-<article class="bg-white border-border border-b -lg p-6 lg:p-8">
+<article class="bg-white border-border border-b -lg px-1 lg:px-2">
     
    
     
