@@ -260,6 +260,8 @@ function banker_enqueue_assets() {
     // Enqueue custom JavaScript if needed
     wp_enqueue_script('banker-script', get_template_directory_uri() . '/assets/js/main.js', array(), '1.0.0', true);
     
+    // Enqueue price ticker script
+    wp_enqueue_script('banker-price-ticker', get_template_directory_uri() . '/js/price-ticker.js', array(), '1.0.0', true);
 
 }
 add_action('wp_enqueue_scripts', 'banker_enqueue_assets');

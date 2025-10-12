@@ -170,7 +170,7 @@
 
       <!--شروع نوار قیمت-->
       <div class="bg-blue-900 text-white py-2 overflow-hidden">
-        <div id="ticker" class="flex items-center gap-5 text-[10px] whitespace-nowrap animate-scroll px-4">
+        <div id="ticker" class="flex items-center gap-8 text-[10px] whitespace-nowrap animate-scroll px-4">
           <span class="flex flex-row-reverse  items-center gap-2">
             <span>
               <svg width="9" height="11" viewBox="0 0 9 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -260,6 +260,8 @@
         </div>
       </div>
       <!--پایان نوار قیمت-->
+      
+      <script src="<?php echo get_template_directory_uri(); ?>/js/price-ticker.js"></script>
 
     </header>
     <!--END HEADER-->
