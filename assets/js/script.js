@@ -29,12 +29,40 @@ document.querySelectorAll(".limit-words-10").forEach(el => {
   el.innerText = limitedText;
 });
 
- const submenuBtn = document.getElementById('submenu-btn');
-  const submenu = document.getElementById('submenu');
-  const submenuIcon = document.getElementById('submenu-icon');
-
-  submenuBtn.addEventListener('click', () => {
-    submenu.classList.toggle('hidden'); // باز/بسته کردن زیرمنو
-    submenuIcon.classList.toggle('rotate-180'); // چرخش آیکون
+// Handle dynamic submenu buttons
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle all submenu buttons (both dynamic and fallback)
+  const submenuButtons = document.querySelectorAll('[id^="submenu-btn"]');
+  
+  submenuButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const buttonId = this.id;
+      const itemId = buttonId.replace('submenu-btn-', '');
+      const submenu = document.getElementById('submenu-' + itemId);
+      const icon = document.getElementById('submenu-icon-' + itemId);
+      
+      if (submenu) {
+        submenu.classList.toggle('hidden');
+        submenu.classList.toggle('flex');
+      }
+      
+      if (icon) {
+        icon.classList.toggle('rotate-180');
+      }
+    });
   });
+  
+  // Handle fallback submenu if exists
+  const fallbackBtn = document.getElementById('submenu-btn-fallback');
+  const fallbackSubmenu = document.getElementById('submenu-fallback');
+  const fallbackIcon = document.getElementById('submenu-icon-fallback');
+  
+  if (fallbackBtn && fallbackSubmenu && fallbackIcon) {
+    fallbackBtn.addEventListener('click', () => {
+      fallbackSubmenu.classList.toggle('hidden');
+      fallbackSubmenu.classList.toggle('flex');
+      fallbackIcon.classList.toggle('rotate-180');
+    });
+  }
+});
   

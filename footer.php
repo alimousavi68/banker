@@ -4,50 +4,66 @@
 
     <!-- بخش لوگو و توضیحات -->
     <div class="w-full md:w-1/3 md:pl-4 border-b pb-4 md:border-none md:border-l border-border flex flex-col gap-4  md:text-right">
-      <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logoBanker.png" class="w-[134px]  md:mx-0 mt-4 md:mt-8" alt="">
+      <?php 
+      $intro_settings = banker_get_intro_section_settings();
+      ?>
+      <img src="<?php echo esc_url($intro_settings['logo']); ?>" class="w-[134px]  md:mx-0 mt-4 md:mt-8" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
 
       <p class="font-normal text-[14px] text-grayText leading-6">
-        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله
+        <?php echo wp_kses_post($intro_settings['text']); ?>
       </p>
       <!--footer icons-->
       <div class="flex gap-2">
-        <!-- آیکون ۱ -->
-        <a href="#" class="block rounded-[1px] p-[3px] group cursor-pointer">
+        <?php 
+        $social_links = banker_get_enhanced_social_links();
+        ?>
+        
+        <!-- آیکون تلفن -->
+        <?php if ($social_links['phone']): ?>
+        <a href="tel:<?php echo esc_attr($social_links['phone']); ?>" class="block rounded-[1px] p-[3px] group cursor-pointer">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
             xmlns="http://www.w3.org/2000/svg"
             class="stroke-[#858585] group-hover:stroke-[#004A8F] transition-colors duration-300">
             <path d="M10.5372 4.5C11.2698 4.64292 11.943 5.00119 12.4708 5.52895C12.9986 6.05671 13.3568 6.72995 13.4997 7.4625M10.5372 1.5C12.0592 1.66908 13.4784 2.35063 14.5619 3.43276C15.6454 4.51488 16.3288 5.93326 16.4997 7.455M7.66998 10.3973C6.7688 9.49612 6.05721 8.47714 5.53521 7.38992C5.49031 7.29641 5.46786 7.24965 5.45061 7.19048C5.38932 6.98021 5.43334 6.72202 5.56085 6.54395C5.59673 6.49384 5.6396 6.45097 5.72533 6.36524C5.98754 6.10303 6.11864 5.97193 6.20435 5.8401C6.5276 5.34293 6.5276 4.70199 6.20435 4.20482C6.11864 4.07299 5.98754 3.94189 5.72533 3.67968L5.57918 3.53353C5.1806 3.13495 4.98131 2.93566 4.76727 2.8274C4.3416 2.6121 3.8389 2.6121 3.41323 2.8274C3.1992 2.93566 2.99991 3.13495 2.60132 3.53353L2.4831 3.65176C2.08588 4.04897 1.88727 4.24758 1.73559 4.51761C1.56727 4.81724 1.44625 5.28261 1.44727 5.62627C1.44819 5.93598 1.50827 6.14765 1.62843 6.57098C2.27415 8.84603 3.49251 10.9928 5.28349 12.7838C7.07448 14.5748 9.22125 15.7931 11.4963 16.4389C11.9196 16.559 12.1313 16.6191 12.441 16.62C12.7847 16.621 13.25 16.5 13.5497 16.3317C13.8197 16.18 14.0183 15.9814 14.4155 15.5842L14.5337 15.466C14.9323 15.0674 15.1316 14.8681 15.2399 14.6541C15.4552 14.2284 15.4552 13.7257 15.2399 13.3C15.1316 13.086 14.9323 12.8867 14.5337 12.4881L14.3876 12.3419C14.1254 12.0797 13.9943 11.9486 13.8625 11.8629C13.3653 11.5397 12.7244 11.5397 12.2272 11.8629C12.0954 11.9486 11.9643 12.0797 11.702 12.3419C11.6163 12.4277 11.5734 12.4706 11.5233 12.5064C11.3453 12.6339 11.0871 12.678 10.8768 12.6167C10.8176 12.5994 10.7709 12.577 10.6774 12.5321C9.59014 12.0101 8.57116 11.2985 7.66998 10.3973Z" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </a>
+        <?php endif; ?>
 
-        <!-- آیکون ۲ -->
-        <a href="#" class="block rounded-[1px] p-[3px] group cursor-pointer">
+        <!-- آیکون ایمیل -->
+        <?php if ($social_links['email']): ?>
+        <a href="mailto:<?php echo esc_attr($social_links['email']); ?>" class="block rounded-[1px] p-[3px] group cursor-pointer">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
             xmlns="http://www.w3.org/2000/svg"
             class="stroke-[#858585] group-hover:stroke-[#004A8F] transition-colors duration-300">
             <path d="M1.5 5.25L7.62369 9.53658C8.11957 9.8837 8.36751 10.0573 8.6372 10.1245C8.87542 10.1839 9.12458 10.1839 9.3628 10.1245C9.63249 10.0573 9.88043 9.8837 10.3763 9.53658L16.5 5.25M5.1 15H12.9C14.1601 15 14.7902 15 15.2715 14.7548C15.6948 14.539 16.039 14.1948 16.2548 13.7715C16.5 13.2902 16.5 12.6601 16.5 11.4V6.6C16.5 5.33988 16.5 4.70982 16.2548 4.22852C16.039 3.80516 15.6948 3.46095 15.2715 3.24524C14.7902 3 14.1601 3 12.9 3H5.1C3.83988 3 3.20982 3 2.72852 3.24524C2.30516 3.46095 1.96095 3.80516 1.74524 4.22852C1.5 4.70982 1.5 5.33988 1.5 6.6V11.4C1.5 12.6601 1.5 13.2902 1.74524 13.7715C1.96095 14.1948 2.30516 14.539 2.72852 14.7548C3.20982 15 3.83988 15 5.1 15Z" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </a>
+        <?php endif; ?>
 
-        <!-- آیکون ۳ -->
-        <a href="#" class="block rounded-[1px] p-[3px] group cursor-pointer">
+        <!-- آیکون توییتر -->
+        <?php if ($social_links['twitter']): ?>
+        <a href="<?php echo esc_url($social_links['twitter']); ?>" target="_blank" class="block rounded-[1px] p-[3px] group cursor-pointer">
           <svg width="18" height="18" viewBox="0 0 18 18"
             xmlns="http://www.w3.org/2000/svg"
             class="fill-[#858585] group-hover:fill-[#004A8F] transition-colors duration-300">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M11.8247 16.875L7.85179 11.2122L2.87824 16.875H0.774109L6.91827 9.88135L0.774109 1.125H6.17632L9.92072 6.46212L14.6123 1.125H16.7164L10.8574 7.79475L17.2269 16.875H11.8247ZM14.1678 15.2785H12.7513L3.7869 2.72148H5.20368L8.79397 7.74942L9.41483 8.6219L14.1678 15.2785Z" />
           </svg>
         </a>
+        <?php endif; ?>
 
-        <!-- آیکون ۴ -->
-        <a href="#" class="block  rounded-[1px] p-[3px] group cursor-pointer">
+        <!-- آیکون تلگرام -->
+        <?php if ($social_links['telegram']): ?>
+        <a href="<?php echo esc_url($social_links['telegram']); ?>" target="_blank" class="block  rounded-[1px] p-[3px] group cursor-pointer">
           <svg class="fill-[#858585] group-hover:fill-[#004A8F] transition-colors duration-300"
             width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M4.40845 10.3782C4.44209 10.3885 4.4764 10.3966 4.51114 10.4023C4.73125 10.921 4.95013 11.4401 5.16777 11.9598C5.5591 12.895 5.95354 13.8581 6.03989 14.1351C6.14804 14.4759 6.26162 14.7077 6.3861 14.8664C6.45067 14.9473 6.52458 15.0189 6.61172 15.0734C6.65747 15.1011 6.70596 15.124 6.75642 15.1418C7.00538 15.2352 7.23255 15.1963 7.37493 15.1488C7.45852 15.1204 7.53803 15.0812 7.61144 15.0321L7.61533 15.0306L9.81393 13.6598L12.3541 15.6063C12.3914 15.6348 12.4319 15.6589 12.4754 15.6786C12.7804 15.8109 13.076 15.8576 13.3546 15.8202C13.6315 15.7813 13.8517 15.6654 14.0159 15.5339C14.2042 15.3819 14.3544 15.1879 14.4546 14.9676L14.4616 14.9504L14.464 14.9442L14.4655 14.9411V14.9396L14.4663 14.9388C14.4791 14.9051 14.4895 14.8705 14.4974 14.8353L16.8158 3.14599C16.8223 3.10844 16.8259 3.07048 16.8267 3.0324C16.8267 2.69009 16.6976 2.36411 16.395 2.16728C16.1351 1.99845 15.8465 1.99067 15.6636 2.00468C15.4676 2.02024 15.2855 2.06847 15.1634 2.10737C15.0951 2.12941 15.0277 2.1538 14.9611 2.1805L14.9526 2.18439L1.94922 7.2849L1.94766 7.28568C1.90357 7.30161 1.86021 7.31952 1.81774 7.33936C1.71459 7.38564 1.61566 7.44083 1.5221 7.50429C1.3455 7.62488 0.938607 7.95631 1.00785 8.50401C1.06231 8.93969 1.36106 9.2081 1.54388 9.33724C1.64347 9.40804 1.73838 9.45861 1.8084 9.49206C1.83952 9.50762 1.90643 9.53407 1.93521 9.54652L1.94299 9.54886L4.40845 10.3782ZM15.4077 3.25802H15.4061L15.3859 3.26658L2.367 8.37409L2.34677 8.38187L2.33899 8.3842C2.31515 8.39342 2.29179 8.4038 2.26897 8.41532C2.29072 8.42754 2.31305 8.4387 2.33588 8.44878L4.78033 9.27189C4.82349 9.28788 4.86514 9.30766 4.90481 9.33102L12.978 4.60472L12.9858 4.60083C13.0173 4.58207 13.0495 4.56442 13.0823 4.54793C13.1383 4.51914 13.2278 4.47713 13.3289 4.44601C13.3989 4.42423 13.6066 4.36277 13.8307 4.43512C13.9497 4.47225 14.0558 4.54228 14.1368 4.63713C14.2177 4.73197 14.2702 4.84777 14.2882 4.97116C14.3171 5.0791 14.3179 5.19268 14.2905 5.30102C14.236 5.51497 14.0867 5.68146 13.9505 5.80905C13.8338 5.91797 12.3198 7.37748 10.8269 8.81832L8.79398 10.7789L8.43222 11.129L13.0006 14.6315C13.0623 14.6572 13.1292 14.6679 13.1959 14.6626C13.2294 14.658 13.261 14.644 13.2869 14.6221C13.3184 14.5955 13.3454 14.5639 13.367 14.5288L13.3686 14.528L15.617 3.19033C15.5462 3.20775 15.4768 3.2301 15.4092 3.25724L15.4077 3.25802ZM8.8251 12.9004L7.9133 12.2018L7.69235 13.6061L8.8251 12.9004ZM7.07696 10.8154L7.98332 9.94018L10.0162 7.97809L10.7732 7.24834L5.70069 10.2179L5.72792 10.2817C6.04784 11.0375 6.36422 11.7947 6.67707 12.5535L6.89724 11.1531C6.91734 11.0232 6.98066 10.9048 7.07696 10.8154Z" />
           </svg>
         </a>
+        <?php endif; ?>
 
-        <!-- آیکون ۵ -->
-        <a href="#" class="block  rounded-[1px] p-[3px] group cursor-pointer">
+        <!-- آیکون RSS -->
+        <?php if ($social_links['rss']): ?>
+        <a href="<?php echo esc_url($social_links['rss']); ?>" target="_blank" class="block  rounded-[1px] p-[3px] group cursor-pointer">
           <svg width="18" height="18" viewBox="0 0 18 18"
             xmlns="http://www.w3.org/2000/svg"
             class="fill-[#858585] group-hover:fill-[#004A8F] transition-colors duration-300">
@@ -55,6 +71,7 @@
             <path d="M3.09375 6.75C2.86997 6.75 2.65536 6.83889 2.49713 6.99713C2.33889 7.15536 2.25 7.36997 2.25 7.59375C2.25 7.81753 2.33889 8.03214 2.49713 8.19037C2.65536 8.34861 2.86997 8.4375 3.09375 8.4375C4.80937 8.4375 6.45472 9.11903 7.66785 10.3322C8.88097 11.5453 9.5625 13.1906 9.5625 14.9062C9.5625 15.13 9.6514 15.3446 9.80963 15.5029C9.96786 15.6611 10.1825 15.75 10.4062 15.75C10.63 15.75 10.8446 15.6611 11.0029 15.5029C11.1611 15.3446 11.25 15.13 11.25 14.9062C11.25 13.8352 11.039 12.7745 10.6291 11.785C10.2193 10.7954 9.61847 9.89629 8.86109 9.13891C8.10371 8.38153 7.20457 7.78075 6.21501 7.37086C5.22545 6.96097 4.16484 6.75 3.09375 6.75ZM3.9375 12.375C3.71589 12.375 3.49646 12.4186 3.29172 12.5035C3.08698 12.5883 2.90096 12.7126 2.74426 12.8693C2.58756 13.026 2.46326 13.212 2.37845 13.4167C2.29365 13.6215 2.25 13.8409 2.25 14.0625C2.25 14.2841 2.29365 14.5035 2.37845 14.7083C2.46326 14.913 2.58756 15.099 2.74426 15.2557C2.90096 15.4124 3.08698 15.5367 3.29172 15.6215C3.49646 15.7064 3.71589 15.75 3.9375 15.75C4.38505 15.75 4.81428 15.5722 5.13074 15.2557C5.44721 14.9393 5.625 14.5101 5.625 14.0625C5.625 13.6149 5.44721 13.1857 5.13074 12.8693C4.81428 12.5528 4.38505 12.375 3.9375 12.375Z" />
           </svg>
         </a>
+        <?php endif; ?>
       </div>
 
       <!--end footer icons-->
@@ -65,57 +82,34 @@
 
     <!-- بخش دسته بندی -->
     <div class="w-full md:w-2/3">
+      <?php 
+      $footer_menu_settings = banker_get_footer_menu_settings();
+      $menu_title = $footer_menu_settings['title'] ?: 'مروری بر دسته بندی اخبار';
+      ?>
       <h5 class="text-black font-bold text-[18px] mb-4  md:text-right">
-        مروری بر دسته بندی اخبار
+        <?php echo esc_html($menu_title); ?>
       </h5>
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mr-0 md:mr-4">
 
         <!-- ستون ۱ -->
         <ul class="flex flex-col gap-2 list-disc list-inside text-right marker:text-lg marker:text-grayText marker:font-bold">
-          <li>
-            <a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">آموزش بانکداری</a>
-          </li>
-          <li>
-            <a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">اخبار روز</a>
-          </li>
-          <li>
-            <a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">ارز دیجیتال</a>
-          </li>
-          <li>
-            <a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">استخدام در بانک</a>
-          </li>
-          <li>
-            <a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">اقتصاد و بیمه</a>
-          </li>
+          <?php
+          $footer_menu_settings = banker_get_footer_menu_settings();
+          if ($footer_menu_settings['menu_id']) {
+            $menu_items = wp_get_nav_menu_items($footer_menu_settings['menu_id']);
+            if ($menu_items) {
+              $column_1_items = array_slice($menu_items, 0, 5);
+              foreach ($column_1_items as $item) {
+                echo '<li><a href="' . esc_url($item->url) . '" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">' . esc_html($item->title) . '</a></li>';
+              }
+            }
+          
+          }
+          ?>
         </ul>
 
-        <!-- ستون ۲ -->
-        <ul class="flex flex-col gap-2 list-disc list-inside text-right marker:text-lg marker:text-grayText marker:font-bold">
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">تاریخ و اقتصاد</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">خدمات آنی</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">خودرو</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">دیگه چه خبر؟</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">اقتصاد و بیمه</a></li>
-        </ul>
-
-        <!-- ستون ۳ -->
-        <ul class="flex flex-col gap-2 list-disc list-inside text-right marker:text-lg marker:text-grayText marker:font-bold">
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">آموزش بانکداری</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">اخبار روز</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">ارز دیجیتال</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">استخدام در بانک</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">اقتصاد و بیمه</a></li>
-        </ul>
-
-        <!-- ستون ۴ -->
-        <ul class="flex flex-col gap-2 list-disc list-inside text-right marker:text-lg marker:text-grayText marker:font-bold">
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">آموزش بانکداری</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">اخبار روز</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">ارز دیجیتال</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">استخدام در بانک</a></li>
-          <li><a href="#" class="text-[14px] text-grayText hover:text-primary transition cursor-pointer">اقتصاد و بیمه</a></li>
-        </ul>
+       
 
       </div>
 
@@ -125,7 +119,10 @@
 </footer>
 <div class="bg-primary py-4 ">
   <p class="text-white max-w-[1400px] mx-auto px-4  text-[12px]">
-    نقل و نشر مطالب با ذکر نام بنکر به مطالب بلامانع است. کلیه حقوق مادی و معنوی متعلق به بانکداران ۲۴ می باشد
+    <?php 
+    $copyright_text = banker_get_copyright_text();
+    echo esc_html($copyright_text ?: 'نقل و نشر مطالب با ذکر نام بنکر به مطالب بلامانع است. کلیه حقوق مادی و معنوی متعلق به بانکداران ۲۴ می باشد');
+    ?>
   </p>
 </div>
 

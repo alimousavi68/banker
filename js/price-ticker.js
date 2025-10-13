@@ -3,6 +3,7 @@ class PriceTicker {
         this.apiToken = 'bo2fmBJhQlBEww7XaJ1EKaqeijnKpbM53R4Xl_Ufd_c=';
         this.baseUrl = 'https://api.nerkh.io/v1/prices';
         this.tickerElement = document.getElementById('ticker');
+        this.previousPrices = {}; // Store previous prices for trend calculation
         
         // Initialize the ticker
         this.init();
@@ -10,15 +11,14 @@ class PriceTicker {
 
     async init() {
         try {
-            // Fetch all price data
-            const [currencyData, goldData, cryptoData] = await Promise.all([
-                this.fetchCurrencyPrices(),
-                this.fetchGoldPrices(),
-                this.fetchCryptoPrices()
-            ]);
-
-            // Update the ticker with real data
-            this.updateTicker(currencyData, goldData, cryptoData);
+            // Fetch all price data using optimized single request
+            const allPrices = await this.fetchAllPrices();
+            
+            if (allPrices) {
+                const { currencyData, goldData, cryptoData } = allPrices;
+                // Update the ticker with real data
+                this.updateTicker(currencyData, goldData, cryptoData);
+            }
             
             // Set up periodic updates (every 30 seconds)
             setInterval(() => {
@@ -92,6 +92,60 @@ class PriceTicker {
             return this.parseXMLCrypto(xmlText);
         } catch (error) {
             console.error('خطا در دریافت قیمت رمزارز:', error);
+            return null;
+        }
+    }
+
+    // Optimized method to fetch all prices in a single request
+    async fetchAllPrices() {
+        try {
+            // Use Promise.all to fetch all data simultaneously for better performance
+            const [currencyResponse, goldResponse, cryptoResponse] = await Promise.all([
+                fetch(`${this.baseUrl}/xml/currency`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.apiToken}`
+                    }
+                }),
+                fetch(`${this.baseUrl}/xml/gold`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.apiToken}`
+                    }
+                }),
+                fetch(`${this.baseUrl}/xml/crypto`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.apiToken}`
+                    }
+                })
+            ]);
+
+            // Check if all responses are successful
+            if (!currencyResponse.ok || !goldResponse.ok || !cryptoResponse.ok) {
+                throw new Error('One or more API requests failed');
+            }
+
+            // Parse all responses simultaneously
+            const [currencyXML, goldXML, cryptoXML] = await Promise.all([
+                currencyResponse.text(),
+                goldResponse.text(),
+                cryptoResponse.text()
+            ]);
+
+            // Parse all XML data simultaneously
+            const [currencyData, goldData, cryptoData] = await Promise.all([
+                Promise.resolve(this.parseXMLCurrency(currencyXML)),
+                Promise.resolve(this.parseXMLGold(goldXML)),
+                Promise.resolve(this.parseXMLCrypto(cryptoXML))
+            ]);
+
+            return { currencyData, goldData, cryptoData };
+        } catch (error) {
+            console.error('خطا در دریافت همه قیمت‌ها:', error);
             return null;
         }
     }
@@ -177,6 +231,16 @@ class PriceTicker {
         }
     }
 
+    // Calculate price trend by comparing with previous price
+    getPriceTrend(symbol, currentPrice) {
+        if (!this.previousPrices[symbol]) {
+            return 'up'; // Default to up for first load
+        }
+        
+        const previousPrice = this.previousPrices[symbol];
+        return currentPrice > previousPrice ? 'up' : 'down';
+    }
+
     getSVGIcon(type, trend = 'up') {
         const upIcon = `<svg width="9" height="11" viewBox="0 0 9 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.16044 4.0379C0.885724 4.29825 0.874081 4.73201 1.13443 5.00672C1.39479 5.28144 1.82855 5.29308 2.10326 5.03273L1.63185 4.53531L1.16044 4.0379ZM5.15715 2.1385C5.43187 1.87815 5.44351 1.44439 5.18316 1.16967C4.92281 0.894955 4.48905 0.883312 4.21433 1.14367L4.68574 1.64108L5.15715 2.1385ZM5.15714 1.14356C4.88243 0.883202 4.44867 0.894845 4.18831 1.16956C3.92796 1.44428 3.9396 1.87804 4.21432 2.13839L4.68573 1.64097L5.15714 1.14356ZM7.26821 5.03262C7.54293 5.29297 7.97669 5.28133 8.23704 5.00661C8.49739 4.7319 8.48575 4.29814 8.21104 4.03779L7.73962 4.5352L7.26821 5.03262ZM5.37103 1.64108C5.37103 1.26259 5.06421 0.95577 4.68572 0.95577C4.30724 0.95577 4.00041 1.26259 4.00041 1.64108H4.68572H5.37103ZM4.00041 9.35903C4.00041 9.73752 4.30724 10.0443 4.68572 10.0443C5.06421 10.0443 5.37103 9.73752 5.37103 9.35903H4.68572H4.00041ZM1.63185 4.53531L2.10326 5.03273L5.15715 2.1385L4.68574 1.64108L4.21433 1.14367L1.16044 4.0379L1.63185 4.53531ZM4.68573 1.64097L4.21432 2.13839L7.26821 5.03262L7.73962 4.5352L8.21104 4.03779L5.15714 1.14356L4.68573 1.64097ZM4.68572 1.64108H4.00041V9.35903H4.68572H5.37103V1.64108H4.68572Z" fill="#1AAB03" />
@@ -193,27 +257,40 @@ class PriceTicker {
         if (!this.tickerElement) return;
 
         let tickerHTML = '';
+        const currentPrices = {}; // Store current prices for trend calculation
 
         // Add gold prices
         if (goldData) {
             if (goldData['SEKE_EMAMI']) {
+                const price = goldData['SEKE_EMAMI'];
+                const trend = this.getPriceTrend('SEKE_EMAMI', price);
+                currentPrices['SEKE_EMAMI'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('gold')}</span>سکه امامی (۲۴ عیار) ${this.formatPrice(goldData['SEKE_EMAMI'], 'gold')} تومان
+                    <span>${this.getSVGIcon('gold', trend)}</span>سکه امامی (۲۴ عیار) ${this.formatPrice(price, 'gold')} تومان
                 </span>`;
             }
             if (goldData['GOLD18K']) {
+                const price = goldData['GOLD18K'];
+                const trend = this.getPriceTrend('GOLD18K', price);
+                currentPrices['GOLD18K'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('gold')}</span>طلا ۱۸ عیار ${this.formatPrice(goldData['GOLD18K'], 'gold')} تومان
+                    <span>${this.getSVGIcon('gold', trend)}</span>طلا ۱۸ عیار ${this.formatPrice(price, 'gold')} تومان
                 </span>`;
             }
             if (goldData['MAZANEH']) {
+                const price = goldData['MAZANEH'];
+                const trend = this.getPriceTrend('MAZANEH', price);
+                currentPrices['MAZANEH'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('gold')}</span>مظنه ${this.formatPrice(goldData['MAZANEH'], 'gold')} تومان
+                    <span>${this.getSVGIcon('gold', trend)}</span>مظنه ${this.formatPrice(price, 'gold')} تومان
                 </span>`;
             }
             if (goldData['OUNCE']) {
+                const price = goldData['OUNCE'];
+                const trend = this.getPriceTrend('OUNCE', price);
+                currentPrices['OUNCE'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('gold')}</span>انس جهانی ${this.formatPrice(goldData['OUNCE'], 'gold')} تومان
+                    <span>${this.getSVGIcon('gold', trend)}</span>انس جهانی ${this.formatPrice(price, 'gold')} تومان
                 </span>`;
             }
         }
@@ -221,28 +298,43 @@ class PriceTicker {
         // Add currency prices
         if (currencyData) {
             if (currencyData['USD']) {
+                const price = currencyData['USD'];
+                const trend = this.getPriceTrend('USD', price);
+                currentPrices['USD'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('currency', 'down')}</span>دلار ${this.formatPrice(currencyData['USD'])} تومان
+                    <span>${this.getSVGIcon('currency', trend)}</span>دلار ${this.formatPrice(price)} تومان
                 </span>`;
             }
             if (currencyData['EUR']) {
+                const price = currencyData['EUR'];
+                const trend = this.getPriceTrend('EUR', price);
+                currentPrices['EUR'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('currency')}</span>یورو ${this.formatPrice(currencyData['EUR'])} تومان
+                    <span>${this.getSVGIcon('currency', trend)}</span>یورو ${this.formatPrice(price)} تومان
                 </span>`;
             }
             if (currencyData['GBP']) {
+                const price = currencyData['GBP'];
+                const trend = this.getPriceTrend('GBP', price);
+                currentPrices['GBP'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('currency')}</span>پوند ${this.formatPrice(currencyData['GBP'])} تومان
+                    <span>${this.getSVGIcon('currency', trend)}</span>پوند ${this.formatPrice(price)} تومان
                 </span>`;
             }
             if (currencyData['TRY']) {
+                const price = currencyData['TRY'];
+                const trend = this.getPriceTrend('TRY', price);
+                currentPrices['TRY'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('currency')}</span>لیر ترکیه ${this.formatPrice(currencyData['TRY'])} تومان
+                    <span>${this.getSVGIcon('currency', trend)}</span>لیر ترکیه ${this.formatPrice(price)} تومان
                 </span>`;
             }
             if (currencyData['AED']) {
+                const price = currencyData['AED'];
+                const trend = this.getPriceTrend('AED', price);
+                currentPrices['AED'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('currency')}</span>درهم امارات ${this.formatPrice(currencyData['AED'])} تومان
+                    <span>${this.getSVGIcon('currency', trend)}</span>درهم امارات ${this.formatPrice(price)} تومان
                 </span>`;
             }
         }
@@ -250,34 +342,48 @@ class PriceTicker {
         // Add crypto prices
         if (cryptoData) {
             if (cryptoData['BTC']) {
+                const price = cryptoData['BTC'];
+                const trend = this.getPriceTrend('BTC', price);
+                currentPrices['BTC'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('crypto', 'down')}</span>بیت‌کوین ${this.formatPrice(cryptoData['BTC'], 'crypto')} تومان
+                    <span>${this.getSVGIcon('crypto', trend)}</span>بیت‌کوین ${this.formatPrice(price, 'crypto')} تومان
                 </span>`;
             }
             if (cryptoData['ETH']) {
+                const price = cryptoData['ETH'];
+                const trend = this.getPriceTrend('ETH', price);
+                currentPrices['ETH'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('crypto')}</span>اتریوم ${this.formatPrice(cryptoData['ETH'], 'crypto')} تومان
+                    <span>${this.getSVGIcon('crypto', trend)}</span>اتریوم ${this.formatPrice(price, 'crypto')} تومان
                 </span>`;
             }
             if (cryptoData['USDT']) {
+                const price = cryptoData['USDT'];
+                const trend = this.getPriceTrend('USDT', price);
+                currentPrices['USDT'] = price;
                 tickerHTML += `<span class="flex flex-row-reverse items-center gap-2">
-                    <span>${this.getSVGIcon('crypto')}</span>تتر ${this.formatPrice(cryptoData['USDT'], 'currency')} تومان
+                    <span>${this.getSVGIcon('crypto', trend)}</span>تتر ${this.formatPrice(price, 'currency')} تومان
                 </span>`;
             }
         }
 
-        this.tickerElement.innerHTML = tickerHTML;
+        // Update previous prices for next comparison
+        this.previousPrices = { ...this.previousPrices, ...currentPrices };
+
+        // Duplicate content for infinite loop effect
+        const duplicatedHTML = tickerHTML + tickerHTML;
+        this.tickerElement.innerHTML = duplicatedHTML;
     }
 
     async updatePrices() {
         try {
-            const [currencyData, goldData, cryptoData] = await Promise.all([
-                this.fetchCurrencyPrices(),
-                this.fetchGoldPrices(),
-                this.fetchCryptoPrices()
-            ]);
-
-            this.updateTicker(currencyData, goldData, cryptoData);
+            // Use optimized single request for updates
+            const allPrices = await this.fetchAllPrices();
+            
+            if (allPrices) {
+                const { currencyData, goldData, cryptoData } = allPrices;
+                this.updateTicker(currencyData, goldData, cryptoData);
+            }
         } catch (error) {
             console.error('خطا در به‌روزرسانی قیمت‌ها:', error);
         }

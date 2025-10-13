@@ -12,7 +12,7 @@ if ($tags) {
         'tag__in' => $tag_ids,
         'post__not_in' => array($post_id),
         'posts_per_page' => 4,
-        'caller_get_posts' => 1,
+        'ignore_sticky_posts' => 1,
         'orderby' => 'date',
         'order' => 'DESC'
     );
@@ -113,18 +113,7 @@ if ($tags) {
         
     </div>
     
-    <!-- View More Button -->
-    <div class="border-t border-border pt-6 mt-6 text-center">
-        <a 
-            href="<?php echo home_url('/news'); ?>" 
-            class="inline-flex items-center gap-2 px-6 py-3 bg-secondary text-white -lg hover:bg-opacity-90 transition-colors"
-        >
-            <span>مشاهده همه اخبار</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke-width="1.5" viewBox="0 0 24 24" color="currentColor">
-                <path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M6 12h12m0 0-6-6m6 6-6 6"></path>
-            </svg>
-        </a>
-    </div>
+    
     
 </div>
 

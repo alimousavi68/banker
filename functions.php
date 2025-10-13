@@ -174,6 +174,7 @@ function banker_manual_persian_date($format = 'l j F Y') {
  */
 require_once get_template_directory() . '/inc/customizer/homepage-customizer.php';
 require_once get_template_directory() . '/inc/customizer/homepage-helpers.php';
+require_once get_template_directory() . '/inc/customizer/menu-content-customizer.php';
 
 /**
  * Customizer Settings
@@ -290,6 +291,135 @@ function banker_get_logo_url() {
     }
     // Default logo path
     return get_template_directory_uri() . '/assets/images/logo.png';
+}
+
+/**
+ * Display Dynamic Mobile Menu
+ */
+function banker_display_mobile_menu() {
+    // Check if primary menu exists
+    if (has_nav_menu('primary')) {
+        wp_nav_menu(array(
+            'theme_location' => 'primary',
+            'container'      => false,
+            'menu_class'     => 'flex px-5 flex-col gap-4 relative',
+            'walker'         => new Banker_Mobile_Walker(),
+            'depth'          => 2, // Support up to 2 levels
+            'fallback_cb'    => 'banker_mobile_menu_fallback'
+        ));
+    } else {
+        // Fallback if no menu is assigned
+        banker_mobile_menu_fallback();
+    }
+}
+
+/**
+ * Fallback Mobile Menu (if no menu is assigned)
+ */
+function banker_mobile_menu_fallback() {
+    echo '<div class="flex px-5 flex-col gap-4 relative">';
+    echo '<a href="' . esc_url(home_url('/')) . '" class="py-2 px-2 hover:bg-blue-50 rounded block">خانه</a>';
+    
+    // Get recent posts for fallback menu
+    $recent_posts = wp_get_recent_posts(array(
+        'numberposts' => 5,
+        'post_status' => 'publish'
+    ));
+    
+    if (!empty($recent_posts)) {
+        echo '<div class="relative">';
+        echo '<button id="submenu-btn-fallback" class="w-full text-right flex gap-2 justify-between items-center hover:text-secondary py-2 px-2">';
+        echo '<span>مطالب اخیر</span>';
+        echo '<svg xmlns="http://www.w3.org/2000/svg" id="submenu-icon-fallback" class="w-4 h-4 text-gray-500 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">';
+        echo '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />';
+        echo '</svg>';
+        echo '</button>';
+        
+        echo '<div id="submenu-fallback" class="hidden flex-col absolute right-0 top-full bg-white shadow-lg rounded-md md:border md:border-gray-100 min-w-[160px] z-50">';
+        foreach ($recent_posts as $post) {
+            echo '<a href="' . esc_url(get_permalink($post['ID'])) . '" class="px-4 py-2 text-sm block hover:bg-blue-50">' . esc_html($post['post_title']) . '</a>';
+        }
+        echo '</div>';
+        echo '</div>';
+    }
+    
+    // Add some default menu items
+    echo '<a href="' . esc_url(home_url('/about')) . '" class="py-2 px-2 hover:bg-blue-50 rounded block">درباره ما</a>';
+    echo '<a href="' . esc_url(home_url('/contact')) . '" class="py-2 px-2 hover:bg-blue-50 rounded block">تماس با ما</a>';
+    echo '</div>';
+}
+
+// Custom Walker for Mobile Menu
+class Banker_Mobile_Walker extends Walker_Nav_Menu {
+    
+    // Start Level - wrapper for the sub menu
+    function start_lvl(&$output, $depth = 0, $args = null) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "\n$indent<div class=\"hidden flex-col absolute right-0 top-full bg-white shadow-lg rounded-md md:border md:border-gray-100 min-w-[160px] z-50\" id=\"submenu-{$this->current_item_id}\">\n";
+    }
+
+    // End Level
+    function end_lvl(&$output, $depth = 0, $args = null) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "$indent</div>\n";
+    }
+
+    // Start Element - each menu item
+    function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+        $this->current_item_id = $item->ID;
+        $indent = ($depth) ? str_repeat("\t", $depth) : '';
+
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $classes[] = 'menu-item-' . $item->ID;
+
+        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
+        
+        if ($depth == 0) {
+            // Top level items
+            $has_children = in_array('menu-item-has-children', $classes);
+            
+            if ($has_children) {
+                // Parent item with dropdown
+                $output .= $indent . '<div class="relative">';
+                $output .= '<button id="submenu-btn-' . $item->ID . '" class="w-full text-right flex gap-2 justify-between items-center hover:text-secondary py-2 px-2">';
+                $output .= '<span>' . apply_filters('the_title', $item->title, $item->ID) . '</span>';
+                $output .= '<svg xmlns="http://www.w3.org/2000/svg" id="submenu-icon-' . $item->ID . '" class="w-4 h-4 text-gray-500 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">';
+                $output .= '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />';
+                $output .= '</svg>';
+                $output .= '</button>';
+            } else {
+                // Regular menu item
+                $attributes = ! empty($item->attr_title) ? ' title="'  . esc_attr($item->attr_title) .'"' : '';
+                $attributes .= ! empty($item->target)     ? ' target="' . esc_attr($item->target     ) .'"' : '';
+                $attributes .= ! empty($item->xfn)        ? ' rel="'    . esc_attr($item->xfn        ) .'"' : '';
+                $attributes .= ! empty($item->url)        ? ' href="'   . esc_attr($item->url        ) .'"' : '';
+                
+                $output .= $indent . '<a' . $attributes . ' class="py-2 px-2 hover:bg-blue-50 rounded block">';
+                $output .= apply_filters('the_title', $item->title, $item->ID);
+                $output .= '</a>';
+            }
+        } else {
+            // Sub menu items
+            $attributes = ! empty($item->attr_title) ? ' title="'  . esc_attr($item->attr_title) .'"' : '';
+            $attributes .= ! empty($item->target)     ? ' target="' . esc_attr($item->target     ) .'"' : '';
+            $attributes .= ! empty($item->xfn)        ? ' rel="'    . esc_attr($item->xfn        ) .'"' : '';
+            $attributes .= ! empty($item->url)        ? ' href="'   . esc_attr($item->url        ) .'"' : '';
+            
+            $output .= $indent . '<a' . $attributes . ' class="px-4 py-2 text-sm block hover:bg-blue-50">';
+            $output .= apply_filters('the_title', $item->title, $item->ID);
+            $output .= '</a>';
+        }
+    }
+
+    // End Element
+    function end_el(&$output, $item, $depth = 0, $args = null) {
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $has_children = in_array('menu-item-has-children', $classes);
+        
+        if ($depth == 0 && $has_children) {
+            $output .= "</div>\n";
+        }
+    }
 }
 
 // Custom Walker for Desktop Menu
