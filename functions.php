@@ -454,13 +454,13 @@ class Banker_Desktop_Walker extends Walker_Nav_Menu {
             $has_children = in_array('menu-item-has-children', $classes);
             
             if ($has_children) {
-                $link_class = 'hover:text-secondary border-l pl-4 border-border flex gap-2 justify-between items-center w-full text-right md:border-l md:pl-4 md:border-border';
+                $link_class = 'hover:text-secondary border-l font-normal pl-4 border-border flex gap-2 justify-between items-center w-full text-right md:border-l md:pl-4 md:border-border';
             } else {
-                $link_class = 'hover:text-secondary border-l pl-4 border-border';
+                $link_class = 'hover:text-secondary border-l font-normal pl-4 border-border';
             }
         } else {
             // Sub menu items - no li wrapper for submenu
-            $link_class = 'px-4 py-2 text-sm hover:bg-blue-50';
+            $link_class = 'px-4 py-2 font-normal text-sm hover:bg-blue-50';
         }
 
         if ($depth == 0) {
