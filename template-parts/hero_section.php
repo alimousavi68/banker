@@ -62,11 +62,11 @@ if ($featured_query->have_posts()) {
         <?php if (!empty($posts_array[1])): ?>
           <a href="<?php echo esc_url($posts_array[1]['link']); ?>" class="flex flex-col group border-b md:border-b border-border gap-2 md:gap-4 pb-4">
             <div class="heroImage overflow-hidden " style="height: 140px !important;">
-              <img src="<?php echo esc_url($posts_array[1]['image']); ?>" alt="<?php echo esc_attr($posts_array[1]['title']); ?>" class="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-80">
+              <img src="<?php echo esc_url($posts_array[1]['image']); ?>" alt="<?php echo esc_attr($posts_array[1]['title']); ?>" class="w-full h-full object-cover transition-transform duration-1000 ease-in-out group-hover:scale-105 group-hover:opacity-80 will-change-transform">
             </div>
             <p class="flex items-start gap-2 pr-2">
               <span class="w-[10px] h-[10px] bg-secondary mt-2 rounded-full  inline-block"></span>
-              <span class="text-md  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium line-clamp-2 min-h-[48px]">
+              <span class="text-md  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium line-clamp-2 min-h-[48px]"> 
                 <?php echo esc_html($posts_array[1]['title']); ?>
               </span>
             </p>
