@@ -246,7 +246,7 @@ if ($news_query->have_posts()) {
       </div>
 
       <?php if (!empty($news_posts)): ?>
-        <ol class="custom-counter list-decimal list-inside">
+        <ol class="custom-counter ">
           <?php foreach ($news_posts as $news_post): ?>
             <li>
               <a href="<?php echo esc_url($news_post['link']); ?>" class=" hover:text-secondary transition cursor-pointer">

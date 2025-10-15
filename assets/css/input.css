@@ -72,7 +72,7 @@ body {
 }
 
 .custom-counter li::before {
-  font-family: "IranYekanFarsiNumber" !important;
+
     padding: 16px 0;
 
   content: counter(section, decimal-leading-zero); /* نمایش با صفر پیش‌فرض */

@@ -7,7 +7,6 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-red-500: oklch(63.7% 0.237 25.331);
     --color-yellow-50: oklch(98.7% 0.026 102.212);
     --color-yellow-200: oklch(94.5% 0.129 101.54);
     --color-yellow-600: oklch(68.1% 0.162 75.834);
@@ -16,7 +15,6 @@
     --color-green-500: oklch(72.3% 0.219 149.579);
     --color-blue-50: oklch(97% 0.014 254.604);
     --color-blue-200: oklch(88.2% 0.059 254.128);
-    --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-blue-900: oklch(37.9% 0.146 265.522);
     --color-gray-50: oklch(98.5% 0.002 247.839);
@@ -254,8 +252,8 @@
   .right-4 {
     right: calc(var(--spacing) * 4);
   }
-  .right-\[5px\] {
-    right: 5px;
+  .right-\[2px\] {
+    right: 2px;
   }
   .left-2 {
     left: calc(var(--spacing) * 2);
@@ -452,9 +450,6 @@
   .h-\[260px\] {
     height: 260px;
   }
-  .h-\[300px\] {
-    height: 300px;
-  }
   .h-\[360px\] {
     height: 360px;
   }
@@ -481,9 +476,6 @@
   }
   .min-h-\[48px\] {
     min-height: 48px;
-  }
-  .min-h-\[70px\] {
-    min-height: 70px;
   }
   .w-1 {
     width: calc(var(--spacing) * 1);
@@ -520,9 +512,6 @@
   }
   .w-\[7px\] {
     width: 7px;
-  }
-  .w-\[10px\] {
-    width: 10px;
   }
   .w-\[88\%\] {
     width: 88%;
@@ -658,9 +647,6 @@
   }
   .gap-4 {
     gap: calc(var(--spacing) * 4);
-  }
-  .gap-5 {
-    gap: calc(var(--spacing) * 5);
   }
   .gap-6 {
     gap: calc(var(--spacing) * 6);
@@ -873,27 +859,6 @@
   .bg-gradient-to-t {
     --tw-gradient-position: to top in oklab;
     background-image: linear-gradient(var(--tw-gradient-stops));
-  }
-  .bg-\[url\(\'image\/arzimg1\.jpg\'\)\] {
-    background-image: url('image/arzimg1.jpg');
-  }
-  .bg-\[url\(\'image\/arzimg2\.jpg\'\)\] {
-    background-image: url('image/arzimg2.jpg');
-  }
-  .bg-\[url\(\'image\/arzimg3\.jpg\'\)\] {
-    background-image: url('image/arzimg3.jpg');
-  }
-  .bg-\[url\(\'image\/arzimg4\.jpg\'\)\] {
-    background-image: url('image/arzimg4.jpg');
-  }
-  .bg-\[url\(\'image\/bekrImg\.jpg\'\)\] {
-    background-image: url('image/bekrImg.jpg');
-  }
-  .bg-\[url\(\'image\/coins\.jpg\'\)\] {
-    background-image: url('image/coins.jpg');
-  }
-  .bg-\[url\(\'image\/shobe\.jpg\'\)\] {
-    background-image: url('image/shobe.jpg');
   }
   .from-\[\#833AB4\] {
     --tw-gradient-from: #833AB4;
@@ -1268,17 +1233,9 @@
     --tw-duration: 500ms;
     transition-duration: 500ms;
   }
-  .duration-900 {
-    --tw-duration: 900ms;
-    transition-duration: 900ms;
-  }
   .duration-1000 {
     --tw-duration: 1000ms;
     transition-duration: 1000ms;
-  }
-  .duration-5000 {
-    --tw-duration: 5000ms;
-    transition-duration: 5000ms;
   }
   .ease-in-out {
     --tw-ease: var(--ease-in-out);
@@ -1291,16 +1248,6 @@
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
         display: flex;
-      }
-    }
-  }
-  .group-hover\:scale-102 {
-    &:is(:where(.group):hover *) {
-      @media (hover: hover) {
-        --tw-scale-x: 102%;
-        --tw-scale-y: 102%;
-        --tw-scale-z: 102%;
-        scale: var(--tw-scale-x) var(--tw-scale-y);
       }
     }
   }
@@ -1611,11 +1558,6 @@
     &:focus {
       --tw-outline-style: none;
       outline-style: none;
-    }
-  }
-  .sm\:h-\[300px\] {
-    @media (width >= 40rem) {
-      height: 300px;
     }
   }
   .sm\:h-\[450px\] {
@@ -2040,7 +1982,6 @@ body {
   padding: 16px 40px 16px 0;
 }
 .custom-counter li::before {
-  font-family: "IranYekanFarsiNumber" !important;
   padding: 16px 0;
   content: counter(section, decimal-leading-zero);
   position: absolute;
