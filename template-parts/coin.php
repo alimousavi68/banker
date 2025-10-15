@@ -305,8 +305,8 @@ if ($crypto_query->have_posts()) {
         $is_last = ($i == count($gold_posts) - 1) || ($i == 8);
       ?>
       <div class="flex group gap-2 py-6 <?php echo !$is_last ? 'border-b border-border' : ''; ?>">
-        <span class="w-[10px] h-[10px] bg-secondary mt-2 rounded-full inline-block"></span>
-        <a href="<?php echo esc_url($gold_posts[$i]['link']); ?>" class="text-[14px] transition-colors duration-300 group-hover:text-secondary font-semibold mt-2 block">
+        <span class="w-[7px] h-[10px] bg-secondary mt-2 rounded-full inline-block"></span>
+        <a href="<?php echo esc_url($gold_posts[$i]['link']); ?>" class="text-[14px] w-11/12 transition-colors duration-300 group-hover:text-secondary font-semibold mt-2 block">
           <?php echo esc_html($gold_posts[$i]['title']); ?>
         </a>
       </div>
