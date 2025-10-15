@@ -244,7 +244,7 @@ $notes_posts = new WP_Query(array(
         </a>
 
         <div class="flex group items-center gap-2 mt-2 ">
-          <img src="<?php echo esc_url($author_avatar); ?>" class="w-8  h-8 rounded-full" alt="<?php echo esc_attr($author_name); ?>">
+          <img src="<?php echo esc_url($author_avatar); ?>" class="w-9  h-9 rounded-full" alt="<?php echo esc_attr($author_name); ?>">
           <span class="text-grayText font-semibold text-[12px]"><?php echo esc_html($author_name); ?></span>
         </div>
       </div>
