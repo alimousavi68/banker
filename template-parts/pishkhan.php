@@ -75,9 +75,9 @@ if ($latest_news_query->have_posts()) {
           <div class="border-t-2  border-dotted border-border"></div>
         </div>
         <div>
-          <?php for ($i = 0; $i < 3 && $i < count($pishkhan_posts); $i++): ?>
+          <?php for ($i = 0; $i < $pishkhan_settings['main_posts_count'] && $i < count($pishkhan_posts); $i++): ?>
             <a href="<?php echo esc_url($pishkhan_posts[$i]['link']); ?>" class="group block">
-              <div class="flex gap-4 py-4 <?php echo ($i < 2) ? 'border-b border-border' : ''; ?> items-start md:items-center">
+              <div class="flex gap-4 py-4 <?php echo ($i < ($pishkhan_settings['main_posts_count'] - 1)) ? 'border-b border-border' : ''; ?> items-start md:items-center">
                 <div class="w-1/3 overflow-hidden md:w-1/4">
                   <img src="<?php echo esc_url($pishkhan_posts[$i]['image']); ?>" alt="<?php echo esc_attr($pishkhan_posts[$i]['title']); ?>" class="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-80">
                 </div>
@@ -134,11 +134,11 @@ if ($latest_news_query->have_posts()) {
             <!-- خط عمودی سمت راست -->
             <div class="absolute top-0 right-3 h-full w-px bg-gray-300"></div>
 
-            <?php for ($i = 0; $i < 6 && $i < count($latest_news_posts); $i++): ?>
+            <?php for ($i = 0; $i < $pishkhan_settings['latest_posts_count'] && $i < count($latest_news_posts); $i++): ?>
               <!-- خبر <?php echo ($i + 1); ?> -->
-              <div class="flex items-start <?php echo ($i == 5) ? 'my-5' : 'my-3'; ?> relative">
+              <div class="flex items-start <?php echo ($i == ($pishkhan_settings['latest_posts_count'] - 1)) ? 'my-5' : 'my-3'; ?> relative">
                 <!-- دایره روی خط -->
-                <div class="w-[7px] h-[10px] bg-secondary absolute right-[2px] -translate-x-1/2 mt-2 transform rounded-full"></div>
+                <div class="w-[7px] h-[10px] bg-secondary absolute right-[2px] -translate-x-1/2 mt-1 transform rounded-full"></div>
 
                 <div class="mr-6 group">
                   <div class="flex items-center gap-1">
@@ -161,7 +161,7 @@ if ($latest_news_query->have_posts()) {
                   </a>
                 </div>
               </div>
-              <?php if ($i < 5 && $i < count($latest_news_posts) - 1): ?>
+              <?php if ($i < ($pishkhan_settings['latest_posts_count'] - 1) && $i < count($latest_news_posts) - 1): ?>
                 <div class="w-[88%] m-auto bg-border h-[1px]"></div>
               <?php endif; ?>
             <?php endfor; ?>
