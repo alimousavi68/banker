@@ -63,9 +63,9 @@ if ($latest_news_query->have_posts()) {
 
 <?php if ((!empty($pishkhan_posts) && count($pishkhan_posts) > 0) || (!empty($latest_news_posts) && count($latest_news_posts) > 0)): ?>
   <!--START pishkhan khabar-->
-  <section class="grid grid-cols-1 md:grid-cols-2 border-b  max-w-[1400px] mx-auto px-4  sm:px-4 lg:px-6  border-border pb-8 mt-8">
+  <section class="flex flex-col md:flex-row border-b  max-w-[1400px] mx-auto px-4  sm:px-4 lg:px-6  border-border pb-8 mt-8">
     <?php if (!empty($pishkhan_posts) && count($pishkhan_posts) > 0): ?>
-      <div class="ml-4">
+      <div class="ml-4 w-full md:w-1/2">
         <h4 class="font-medium text-2xl text-black">
           <?php echo esc_html($pishkhan_settings['main_title']); ?>
         </h4>
@@ -119,7 +119,7 @@ if ($latest_news_query->have_posts()) {
     <?php endif; ?>
     <!--شروع بخش اخرین اخبار -->
     <?php if (!empty($latest_news_posts) && count($latest_news_posts) > 0): ?>
-      <div class="md:pr-4 flex flex-col md:flex-row  md:border-r md:border-border">
+      <div class="md:pr-4 block md:flex md:flex-row  md:border-r md:border-border w-full md:w-1/2">
         <div class="bg-lightBg  md:px-4 w-full md:w-2/3 ml-4 ">
           <h4 class="font-medium text-2xl text-black">
             <?php echo esc_html($pishkhan_settings['latest_title']); ?>
@@ -168,7 +168,7 @@ if ($latest_news_query->have_posts()) {
           </div>
         </div>
         <!--پایان بخش اخرین اخبار -->
-        <div class="w-full md:w-1/3 md:pr-4 mt-4 md:mt-0  md:border-r border-border flex flex-col gap-6">
+        <div class="w-full md:w-1/3 md:pr-4 mt-4 md:mt-0  md:border-r border-border flex flex-col gap-6 md:sticky md:top-0 md:self-start">
           <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif1.gif" class="w-full md:h-[80px]" alt="">
           <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif2.gif" alt="" class="w-full md:h-[80px]">
           <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif3.gif" alt="" class="w-full md:h-[80px]">
