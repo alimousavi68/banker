@@ -1929,6 +1929,11 @@
       line-height: var(--tw-leading, var(--text-4xl--line-height));
     }
   }
+  .lg\:text-\[15px\] {
+    @media (width >= 64rem) {
+      font-size: 15px;
+    }
+  }
   .lg\:text-\[16px\] {
     @media (width >= 64rem) {
       font-size: 16px;

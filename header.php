@@ -94,7 +94,7 @@
         </div>
 
         <!-- منوی دسکتاپ -->
-        <nav class="hidden md:flex lg:gap-4 xl:gap-8 md:text-[13px] lg:text-[16px] font-medium text-black">
+        <nav class="hidden md:flex lg:gap-4 xl:gap-8 md:text-[13px] lg:text-[15px] font-medium text-black">
           <?php
           wp_nav_menu(array(
               'theme_location' => 'desktop',

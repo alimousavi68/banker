@@ -1,6 +1,6 @@
 <!--شروع فوتر-->
 <footer class="flex flex-col md:flex-row mt-8 bg-lightBg">
-  <div class="w-11/12 flex flex-col md:flex-row gap-6 m-auto py-6">
+  <div class="container  flex flex-col md:flex-row gap-6 m-auto py-6">
 
     <!-- بخش لوگو و توضیحات -->
     <div class="w-full md:w-1/3 md:pl-4 border-b pb-4 md:border-none md:border-l border-border flex flex-col gap-4  md:text-right">
@@ -120,7 +120,7 @@
 
 </footer>
 <div class="bg-primary container-fluid py-4">
-  <div class="w-full flex justify-between items-center mx-auto px-4">
+  <div class="container w-full flex justify-between items-center mx-auto px-4">
     <span class="text-white text-[12px]">
       <?php
       $copyright_text = banker_get_copyright_text();
