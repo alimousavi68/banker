@@ -177,6 +177,11 @@ require_once get_template_directory() . '/inc/customizer/homepage-helpers.php';
 require_once get_template_directory() . '/inc/customizer/menu-content-customizer.php';
 
 /**
+ * Include Meta Box Files
+ */
+require_once get_template_directory() . '/inc/post-meta-box.php';
+
+/**
  * Customizer Settings
  */
 function banker_customize_register($wp_customize) {

@@ -164,11 +164,35 @@ $notes_posts = new WP_Query(array(
       while ($notes_posts->have_posts() && $notes_count < 3) : 
           $notes_posts->the_post(); 
           $notes_count++;
-          $author_avatar = get_avatar_url(get_the_author_meta('ID'), array('size' => 32));
+          
+          // Get post type from meta box
+          $post_type_meta = get_post_meta(get_the_ID(), '_banker_post_type', true);
+          
+          // Get custom author data if post type is 'note'
+          if ($post_type_meta === 'note') {
+              $custom_author_name = get_post_meta(get_the_ID(), '_banker_note_author', true);
+              $custom_author_image_id = get_post_meta(get_the_ID(), '_banker_note_author_image', true);
+              
+              // Use custom author name if available, otherwise fallback to default
+              $author_name = !empty($custom_author_name) ? $custom_author_name : get_the_author();
+              
+              // Use custom author image if available, otherwise fallback to default
+              if (!empty($custom_author_image_id)) {
+                  $author_avatar = wp_get_attachment_image_url($custom_author_image_id, 'thumbnail');
+              } else {
+                  $author_avatar = get_avatar_url(get_the_author_meta('ID'), array('size' => 32));
+              }
+          } else {
+              // For non-note posts, use default author data
+              $author_name = get_the_author();
+              $author_avatar = get_avatar_url(get_the_author_meta('ID'), array('size' => 32));
+          }
+          
+          // Fallback to default avatar if no avatar is found
           if (!$author_avatar) {
               $author_avatar = get_template_directory_uri() . '/assets/images/default-avatar.svg';
           }
-          $author_name = get_the_author();
+          
           $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'medium');
           $excerpt = get_the_excerpt();
           if (empty($excerpt)) {
