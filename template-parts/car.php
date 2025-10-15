@@ -95,7 +95,14 @@ if ($economy_query->have_posts()) {
           <?php echo esc_html($car_posts[0]['title']); ?>
         </h3>
 
-        <!-- زمان -->
+      
+
+        <!-- توضیح کوتاه -->
+        <p class="text-grayText text-[14px] font-medium line-clamp-3">
+          <?php echo esc_html($car_posts[0]['excerpt']); ?>
+        </p>
+
+          <!-- زمان -->
         <div class="flex justify-end gap-1 items-center">
           <span>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -113,10 +120,6 @@ if ($economy_query->have_posts()) {
           <p class="text-[10px] pt-[3px] text-grayText"><?php echo esc_html($car_posts[0]['time_diff']); ?></p>
         </div>
 
-        <!-- توضیح کوتاه -->
-        <p class="text-grayText text-[14px] font-medium line-clamp-3">
-          <?php echo esc_html($car_posts[0]['excerpt']); ?>
-        </p>
       </a>
       <?php endif; ?>
 
@@ -135,7 +138,14 @@ if ($economy_query->have_posts()) {
           <?php echo esc_html($car_posts[1]['title']); ?>
         </h3>
 
-        <!-- زمان -->
+       
+
+        <!-- توضیح کوتاه -->
+        <p class="text-grayText text-[14px] font-medium line-clamp-3">
+          <?php echo esc_html($car_posts[1]['excerpt']); ?>
+        </p>
+
+         <!-- زمان -->
         <div class="flex justify-end gap-1 items-center">
           <span>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -152,11 +162,7 @@ if ($economy_query->have_posts()) {
           </span>
           <p class="text-[10px] pt-[3px] text-grayText"><?php echo esc_html($car_posts[1]['time_diff']); ?></p>
         </div>
-
-        <!-- توضیح کوتاه -->
-        <p class="text-grayText text-[14px] font-medium line-clamp-3">
-          <?php echo esc_html($car_posts[1]['excerpt']); ?>
-        </p>
+        
       </a>
       <?php endif; ?>
 

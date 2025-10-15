@@ -281,7 +281,7 @@ if ($crypto_query->have_posts()) {
       <div class="absolute inset-0 bg-primary/80 pointer-events-none"></div>
 
       <!-- محتوا -->
-      <div class="relative flex flex-col items-center gap-2 text-white z-10">
+      <div class="relative flex flex-col items-center gap-2 text-white z-10 px-sm-5 px-2">
         <!-- زمان -->
         <div class="flex items-center gap-2">
           <span>
@@ -293,7 +293,7 @@ if ($crypto_query->have_posts()) {
         </div>
 
         <!-- عنوان -->
-        <p class="font-bold text-lg"><?php echo esc_html($gold_posts[0]['title']); ?></p>
+        <p class="font-bold text-lg text-center"><?php echo esc_html($gold_posts[0]['title']); ?></p>
       </div>
     </a>
     <?php endif; ?>

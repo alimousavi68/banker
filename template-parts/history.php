@@ -20,7 +20,7 @@ $notes_posts = new WP_Query(array(
 ?>
 
 <!--شروع بخش تاریخ و اقتصاد -->
-<section class="mt-8 md:pb-8 max-w-[1400px] mx-auto px-4  sm:px-4 lg:px-6 border-border border-b flex flex-col md:flex-row gap-4">
+<section class="mt-8 md:pb-8 max-w-[1400px] mx-auto px-4  sm:px-4 lg:px-6 border-border border-b flex flex-col md:flex-row gap-4 ">
   <div class="w-full md:border-l md:border-border md:ml-4 md:pl-4 md:w-3/4">
     <div class="flex justify-between items-center">
       <h4 class="font-medium text-2xl text-black">
@@ -106,7 +106,7 @@ $notes_posts = new WP_Query(array(
         </div>
 
         <!-- عنوان -->
-        <h2 class="font-bold text-lg text-black transition-colors duration-300 group-hover:text-secondary">
+        <h2 class="font-normal text-lg text-black transition-colors duration-300 group-hover:text-secondary">
           <?php the_title(); ?>
         </h2>
 
@@ -142,14 +142,17 @@ $notes_posts = new WP_Query(array(
     <?php endif; ?>
 
   </div>
-  <div class="w-full md:w-1/4">
+
+
+  <!-- // نمایش 3 پست آخر برای یادداشت -->
+  <div class="w-full md:w-1/4 ">
     <div class="flex justify-between items-center">
       <h4 class="font-medium text-2xl text-black">
         <?php echo esc_html($history_settings['notes_title']); ?>
       </h4>
 
     </div>
-    <div class="space-y-[2px] mt-2">
+    <div class="space-y-[2px] mt-2 mb-5">
       <div class="border-t-2  border-dotted border-border"></div>
       <div class="border-t-2  border-dotted border-border"></div>
       <div class="border-t-2  border-dotted border-border"></div>
@@ -172,46 +175,23 @@ $notes_posts = new WP_Query(array(
               $excerpt = wp_trim_words(get_the_content(), 15, '...');
           }
           
-          if ($notes_count == 1) : // First post - simple quote
+          // Check if post has featured image to determine display style
+          if ($featured_image) : // Post with image
       ?>
-      <!--start Quote section-->
-      <div class="border-b border-border py-4 text-right">
-        <a href="<?php the_permalink(); ?>" class="flex items-center gap-3 group cursor-pointer transition duration-300 no-underline">
-          <span class="flex-shrink-0 pt-[2px]">
-            <svg width="14" height="14" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1.583 13.3212C0.553 12.2272 0 11.0002 0 9.01124C0 5.51124 2.457 2.37424 6.03 0.823242L6.923 2.20124C3.588 4.00524 2.936 6.34624 2.676 7.82224C3.213 7.54424 3.916 7.44724 4.605 7.51124C6.409 7.67824 7.831 9.15924 7.831 11.0002C7.831 11.9285 7.46225 12.8187 6.80587 13.4751C6.1495 14.1315 5.25926 14.5002 4.331 14.5002C3.81765 14.4958 3.31031 14.3893 2.83853 14.1869C2.36675 13.9845 1.93995 13.6902 1.583 13.3212ZM11.583 13.3212C10.553 12.2272 10 11.0002 10 9.01124C10 5.51124 12.457 2.37424 16.03 0.823242L16.923 2.20124C13.588 4.00524 12.936 6.34624 12.676 7.82224C13.213 7.54424 13.916 7.44724 14.605 7.51124C16.409 7.67824 17.831 9.15924 17.831 11.0002C17.831 11.9285 17.4623 12.8187 16.8059 13.4751C16.1495 14.1315 15.2593 14.5002 14.331 14.5002C13.8176 14.4958 13.3103 14.3893 12.8385 14.1869C12.3667 13.9845 11.94 13.6902 11.583 13.3212Z" fill="#CD3737" />
-            </svg>
-          </span>
-
-          <p class="font-black text-[14px] text-black transition-colors duration-300 group-hover:text-secondary line-clamp-2">
-            <?php the_title(); ?>
-          </p>
-        </a>
-
-        <div class="flex group items-center gap-2 mt-2 ">
-          <img src="<?php echo esc_url($author_avatar); ?>" class="w-8  h-8 rounded-full" alt="<?php echo esc_attr($author_name); ?>">
-          <span class="text-grayText font-semibold text-[12px]"><?php echo esc_html($author_name); ?></span>
-        </div>
-      </div>
-      <!--end Quote section-->
       
-      <?php elseif ($notes_count == 2) : // Second post - with image ?>
-      
-      <a href="<?php the_permalink(); ?>" class="block overflow-hidden group no-underline">
-        <?php if ($featured_image) : ?>
+      <a href="<?php the_permalink(); ?>" class="block overflow-hidden group no-underline border-b border-border mb-2">
         <img src="<?php echo esc_url($featured_image); ?>"
           alt="<?php the_title_attribute(); ?>"
-          class="object-cover w-full h-auto scale-100 transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:brightness-110">
-        <?php endif; ?>
+          class="object-cover w-full h-[140px] scale-100 transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:brightness-110">
 
-        <div class="border-b border-border py-4 text-right">
+        <div class="<?php echo ($notes_count < 3) ? 'border-b border-border' : ''; ?> py-4 text-right">
           <div class="flex gap-3">
-            <span class="pt-2 flex-shrink-0">
-              <svg width="14" height="14" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <span class=" flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.583 13.3212C0.553 12.2272 0 11.0002 0 9.01124C0 5.51124 2.457 2.37424 6.03 0.823242L6.923 2.20124C3.588 4.00524 2.936 6.34624 2.676 7.82224C3.213 7.54424 3.916 7.44724 4.605 7.51124C6.409 7.67824 7.831 9.15924 7.831 11.0002C7.831 11.9285 7.46225 12.8187 6.80587 13.4751C6.1495 14.1315 5.25926 14.5002 4.331 14.5002C3.81765 14.4958 3.31031 14.3893 2.83853 14.1869C2.36675 13.9845 1.93995 13.6902 1.583 13.3212ZM11.583 13.3212C10.553 12.2272 10 11.0002 10 9.01124C10 5.51124 12.457 2.37424 16.03 0.823242L16.923 2.20124C13.588 4.00524 12.936 6.34624 12.676 7.82224C13.213 7.54424 13.916 7.44724 14.605 7.51124C16.409 7.67824 17.831 9.15924 17.831 11.0002C17.831 11.9285 17.4623 12.8187 16.8059 13.4751C16.1495 14.1315 15.2593 14.5002 14.331 14.5002C13.8176 14.4958 13.3103 14.3893 12.8385 14.1869C12.3667 13.9845 11.94 13.6902 11.583 13.3212Z" fill="#CD3737" />
               </svg>
             </span>
-            <p class="font-black text-[14px] text-black transition-colors duration-300 group-hover:text-secondary line-clamp-2">
+            <p class="font-normal text-[14px] text-black transition-colors duration-300 group-hover:text-secondary line-clamp-2">
               <?php the_title(); ?>
             </p>
           </div>
@@ -223,23 +203,24 @@ $notes_posts = new WP_Query(array(
         </div>
       </a>
 
-      <?php elseif ($notes_count == 3) : // Third post - simple quote ?>
+      <?php else : // Post without image - simple quote ?>
       
       <!--start Quote section-->
-      <div class=" py-4 text-right">
-        <div class="flex gap-3">
-          <span class="pt-2">
+      <div class="<?php echo ($notes_count < 3) ? 'border-b border-border' : ''; ?> py-4 text-right">
+        <a href="<?php the_permalink(); ?>" class="flex items-center gap-3 group cursor-pointer transition duration-300 no-underline">
+          <span class="flex-shrink-0 pt-[2px]">
             <svg width="14" height="14" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1.583 13.3212C0.553 12.2272 0 11.0002 0 9.01124C0 5.51124 2.457 2.37424 6.03 0.823242L6.923 2.20124C3.588 4.00524 2.936 6.34624 2.676 7.82224C3.213 7.54424 3.916 7.44724 4.605 7.51124C6.409 7.67824 7.831 9.15924 7.831 11.0002C7.831 11.9285 7.46225 12.8187 6.80587 13.4751C6.1495 14.1315 5.25926 14.5002 4.331 14.5002C3.81765 14.4958 3.31031 14.3893 2.83853 14.1869C2.36675 13.9845 1.93995 13.6902 1.583 13.3212ZM11.583 13.3212C10.553 12.2272 10 11.0002 10 9.01124C10 5.51124 12.457 2.37424 16.03 0.823242L16.923 2.20124C13.588 4.00524 12.936 6.34624 12.676 7.82224C13.213 7.54424 13.916 7.44724 14.605 7.51124C16.409 7.67824 17.831 9.15924 17.831 11.0002C17.831 11.9285 17.4623 12.8187 16.8059 13.4751C16.1495 14.1315 15.2593 14.5002 14.331 14.5002C13.8176 14.4958 13.3103 14.3893 12.8385 14.1869C12.3667 13.9845 11.94 13.6902 11.583 13.3212Z" fill="#CD3737" />
             </svg>
           </span>
-          <a href="<?php the_permalink(); ?>" class="font-black text-[14px]  transition-colors duration-300 hover:text-secondary line-clamp-2">
-            <?php the_title(); ?>
-          </a>
 
-        </div>
-        <div class="flex items-center gap-2 mt-2 ">
-          <img src="<?php echo esc_url($author_avatar); ?>" class="w-8 h-8 rounded-full" alt="<?php echo esc_attr($author_name); ?>">
+          <p class="font-normal text-[14px] text-black transition-colors duration-300 group-hover:text-secondary line-clamp-2">
+            <?php the_title(); ?>
+          </p>
+        </a>
+
+        <div class="flex group items-center gap-2 mt-2 ">
+          <img src="<?php echo esc_url($author_avatar); ?>" class="w-8  h-8 rounded-full" alt="<?php echo esc_attr($author_name); ?>">
           <span class="text-grayText font-semibold text-[12px]"><?php echo esc_html($author_name); ?></span>
         </div>
       </div>
