@@ -5,22 +5,9 @@ get_header();
 <main class="max-w-[1400px] mx-auto px-4 sm:px-4 lg:px-6 py-8">
     <div class="flex flex-col lg:flex-row gap-8">
         
-        <!-- ستون چپ - سایدبار -->
-        <div class="w-full lg:w-1/4 lg:order-2">
-            <div class="lg:sticky lg:top-8">
-                <?php
-                if (is_active_sidebar('primary-sidebar')) {
-                    dynamic_sidebar('primary-sidebar');
-                } else {
-                    // Default sidebar content
-                    get_template_part('template-parts/sidebar/default-sidebar');
-                }
-                ?>
-            </div>
-        </div>
-        
+       
         <!-- ستون راست - محتوای اصلی -->
-        <div class="w-full lg:w-3/4 border-e border-border pe-6 lg:order-1">
+        <div class="w-full lg:w-3/4 border-border  lg:border-e lg:pe-6">
             
             <!-- بخش عنوان آرشیو -->
             <div class="mb-8">
@@ -54,6 +41,20 @@ get_header();
                 <?php endif; ?>
             </div>
             
+        </div>
+
+         <!-- ستون چپ - سایدبار -->
+        <div class="w-full lg:w-1/4 ">
+            <div class="lg:sticky lg:top-8">
+                <?php
+                if (is_active_sidebar('primary-sidebar')) {
+                    dynamic_sidebar('primary-sidebar');
+                } else {
+                    // Default sidebar content
+                    get_template_part('template-parts/sidebar/default-sidebar');
+                }
+                ?>
+            </div>
         </div>
         
     </div>
