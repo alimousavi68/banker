@@ -4,6 +4,17 @@ class PriceTicker {
         this.baseUrl = 'https://api.nerkh.io/v1/prices';
         this.tickerElement = document.getElementById('ticker');
         this.previousPrices = {}; // Store previous prices for trend calculation
+        this.retryCount = 0; // Track retry attempts
+        this.maxRetries = 3; // Maximum retry attempts
+        this.retryDelay = 5000; // 5 seconds delay between retries
+        this.lastSuccessfulUpdate = Date.now(); // Track last successful update
+        this.consecutiveFailures = 0; // Track consecutive failures
+        this.maxConsecutiveFailures = 5; // Stop trying after 5 consecutive failures
+        this.circuitBreakerTimeout = 300000; // 5 minutes timeout for circuit breaker
+        
+        // Rate limiting backoff properties
+        this.rateLimitBackoff = 60000; // Start with 1 minute for 429 errors
+        this.maxBackoff = 600000; // Max 10 minutes backoff
         
         // Initialize the ticker
         this.init();
@@ -20,10 +31,8 @@ class PriceTicker {
                 this.updateTicker(currencyData, goldData, cryptoData);
             }
             
-            // Set up periodic updates (every 30 seconds)
-            setInterval(() => {
-                this.updatePrices();
-            }, 30000);
+            // Set up periodic updates (every 5 minutes with jitter)
+            this.scheduleNextUpdate();
             
         } catch (error) {
             console.error('خطا در بارگذاری قیمت‌ها:', error);
@@ -96,8 +105,8 @@ class PriceTicker {
         }
     }
 
-    // Optimized method to fetch all prices in a single request
-    async fetchAllPrices() {
+    // Optimized method to fetch all prices in a single request with retry mechanism
+    async fetchAllPrices(isRetry = false) {
         try {
             // Use Promise.all to fetch all data simultaneously for better performance
             const [currencyResponse, goldResponse, cryptoResponse] = await Promise.all([
@@ -124,9 +133,27 @@ class PriceTicker {
                 })
             ]);
 
+            // Check for rate limiting (429) errors specifically
+            const responses = [currencyResponse, goldResponse, cryptoResponse];
+            const rateLimitedResponses = responses.filter(response => response.status === 429);
+            if (rateLimitedResponses.length > 0) {
+                const backoffTime = Math.min(this.rateLimitBackoff, this.maxBackoff);
+                console.warn(`خطای محدودیت نرخ (429) دریافت شد. تأخیر ${Math.ceil(backoffTime / 60000)} دقیقه‌ای اعمال می‌شود.`);
+                
+                // Exponential backoff for rate limiting
+                this.rateLimitBackoff = Math.min(this.rateLimitBackoff * 2, this.maxBackoff);
+                
+                // Schedule next update with backoff delay
+                setTimeout(() => {
+                    this.scheduleNextUpdate();
+                }, backoffTime);
+                
+                throw new Error(`Rate limited - backing off for ${Math.ceil(backoffTime / 60000)} minutes`);
+            }
+            
             // Check if all responses are successful
             if (!currencyResponse.ok || !goldResponse.ok || !cryptoResponse.ok) {
-                throw new Error('One or more API requests failed');
+                throw new Error(`API request failed - Status: ${currencyResponse.status}, ${goldResponse.status}, ${cryptoResponse.status}`);
             }
 
             // Parse all responses simultaneously
@@ -143,9 +170,34 @@ class PriceTicker {
                 Promise.resolve(this.parseXMLCrypto(cryptoXML))
             ]);
 
+            // Reset retry count and rate limit backoff on successful request
+            this.retryCount = 0;
+            this.rateLimitBackoff = 60000; // Reset to 1 minute
+            this.lastSuccessfulUpdate = Date.now();
+
             return { currencyData, goldData, cryptoData };
         } catch (error) {
-            console.error('خطا در دریافت همه قیمت‌ها:', error);
+            // Only log error if it's not a retry attempt or if we've exceeded max retries
+            if (!isRetry || this.retryCount >= this.maxRetries) {
+                console.error('خطا در دریافت همه قیمت‌ها:', error.message);
+                
+                // If we've been failing for more than 10 minutes, show a warning
+                const timeSinceLastSuccess = Date.now() - this.lastSuccessfulUpdate;
+                if (timeSinceLastSuccess > 600000) { // 10 minutes
+                    console.warn('قیمت‌ها برای مدت طولانی به‌روزرسانی نشده‌اند. لطفاً اتصال اینترنت خود را بررسی کنید.');
+                }
+            }
+            
+            // Attempt retry if we haven't exceeded max retries
+            if (this.retryCount < this.maxRetries && !isRetry) {
+                this.retryCount++;
+                console.log(`تلاش مجدد ${this.retryCount} از ${this.maxRetries} در ${this.retryDelay/1000} ثانیه...`);
+                
+                // Wait before retrying
+                await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+                return this.fetchAllPrices(true);
+            }
+            
             return null;
         }
     }
@@ -375,7 +427,34 @@ class PriceTicker {
         this.tickerElement.innerHTML = duplicatedHTML;
     }
 
+    // Schedule next update with jitter to prevent synchronized requests
+    scheduleNextUpdate() {
+        // Base interval: 5 minutes (300000ms)
+        // Add random jitter: ±30 seconds (±30000ms)
+        const baseInterval = 300000; // 5 minutes
+        const jitter = (Math.random() - 0.5) * 60000; // ±30 seconds
+        const nextInterval = baseInterval + jitter;
+        
+        setTimeout(() => {
+            this.updatePrices();
+            this.scheduleNextUpdate(); // Schedule the next update
+        }, nextInterval);
+    }
+
     async updatePrices() {
+        // Circuit breaker: Skip API calls if we've had too many consecutive failures
+        if (this.consecutiveFailures >= this.maxConsecutiveFailures) {
+            const timeSinceLastFailure = Date.now() - this.lastSuccessfulUpdate;
+            if (timeSinceLastFailure < this.circuitBreakerTimeout) {
+                console.log(`Circuit breaker فعال: ${Math.ceil((this.circuitBreakerTimeout - timeSinceLastFailure) / 60000)} دقیقه تا تلاش مجدد`);
+                return;
+            } else {
+                // Reset circuit breaker after timeout
+                this.consecutiveFailures = 0;
+                console.log('Circuit breaker ریست شد، تلاش مجدد...');
+            }
+        }
+
         try {
             // Use optimized single request for updates
             const allPrices = await this.fetchAllPrices();
@@ -383,9 +462,15 @@ class PriceTicker {
             if (allPrices) {
                 const { currencyData, goldData, cryptoData } = allPrices;
                 this.updateTicker(currencyData, goldData, cryptoData);
+                this.consecutiveFailures = 0; // Reset failure count on success
+            } else {
+                this.consecutiveFailures++;
+                // If API fails, keep showing last known prices
+                console.log('API در دسترس نیست، آخرین قیمت‌های دریافتی نمایش داده می‌شود.');
             }
         } catch (error) {
-            console.error('خطا در به‌روزرسانی قیمت‌ها:', error);
+            this.consecutiveFailures++;
+            console.error('خطا در به‌روزرسانی قیمت‌ها:', error.message);
         }
     }
 }
