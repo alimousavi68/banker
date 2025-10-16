@@ -5,6 +5,14 @@ $category = get_the_category($post_id);
 $primary_category = !empty($category) ? $category[0] : null;
 $post_date = get_the_date('Y/m/d');
 $post_time = get_the_date('H:i');
+$short_url = home_url('?p=' . $post_id); // Short URL with post ID
+
+// Get main category from meta box
+$main_category_id = get_post_meta($post_id, '_banker_main_category', true);
+$main_category = null;
+if ($main_category_id) {
+    $main_category = get_category($main_category_id);
+}
 
 $excerpt = get_the_excerpt();
 $featured_image = get_the_post_thumbnail_url($post_id, 'large');
@@ -13,93 +21,73 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
 
 
 <div class=" border-b border-border pb-4">
-
+    
+    <!-- Post Meta Section -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 pb-4 border-b border-gray-200">
+        <!-- Right Side: Breadcrumb -->
+        <div class="order-2 md:order-1 mb-3 md:mb-0">
+            <nav class="text-sm text-grayText">
+                <a href="<?php echo home_url(); ?>" class="hover:text-secondary transition-colors">خانه</a>
+                <?php 
+                // Check if main category is set in meta box
+                if ($main_category && !is_wp_error($main_category)): ?>
+                    <span class="mx-2">/</span>
+                    <a href="<?php echo get_category_link($main_category->term_id); ?>" class="hover:text-secondary transition-colors">
+                        <?php echo esc_html($main_category->name); ?>
+                    </a>
+                <?php elseif ($primary_category): ?>
+                    <span class="mx-2">/</span>
+                    <a href="<?php echo get_category_link($primary_category->term_id); ?>" class="hover:text-secondary transition-colors">
+                        <?php echo esc_html($primary_category->name); ?>
+                    </a>
+                <?php endif; ?>
+            </nav>
+        </div>
+        
+        <!-- Left Side: Date, Print, Share -->
+        <div class="order-1 md:order-2 flex items-center gap-4">
+            <!-- Publication Date -->
+            <div class="flex items-center gap-2 text-sm text-grayText">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 2V5M16 2V5M3.5 9.09H20.5M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span><?php echo $post_date; ?></span>
+            </div>
+            
+            <!-- Print Button -->
+            <button onclick="window.print()" class="p-2 text-grayText hover:text-secondary hover:bg-gray-100 transition-all duration-200 rounded-full" title="پرینت">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 9V2H18V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 18H4C3.46957 18 2.96086 17.7893 2.58579 17.4142C2.21071 17.0391 2 16.5304 2 16V11C2 10.4696 2.21071 9.96086 2.58579 9.58579C2.96086 9.21071 3.46957 9 4 9H20C20.5304 9 21.0391 9.21071 21.4142 9.58579C21.7893 9.96086 22 10.4696 22 11V16C22 16.5304 21.7893 17.0391 21.4142 17.4142C21.0391 17.7893 20.5304 18 20 18H18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18 14H6V22H18V14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            
+            <!-- Share Button -->
+            <button onclick="copyToClipboard('<?php echo esc_js($short_url); ?>')" class="p-2 text-grayText hover:text-secondary hover:bg-gray-100 transition-all duration-200 rounded-full" title="اشتراک‌گذاری">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5C15 6.65685 16.3431 8 18 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 15C7.65685 15 9 13.6569 9 12C9 10.3431 7.65685 9 6 9C4.34315 9 3 10.3431 3 12C3 13.6569 4.34315 15 6 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18 22C19.6569 22 21 20.6569 21 19C21 17.3431 19.6569 16 18 16C16.3431 16 15 17.3431 15 19C15 20.6569 16.3431 22 18 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.59 13.51L15.42 17.49" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15.41 6.51L8.59 10.49" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
     <!-- Post Intro Section -->
     <div class="mb-6">
+        <h1 class="text-2xl md:text-[25px] lg:text-[27px] font-bold line-clamp-4 text-black leading-relaxed mb-4">
+            <?php the_title(); ?>
+        </h1>
         <div class="flex flex-col lg:flex-row gap-6">
-            <!-- Left Column: Featured Image -->
-            <div class="lg:w-1/2">
-                <?php if (has_post_thumbnail()): ?>
-                    <div class=" overflow-hidden shadow-md max-h-[265px]">
-                        <?php the_post_thumbnail('large', array('class' => 'w-full h-auto object-cover')); ?>
-                    </div>
-                <?php endif; ?>
-            </div>
+            
 
-            <!-- Right Column: Content -->
+            <!-- left Column: Content -->
             <div class="lg:w-1/2 flex flex-col lg:flex-col gap-4 ">
                 <!-- Title: full width -->
                 <div class="w-full flex flex-col lg:flex-row gap-4 justify-between">
-                    <h1 class="text-2xl md:text-[25px] lg:text-[27px] font-bold line-clamp-4 text-black leading-relaxed mb-4">
-                        <?php the_title(); ?>
-                    </h1>
-
-
-                    <!-- Meta Info: full width -->
-
-                    <div class="bg-neutral-200 text-white p-4 relative corner-tr max-w-[140px] max-h-[160px]">
-                        <!-- Category with Quote Icon -->
-                        <div class="flex items-center gap-0 mb-2">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-secondary flex-shrink-0">
-                                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" fill="currentColor" />
-                            </svg>
-                            <?php if ($primary_category): ?>
-                                <span class="text-gray-600 px-2 py-1 text-md font-medium whitespace-nowrap inline-block w-full truncate">
-                                    <?php echo esc_html($primary_category->name); ?>
-                                </span>
-                            <?php endif; ?>
-                        </div>
-
-                        <!-- Separator -->
-                        <div class="border-t border-gray-300 mb-3"></div>
-
-                        <!-- Date and Time -->
-                        <div class="flex items-center gap-2 mb-3 text-grayText text-sm ">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke-width="1.5" viewBox="0 0 24 24" color="currentColor">
-                                <path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h6"></path>
-                                <path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
-                            </svg>
-                            <span>
-                                <?php
-                                // Use WordPress built-in localization instead of manual mapping
-                                $day   = get_the_date('j');
-                                $month = get_the_date('m');
-                                // Let WordPress handle Persian month names via locale
-                                // $month_name = date_i18n('F', strtotime(get_the_date('Y-m-d')));
-                                ?>
-                                    <span class="text-xs font-medium text-gray-500">
-                                        <?php echo get_the_date(''); ?>
-                                    </span>
-
-
-
-                        </div>
-
-                        <!-- Action Icons -->
-                        <div class="flex items-center justify-center gap-3">
-                            <!-- Share Icon -->
-                            <button class="p-2 hover:bg-white transition-colors group" title="اشتراک‌گذاری">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke-width="1.5" viewBox="0 0 24 24" color="currentColor" class="text-grayText group-hover:text-secondary">
-                                    <path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM8.7 13.3l6.6 3.4M15.3 5.7l-6.6 3.4" />
-                                </svg>
-                            </button>
-
-                            <!-- Print Icon -->
-                            <button class="p-2 hover:bg-white d transition-colors group" title="چاپ" onclick="window.print()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke-width="1.5" viewBox="0 0 24 24" color="currentColor" class="text-grayText group-hover:text-secondary">
-                                    <path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M17.5 16H22V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10h4.5" />
-                                    <path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M6.5 20h11V8h-11v12Z" />
-                                </svg>
-                            </button>
-
-                            <!-- Comment Icon -->
-                            <a href="#comments" class="p-2 hover:bg-white transition-colors group" title="نظرات">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke-width="1.5" viewBox="0 0 24 24" color="currentColor" class="text-grayText group-hover:text-secondary">
-                                    <path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2.5 21.5l4.5-.838A9.955 9.955 0 0 0 12 22Z" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Post Excerpt: full width -->
@@ -109,10 +97,19 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
                     </div>
                 <?php endif; ?>
             </div>
+
+            <!-- right Column: Featured Image -->
+            <div class="lg:w-1/2">
+                <?php if (has_post_thumbnail()): ?>
+                    <div class=" overflow-hidden shadow-md max-h-[265px]">
+                        <?php the_post_thumbnail('large', array('class' => 'w-full h-auto object-cover')); ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 
-   
+
 </div>
 
 <style>
@@ -126,4 +123,88 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
         background-color: white;
         clip-path: polygon(0 0, 100% 0, 100% 100%);
     }
+    
+    /* Notification styles */
+    .share-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #10b981;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 9999;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .share-notification.show {
+        opacity: 1;
+        transform: translateX(0);
+    }
 </style>
+
+<script>
+function copyToClipboard(url) {
+    // Create a temporary textarea element
+    const textarea = document.createElement('textarea');
+    textarea.value = url;
+    document.body.appendChild(textarea);
+    
+    // Select and copy the text
+    textarea.select();
+    textarea.setSelectionRange(0, 99999); // For mobile devices
+    
+    try {
+        document.execCommand('copy');
+        showNotification('لینک با موفقیت کپی شد!');
+    } catch (err) {
+        // Fallback for modern browsers
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(() => {
+                showNotification('لینک با موفقیت کپی شد!');
+            }).catch(() => {
+                showNotification('خطا در کپی کردن لینک');
+            });
+        } else {
+            showNotification('خطا در کپی کردن لینک');
+        }
+    }
+    
+    // Remove the temporary element
+    document.body.removeChild(textarea);
+}
+
+function showNotification(message) {
+    // Remove existing notification if any
+    const existingNotification = document.querySelector('.share-notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'share-notification';
+    notification.textContent = message;
+    
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Show notification
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    // Hide and remove notification after 3 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+</script>

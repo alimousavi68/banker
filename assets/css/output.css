@@ -24,6 +24,7 @@
     --color-gray-400: oklch(70.7% 0.022 261.325);
     --color-gray-500: oklch(55.1% 0.027 264.364);
     --color-gray-600: oklch(44.6% 0.03 256.802);
+    --color-gray-800: oklch(27.8% 0.033 256.848);
     --color-neutral-200: oklch(92.2% 0 0);
     --color-black: #202020;
     --color-white: #fff;
@@ -48,7 +49,6 @@
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
-    --font-weight-black: 900;
     --leading-tight: 1.25;
     --leading-snug: 1.375;
     --leading-relaxed: 1.625;
@@ -228,9 +228,6 @@
   .relative {
     position: relative;
   }
-  .sticky {
-    position: sticky;
-  }
   .inset-0 {
     inset: calc(var(--spacing) * 0);
   }
@@ -276,6 +273,12 @@
   .z-50 {
     z-index: 50;
   }
+  .order-1 {
+    order: 1;
+  }
+  .order-2 {
+    order: 2;
+  }
   .container {
     width: 100%;
     @media (width >= 40rem) {
@@ -297,6 +300,9 @@
   .m-auto {
     margin: auto;
   }
+  .mx-2 {
+    margin-inline: calc(var(--spacing) * 2);
+  }
   .mx-auto {
     margin-inline: auto;
   }
@@ -305,6 +311,9 @@
   }
   .my-5 {
     margin-block: calc(var(--spacing) * 5);
+  }
+  .my-8 {
+    margin-block: calc(var(--spacing) * 8);
   }
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
@@ -441,23 +450,11 @@
   .h-\[1px\] {
     height: 1px;
   }
-  .h-\[7px\] {
-    height: 7px;
-  }
   .h-\[10px\] {
     height: 10px;
   }
-  .h-\[75px\] {
-    height: 75px;
-  }
   .h-\[100px\] {
     height: 100px;
-  }
-  .h-\[110px\] {
-    height: 110px;
-  }
-  .h-\[125px\] {
-    height: 125px;
   }
   .h-\[140px\] {
     height: 140px;
@@ -512,9 +509,6 @@
   }
   .w-4 {
     width: calc(var(--spacing) * 4);
-  }
-  .w-8 {
-    width: calc(var(--spacing) * 8);
   }
   .w-9 {
     width: calc(var(--spacing) * 9);
@@ -600,9 +594,6 @@
     --tw-scale-z: 100%;
     scale: var(--tw-scale-x) var(--tw-scale-y);
   }
-  .rotate-45 {
-    rotate: 45deg;
-  }
   .rotate-180 {
     rotate: 180deg;
   }
@@ -621,9 +612,6 @@
   .list-inside {
     list-style-position: inside;
   }
-  .list-decimal {
-    list-style-type: decimal;
-  }
   .list-disc {
     list-style-type: disc;
   }
@@ -635,6 +623,9 @@
   }
   .flex-col {
     flex-direction: column;
+  }
+  .flex-row {
+    flex-direction: row;
   }
   .flex-row-reverse {
     flex-direction: row-reverse;
@@ -730,9 +721,6 @@
   .rounded-\[1px\] {
     border-radius: 1px;
   }
-  .rounded-\[2px\] {
-    border-radius: 2px;
-  }
   .rounded-full {
     border-radius: calc(infinity * 1px);
   }
@@ -806,11 +794,17 @@
   .bg-\[\#1DA1F2\] {
     background-color: #1DA1F2;
   }
+  .bg-\[\#25D366\] {
+    background-color: #25D366;
+  }
   .bg-\[\#0088cc\] {
     background-color: #0088cc;
   }
   .bg-\[\#1877F2\] {
     background-color: #1877F2;
+  }
+  .bg-black {
+    background-color: var(--color-black);
   }
   .bg-black\/60 {
     background-color: color-mix(in srgb, #202020 60%, transparent);
@@ -978,6 +972,9 @@
   .py-4 {
     padding-block: calc(var(--spacing) * 4);
   }
+  .py-5 {
+    padding-block: calc(var(--spacing) * 5);
+  }
   .py-6 {
     padding-block: calc(var(--spacing) * 6);
   }
@@ -1007,9 +1004,6 @@
   }
   .pt-6 {
     padding-top: calc(var(--spacing) * 6);
-  }
-  .pt-\[2px\] {
-    padding-top: 2px;
   }
   .pt-\[3px\] {
     padding-top: 3px;
@@ -1118,10 +1112,6 @@
     --tw-leading: var(--leading-tight);
     line-height: var(--leading-tight);
   }
-  .font-black {
-    --tw-font-weight: var(--font-weight-black);
-    font-weight: var(--font-weight-black);
-  }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
@@ -1161,6 +1151,9 @@
   }
   .text-lightBg {
     color: var(--color-lightBg);
+  }
+  .text-primary {
+    color: var(--color-primary);
   }
   .text-secondary {
     color: var(--color-secondary);
@@ -1422,6 +1415,13 @@
       }
     }
   }
+  .hover\:bg-\[\#20b858\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #20b858;
+      }
+    }
+  }
   .hover\:bg-\[\#0077b5\] {
     &:hover {
       @media (hover: hover) {
@@ -1461,6 +1461,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-gray-100);
+      }
+    }
+  }
+  .hover\:bg-gray-800 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-800);
       }
     }
   }
@@ -1629,6 +1636,16 @@
       top: calc(var(--spacing) * 0);
     }
   }
+  .md\:order-1 {
+    @media (width >= 48rem) {
+      order: 1;
+    }
+  }
+  .md\:order-2 {
+    @media (width >= 48rem) {
+      order: 2;
+    }
+  }
   .md\:mx-0 {
     @media (width >= 48rem) {
       margin-inline: calc(var(--spacing) * 0);
@@ -1647,6 +1664,11 @@
   .md\:mr-4 {
     @media (width >= 48rem) {
       margin-right: calc(var(--spacing) * 4);
+    }
+  }
+  .md\:mb-0 {
+    @media (width >= 48rem) {
+      margin-bottom: calc(var(--spacing) * 0);
     }
   }
   .md\:ml-4 {
@@ -1925,6 +1947,11 @@
       justify-content: space-between;
     }
   }
+  .lg\:justify-end {
+    @media (width >= 64rem) {
+      justify-content: flex-end;
+    }
+  }
   .lg\:gap-4 {
     @media (width >= 64rem) {
       gap: calc(var(--spacing) * 4);
@@ -1954,6 +1981,11 @@
   .lg\:pr-6 {
     @media (width >= 64rem) {
       padding-right: calc(var(--spacing) * 6);
+    }
+  }
+  .lg\:text-right {
+    @media (width >= 64rem) {
+      text-align: right;
     }
   }
   .lg\:text-3xl {
@@ -1990,20 +2022,14 @@
   }
 }
 @font-face {
-  font-family: 'IranYekan';
-  src: url('../fonts/IRANYekanXVF.woff') format('woff-variations'),  url('../fonts/IRANYekanXVF.woff') format('woff');
-  font-weight: 100 1000;
-  font-display: fallback;
-  font-variation-settings: 'dots' 1;
-  -moz-font-feature-settings: "ss02";
-  -webkit-font-feature-settings: "ss02";
-  font-feature-settings: "ss02";
-  -moz-font-feature-settings: "ss03";
-  -webkit-font-feature-settings: "ss03";
-  font-feature-settings: "ss03";
+  font-family: "IranSansX";
+  src: url('../fonts/IranSansX/IranSansX-VF.woff2') format('woff2-variations'), url('../fonts/IranSansX/IranSansX-VF.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 body {
-  font-family: "IranYekan", sans-serif;
+  font-family: "IranSansX", sans-serif;
 }
 .heroImage {
   height: 142px !important;

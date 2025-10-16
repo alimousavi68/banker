@@ -8,6 +8,16 @@
   --color-border:#CCCCCC;
   --color-black:#202020;
 }
+
+@font-face {
+  font-family: "IranSansX";
+  src: url('../fonts/IranSansX/IranSansX-VF.woff2') format('woff2-variations'),
+       url('../fonts/IranSansX/IranSansX-VF.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap; 
+}
+
 /* @font-face {
   font-family: "IranYekan";
   src: url('../fonts/IRANYekanXVF.ttf') format("truetype");
@@ -22,12 +32,10 @@
   font-style: normal; 
 } */
 
-@font-face {
+/* @font-face {
     font-family: 'IranYekan';
     src: url('../fonts/IRANYekanXVF.woff') format('woff-variations'),
-    /* will be the standard and works in Safari now */
     url('../fonts/IRANYekanXVF.woff') format('woff');
-    /* for the other supporting browsers */
     font-weight: 100 1000;
     font-display: fallback;
     font-variation-settings: 'dots' 1;
@@ -37,7 +45,8 @@
      -moz-font-feature-settings: "ss03";
     -webkit-font-feature-settings: "ss03";
     font-feature-settings: "ss03";
-}
+} */
+
 /* @font-face {
   font-family: "IranYekanFarsiNumber";
   src: url('../fonts/IranSansX/Farsi\ numerals/IRANSansXFaNum-Medium.ttf') format("truetype");
@@ -45,7 +54,7 @@
   font-style: normal; 
 } */
 body {
-  font-family: "IranYekan", sans-serif;
+  font-family: "IranSansX", sans-serif;
 }
  .heroImage {
     height: 142px !important;

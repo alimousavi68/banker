@@ -233,7 +233,7 @@ $comments_count = get_comments_number();
 <style>
 /* استایل‌های اختصاصی سیستم کامنت */
 .banker-comments-section {
-    font-family: 'IranYekan', sans-serif;
+    font-family: 'IranSansX', sans-serif;
 }
 
 .comment-item {
