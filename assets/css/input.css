@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #004A8F;    
-  --color-secondary: #CD3737;  
-  --color-grayText: #858585;   
-  --color-lightBg: #F6F6F6;    
-  --color-border:#CCCCCC;
-  --color-black:#202020;
+  --color-primary: #004A8F;
+  --color-secondary: #CD3737;
+  --color-grayText: #858585;
+  --color-lightBg: #F6F6F6;
+  --color-border: #CCCCCC;
+  --color-black: #202020;
 }
 
 @font-face {
   font-family: "IranSansX";
   src: url('../fonts/IranSansX/IranSansX-VF.woff2') format('woff2-variations'),
-       url('../fonts/IranSansX/IranSansX-VF.woff2') format('woff2');
+    url('../fonts/IranSansX/IranSansX-VF.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
-  font-display: swap; 
+  font-display: swap;
 }
 
 /* @font-face {
@@ -53,57 +53,79 @@
   font-weight: 400; 
   font-style: normal; 
 } */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+
 body {
   font-family: "IranSansX", sans-serif;
 }
- .heroImage {
-    height: 142px !important;
-  }
+
+.heroImage {
+  height: 142px !important;
+}
+
 .custom-counter {
-  counter-reset: section; /* شمارنده اولیه */
-  list-style: none; /* حذف شماره پیش‌فرض */
+  counter-reset: section;
+  /* شمارنده اولیه */
+  list-style: none;
+  /* حذف شماره پیش‌فرض */
   padding: 0;
   display: flex;
   flex-direction: column;
-  
-  direction: rtl; /* متن راست‌به‌چپ */
+
+  direction: rtl;
+  /* متن راست‌به‌چپ */
 }
 
 .custom-counter li {
-  counter-increment: section; /* شمارنده برای هر آیتم */
+  counter-increment: section;
+  /* شمارنده برای هر آیتم */
   margin: 8px 0;
   position: relative;
   color: white;
   font-size: 14px;
   border-bottom: 1px solid #535353;
-    padding: 16px 40px 16px 0;
+  padding: 16px 40px 16px 0;
 
 }
 
 .custom-counter li::before {
 
-    padding: 16px 0;
+  padding: 16px 0;
 
-  content: counter(section, decimal-leading-zero); /* نمایش با صفر پیش‌فرض */
+  content: counter(section, decimal-leading-zero);
+  /* نمایش با صفر پیش‌فرض */
   position: absolute;
-  right: 0; /* شماره سمت راست */
+  right: 0;
+  /* شماره سمت راست */
   top: -4px;
   font-weight: 500;
   font-size: 20px;
   color: #FFFFFF;
 }
 
- @keyframes scroll {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-  }
-  .animate-scroll {
-    display: inline-flex;
-    animation: scroll 60s linear infinite;
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
   }
 
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  display: inline-flex;
+  animation: scroll 60s linear infinite;
+}
+
 /* Line Clamp Styles */
-.line-clamp-1 { 
+.line-clamp-1 {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -144,5 +166,3 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
- 
- 

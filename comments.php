@@ -37,52 +37,63 @@ $comments_count = get_comments_number();
     <div class="comment-form-section mb-8">
         <form action="<?php echo site_url('/wp-comments-post.php'); ?>" method="post" id="commentform" class="banker-comment-form">
             
-            <!-- طراحی دو ستونه -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- طراحی مطابق تصویر: دو سطر -->
+            <div class="space-y-4">
                 
-                <!-- ستون سمت راست: بخش دریافت دیدگاه -->
-                <div class="lg:col-span-2">
+                <?php if (!is_user_logged_in()): ?>
+                <!-- سطر اول: نام و ایمیل در کنار هم -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- فیلد نام -->
                     <div class="form-group">
-                        <textarea name="comment" 
-                                  id="comment" 
-                                  rows="8" 
-                                  placeholder="دیدگاه شما..." 
-                                  required
-                                  class="w-full px-4 py-3 border border-border bg-white text-black placeholder-grayText focus:outline-none focus:border-primary transition-colors duration-300 resize-vertical"></textarea>
+                        <input type="text" 
+                               name="author" 
+                               id="author" 
+                               tabindex="1"
+                               placeholder="نام *" 
+                               required
+                               class="w-full px-3 py-2.5 border border-border bg-white text-black placeholder-grayText focus:outline-none focus:border-primary transition-colors duration-300 rounded-sm">
+                    </div>
+                    
+                    <!-- فیلد ایمیل -->
+                    <div class="form-group">
+                        <input type="email" 
+                               name="email" 
+                               id="email" 
+                               tabindex="2"
+                               placeholder="ایمیل *" 
+                               required
+                               class="w-full px-3 py-2.5 border border-border bg-white text-black placeholder-grayText focus:outline-none focus:border-primary transition-colors duration-300 rounded-sm">
                     </div>
                 </div>
+                <?php endif; ?>
 
-                <!-- ستون سمت چپ: فیلدهای کاربر و دکمه ارسال -->
-                <div class="lg:col-span-1">
-                    <div class="space-y-4">
-                        <?php if (!is_user_logged_in()): ?>
-                        <!-- فیلد نام -->
+                <!-- سطر دوم: دیدگاه و دکمه ارسال با ارتفاع یکسان -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                    <!-- فیلد دیدگاه (3 ستون از 4) -->
+                    <div class="lg:col-span-3">
                         <div class="form-group">
-                            <input type="text" 
-                                   name="author" 
-                                   id="author" 
-                                   placeholder="نام شما *" 
-                                   required
-                                   class="w-full px-4 py-3 border border-border bg-white text-black placeholder-grayText focus:outline-none focus:border-primary transition-colors duration-300">
+                            <textarea name="comment" 
+                                      id="comment" 
+                                      rows="2"
+                                      tabindex="3"
+                                      placeholder="دیدگاه خود را در مورد این مطلب ثبت کنید" 
+                                      required
+                                      class="w-full h-[80px] px-3 py-2.5 border border-border bg-white text-black placeholder-grayText focus:outline-none focus:border-primary transition-colors duration-300 resize-none rounded-sm"></textarea>
                         </div>
-                        
-                        <!-- فیلد ایمیل -->
-                        <div class="form-group">
-                            <input type="email" 
-                                   name="email" 
-                                   id="email" 
-                                   placeholder="ایمیل شما *" 
-                                   required
-                                   class="w-full px-4 py-3 border border-border bg-white text-black placeholder-grayText focus:outline-none focus:border-primary transition-colors duration-300">
-                        </div>
-                        <?php endif; ?>
-                        
-                        <!-- دکمه ارسال با عرض کامل -->
-                        <div class="form-actions">
+                    </div>
+                    
+                    <!-- دکمه ارسال (1 ستون از 4) -->
+                    <div class="lg:col-span-1">
+                        <div class="form-actions h-full">
                             <button type="submit" 
                                     name="submit" 
-                                    class="w-full bg-primary text-white px-6 py-3 font-medium hover:bg-opacity-90 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50">
+                                    tabindex="4"
+                                    class="w-full font-size-[12px] h-[80px] bg-primary text-white px-4 py-2.5 font-normal hover:bg-primaryDark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 rounded-sm">
+                                    <svg class="w-4 h-4 inline-block ml-1 transform rotate-45" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                </svg>
                                 ارسال دیدگاه
+                                
                             </button>
                         </div>
                     </div>
