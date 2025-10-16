@@ -88,7 +88,7 @@ $comments_count = get_comments_number();
                             <button type="submit" 
                                     name="submit" 
                                     tabindex="4"
-                                    class="w-full font-size-[12px] h-[80px] bg-primary text-white px-4 py-2.5 font-normal hover:bg-primaryDark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 rounded-sm">
+                                    class="w-full text-[12px] h-[80px] bg-primary text-white px-4 py-2.5 font-normal hover:bg-[#0077b5] hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 rounded-sm">
                                     <svg class="w-4 h-4 inline-block ml-1 transform rotate-45" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                                 </svg>
