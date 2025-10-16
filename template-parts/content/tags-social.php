@@ -11,10 +11,10 @@ $post_excerpt = wp_trim_words(get_the_excerpt(), 20, '...');
 <!-- Tags and Social Section -->
 <div class="flex flex-row justify-between gap-3 border-t border-b border-border my-8 mb-8 py-3">
     
-
+<div class="flex flex-wrap gap-2"></div>
 <!-- Tags Section -->
     <?php if ($tags && !is_wp_error($tags)): ?>
-        <div class="flex flex-wrap gap-2">
+        
             <?php foreach ($tags as $tag): ?>
                 <a 
                     href="<?php echo get_tag_link($tag->term_id); ?>" 
@@ -23,8 +23,9 @@ $post_excerpt = wp_trim_words(get_the_excerpt(), 20, '...');
                     <span>#<?php echo esc_html($tag->name); ?></span>
                 </a>
             <?php endforeach; ?>
-        </div>
+        
     <?php endif; ?>
+    </div>
 
     <!-- Left Side - Copy Link Button and Social Icons -->
     <div class="flex items-center gap-3">
