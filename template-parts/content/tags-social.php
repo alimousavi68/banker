@@ -11,7 +11,7 @@ $post_excerpt = wp_trim_words(get_the_excerpt(), 20, '...');
 <!-- Tags and Social Section -->
 <div class="flex flex-row justify-between gap-3 border-t border-b border-border my-8 mb-8 py-3">
     
-<div class="flex flex-wrap gap-2"></div>
+<div class="flex flex-wrap gap-2">
 <!-- Tags Section -->
     <?php if ($tags && !is_wp_error($tags)): ?>
         
