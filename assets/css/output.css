@@ -455,23 +455,8 @@
   .h-\[10px\] {
     height: 10px;
   }
-  .h-\[60px\] {
-    height: 60px;
-  }
-  .h-\[63px\] {
-    height: 63px;
-  }
-  .h-\[66px\] {
-    height: 66px;
-  }
-  .h-\[67px\] {
-    height: 67px;
-  }
   .h-\[80px\] {
     height: 80px;
-  }
-  .h-\[100\%\] {
-    height: 100%;
   }
   .h-\[100px\] {
     height: 100px;
@@ -514,21 +499,6 @@
   }
   .min-h-\[48px\] {
     min-height: 48px;
-  }
-  .min-h-\[60px\] {
-    min-height: 60px;
-  }
-  .min-h-\[66px\] {
-    min-height: 66px;
-  }
-  .min-h-\[100px\] {
-    min-height: 100px;
-  }
-  .min-h-\[120px\] {
-    min-height: 120px;
-  }
-  .min-h-\[160px\] {
-    min-height: 160px;
   }
   .w-1 {
     width: calc(var(--spacing) * 1);
@@ -1829,11 +1799,6 @@
       grid-column: span 1 / span 1;
     }
   }
-  .lg\:col-span-2 {
-    @media (width >= 64rem) {
-      grid-column: span 2 / span 2;
-    }
-  }
   .lg\:col-span-3 {
     @media (width >= 64rem) {
       grid-column: span 3 / span 3;
@@ -1862,16 +1827,6 @@
   .lg\:w-4\/5 {
     @media (width >= 64rem) {
       width: calc(4/5 * 100%);
-    }
-  }
-  .lg\:w-80 {
-    @media (width >= 64rem) {
-      width: calc(var(--spacing) * 80);
-    }
-  }
-  .lg\:grid-cols-3 {
-    @media (width >= 64rem) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   .lg\:grid-cols-4 {
@@ -1936,10 +1891,15 @@
       gap: calc(var(--spacing) * 8);
     }
   }
+  .print\:hidden {
+    @media print {
+      display: none;
+    }
+  }
 }
 @font-face {
   font-family: "IranSansX";
-  src: url('../fonts/IranSansX/IranSansX-VF.woff2') format('woff2-variations'), url('../fonts/IranSansX/IranSansX-VF.woff2') format('woff2');
+  src: url('../fonts/IranSansX/Variable/webfont/IRANSansXV.woff2') format('woff2-variations'), url('../fonts/IranSansX/Variable/webfont/IRANSansXV.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -2030,6 +1990,107 @@ body {
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+@media print {
+  footer, .sidebar, nav:not(header nav), .navigation:not(header .navigation), .comments, .comment-form, .related-posts, .tags-social, .breadcrumb, .print-hide, [class*="sidebar"], [class*="widget"], [class*="social"]:not(header [class*="social"]), [class*="share"], [class*="comment"], [class*="related"], [class*="tag"], .price_ticker, .copy_bar, .footer {
+    display: none !important;
+  }
+  header {
+    display: block !important;
+    margin-bottom: 20pt !important;
+  }
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  @page {
+    margin: 1cm;
+    size: A4;
+  }
+  body {
+    font-size: 12pt !important;
+    line-height: 1.4 !important;
+    color: #000 !important;
+    background: #fff !important;
+  }
+  main {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  main .flex {
+    display: block !important;
+    width: 100% !important;
+  }
+  main .lg\:w-3\/4, main .w-full.lg\:w-3\/4 {
+    width: 100% !important;
+    max-width: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+  main .lg\:w-1\/4, main .w-full.lg\:w-1\/4 {
+    display: none !important;
+  }
+  .mb-8:nth-child(1),  .mb-8:nth-child(2) {
+    display: block !important;
+    margin-bottom: 20pt !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+  .mb-8:nth-child(n+3) {
+    display: none !important;
+  }
+  [data-template="intro"], [data-template="main-content"], .intro-section, .main-content-section {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-bottom: 20pt !important;
+  }
+  .tags-social, .related-posts, .comments-area, .comment-respond, .sidebar, .widget-area {
+    display: none !important;
+  }
+  h1 {
+    font-size: 18pt !important;
+    font-weight: bold !important;
+    margin-bottom: 12pt !important;
+    page-break-after: avoid !important;
+  }
+  h2 {
+    font-size: 16pt !important;
+    font-weight: bold !important;
+    margin-bottom: 10pt !important;
+    page-break-after: avoid !important;
+  }
+  h3 {
+    font-size: 14pt !important;
+    font-weight: bold !important;
+    margin-bottom: 8pt !important;
+    page-break-after: avoid !important;
+  }
+  p {
+    margin-bottom: 8pt !important;
+    orphans: 3 !important;
+    widows: 3 !important;
+  }
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid !important;
+  }
+  a {
+    color: #000 !important;
+    text-decoration: underline !important;
+  }
+  .border, .border-b, .border-e, .border-border {
+    border: none !important;
+  }
+  .gap-8, .gap-6, .gap-4 {
+    gap: 0 !important;
+  }
+  .flex-col, .lg\:flex-row {
+    display: block !important;
+  }
 }
 @property --tw-translate-x {
   syntax: "*";

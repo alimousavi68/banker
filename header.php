@@ -12,7 +12,7 @@
   <div>
     <!--START HEADER-->
     <header class=" bg-white">
-      <div class="max-w-[1400px] mx-auto px-4 sm:px-4 lg:px-6 border-b border-border py-1 flex gap-4  items-center justify-between">
+      <div class="max-w-[1400px] mx-auto px-4 sm:px-4 lg:px-6 border-b border-border py-1 flex gap-4  items-center justify-between print:hidden">
         <p class="text-[12px] text-grayText font-normal">
           <?php echo banker_get_persian_date(); ?>
         </p>
@@ -141,8 +141,8 @@
       <div id="overlay" class="fixed inset-0 bg-black/60 bg-opacity-10 hidden z-40"></div>
 
       <!--شروع نوار قیمت-->
-      <div class="bg-blue-900 text-white py-2 overflow-hidden">
-        <div id="ticker" class="flex items-center gap-12 text-[10px] whitespace-nowrap animate-scroll px-4">
+      <div class="price_ticker bg-blue-900 text-white py-2 overflow-hidden">
+        <div id="ticker" class="flex items-center gap-12 text-[12px] whitespace-nowrap animate-scroll px-4">
           
         </div>
       </div>

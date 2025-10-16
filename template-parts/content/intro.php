@@ -3,7 +3,7 @@
 $post_id = get_the_ID();
 $category = get_the_category($post_id);
 $primary_category = !empty($category) ? $category[0] : null;
-$post_date = get_the_date('Y/m/d');
+$post_date = get_the_date('Y/m/d H:i');
 $post_time = get_the_date('H:i');
 $short_url = home_url('?p=' . $post_id); // Short URL with post ID
 
@@ -47,7 +47,7 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
         <!-- Left Side: Date, Print, Share -->
         <div class="order-1 md:order-2 flex items-center gap-4">
             <!-- Publication Date -->
-            <div class="flex items-center gap-2 text-sm text-grayText">
+            <div class="flex flex-row items-center gap-2 text-sm text-grayText">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8 2V5M16 2V5M3.5 9.09H20.5M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -55,7 +55,7 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
             </div>
             
             <!-- Print Button -->
-            <button onclick="window.print()" class="p-2 text-grayText hover:text-secondary hover:bg-gray-100 transition-all duration-200 rounded-full" title="پرینت">
+            <button onclick="window.print()" class="p-2 text-grayText hover:text-secondary hover:bg-gray-100 transition-all duration-200 rounded-full print:hidden" title="پرینت">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 9V2H18V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M6 18H4C3.46957 18 2.96086 17.7893 2.58579 17.4142C2.21071 17.0391 2 16.5304 2 16V11C2 10.4696 2.21071 9.96086 2.58579 9.58579C2.96086 9.21071 3.46957 9 4 9H20C20.5304 9 21.0391 9.21071 21.4142 9.58579C21.7893 9.96086 22 10.4696 22 11V16C22 16.5304 21.7893 17.0391 21.4142 17.4142C21.0391 17.7893 20.5304 18 20 18H18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -64,7 +64,7 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
             </button>
             
             <!-- Share Button -->
-            <button onclick="copyToClipboard('<?php echo esc_js($short_url); ?>')" class="p-2 text-grayText hover:text-secondary hover:bg-gray-100 transition-all duration-200 rounded-full" title="اشتراک‌گذاری">
+            <button onclick="copyToClipboard('<?php echo esc_js($short_url); ?>')" class="p-2 text-grayText hover:text-secondary hover:bg-gray-100 transition-all duration-200 rounded-full print:hidden" title="اشتراک‌گذاری">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5C15 6.65685 16.3431 8 18 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M6 15C7.65685 15 9 13.6569 9 12C9 10.3431 7.65685 9 6 9C4.34315 9 3 10.3431 3 12C3 13.6569 4.34315 15 6 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
