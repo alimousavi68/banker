@@ -1896,6 +1896,36 @@
       display: none;
     }
   }
+  .print\:h-auto {
+    @media print {
+      height: auto;
+    }
+  }
+  .print\:max-h-\[500px\] {
+    @media print {
+      max-height: 500px;
+    }
+  }
+  .print\:justify-center {
+    @media print {
+      justify-content: center;
+    }
+  }
+  .print\:justify-end {
+    @media print {
+      justify-content: flex-end;
+    }
+  }
+  .print\:justify-start {
+    @media print {
+      justify-content: flex-start;
+    }
+  }
+  .print\:text-\[35px\] {
+    @media print {
+      font-size: 35px;
+    }
+  }
 }
 @font-face {
   font-family: "IranSansX";

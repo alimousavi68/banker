@@ -83,7 +83,7 @@
       </div>
       <!-- بالای هدر -->
 
-      <div class="max-w-[1400px] mx-auto px-4  py-2  sm:px-4 lg:px-6  flex gap-4  items-center justify-between ">
+      <div class="max-w-[1400px] mx-auto px-4  py-2  sm:px-4 lg:px-6  flex gap-4  items-center justify-between print:justify-center">
 
         <!-- سمت راست -->
         <div class="flex items-center gap-4">
@@ -106,7 +106,7 @@
           ?>
         </nav>
         
-        <div class="flex gap-4 items-center ">
+        <div class="flex gap-4 items-center print:hidden">
           <a href="<?php echo esc_url(home_url('/')); ?>?s=" class="cursor-pointer">
             <svg width="20" height="20" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M19.875 20.75L16.2293 16.9583M18.8333 10.4583C18.8333 15.544 14.8692 19.6667 9.97917 19.6667C5.08914 19.6667 1.125 15.544 1.125 10.4583C1.125 5.37271 5.08914 1.25 9.97917 1.25C14.8692 1.25 18.8333 5.37271 18.8333 10.4583Z" stroke="#858585" stroke-width="1.95833" stroke-linecap="round" stroke-linejoin="round" />

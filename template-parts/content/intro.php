@@ -45,10 +45,10 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
         </div>
         
         <!-- Left Side: Date, Print, Share -->
-        <div class="order-1 md:order-2 flex items-center gap-4">
+        <div class="order-1 md:order-2 flex items-center gap-4 print:justify-start">
             <!-- Publication Date -->
-            <div class="flex flex-row items-center gap-2 text-sm text-grayText">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="flex flex-row items-center gap-2 text-sm text-grayText print:justify-start">
+                <svg width="16" height="16" class="print:hidden" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8 2V5M16 2V5M3.5 9.09H20.5M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <span><?php echo $post_date; ?></span>
@@ -78,7 +78,7 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
     
     <!-- Post Intro Section -->
     <div class="mb-6">
-        <h1 class="text-2xl md:text-[25px] lg:text-[27px] font-bold line-clamp-4 text-black leading-relaxed mb-4">
+        <h1 class="text-2xl md:text-[25px] lg:text-[27px] font-bold line-clamp-4 text-black leading-relaxed mb-4 print:text-[35px]">
             <?php the_title(); ?>
         </h1>
         <div class="flex flex-col lg:flex-row gap-6">
@@ -101,7 +101,7 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
             <!-- right Column: Featured Image -->
             <div class="lg:w-1/2">
                 <?php if (has_post_thumbnail()): ?>
-                    <div class=" overflow-hidden shadow-md max-h-[265px]">
+                    <div class=" overflow-hidden shadow-md max-h-[265px] print:max-h-[500px]">
                         <?php the_post_thumbnail('large', array('class' => 'w-full h-auto object-cover')); ?>
                     </div>
                 <?php endif; ?>

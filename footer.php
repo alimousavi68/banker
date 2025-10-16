@@ -81,7 +81,7 @@
     </div>
 
     <!-- بخش دسته بندی -->
-    <div class="w-full md:w-2/3">
+    <div class="w-full md:w-2/3 print:hidden">
       <?php
       $footer_menu_settings = banker_get_footer_menu_settings();
       $menu_title = $footer_menu_settings['title'] ?: 'مروری بر دسته بندی اخبار';
