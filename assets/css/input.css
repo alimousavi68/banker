@@ -121,7 +121,7 @@ body {
 
 .animate-scroll {
   display: inline-flex;
-  animation: scroll 180s linear infinite;
+  animation: scroll 182s linear infinite;
 }
 
 /* Line Clamp Styles */
