@@ -175,6 +175,8 @@ function banker_manual_persian_date($format = 'l j F Y') {
 require_once get_template_directory() . '/inc/customizer/homepage-customizer.php';
 require_once get_template_directory() . '/inc/customizer/homepage-helpers.php';
 require_once get_template_directory() . '/inc/customizer/menu-content-customizer.php';
+require_once get_template_directory() . '/inc/customizer/post-settings-customizer.php';
+require_once get_template_directory() . '/inc/customizer/post-settings-helpers.php';
 
 /**
  * Include Meta Box Files
