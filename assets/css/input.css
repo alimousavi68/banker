@@ -98,14 +98,14 @@ body {
 
   padding: 16px 0;
 
-  content: counter(section, decimal-leading-zero);
+  content: counter(section, persian); 
   /* نمایش با صفر پیش‌فرض */
   position: absolute;
   right: 0;
   /* شماره سمت راست */
   top: -4px;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 22px;
   color: #FFFFFF;
 }
 
