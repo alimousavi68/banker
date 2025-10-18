@@ -7,7 +7,7 @@
       <?php
       $intro_settings = banker_get_intro_section_settings();
       ?>
-      <img src="<?php echo esc_url($intro_settings['logo']); ?>" class="w-[134px]  md:mx-0 mt-4 md:mt-8" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+      <img src="<?php echo esc_url($intro_settings['logo']); ?>" class="max-w-[250px]  md:mx-0 mt-4 md:mt-8" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
 
       <p class="font-normal text-[14px] text-grayText leading-6">
         <?php echo wp_kses_post($intro_settings['text']); ?>
