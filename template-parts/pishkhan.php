@@ -138,7 +138,7 @@ if ($latest_news_query->have_posts()) {
               <!-- خبر <?php echo ($i + 1); ?> -->
               <div class="flex items-start <?php echo ($i == ($pishkhan_settings['latest_posts_count'] - 1)) ? 'my-5' : 'my-3'; ?> relative">
                 <!-- دایره روی خط -->
-                <div class="w-[7px] h-[10px] bg-secondary absolute right-[2px] -translate-x-1/2 mt-1 transform rounded-full"></div>
+                <div class="w-[7px] h-[10px] bg-secondary absolute right-[5px] -translate-x-1/2 mt-1 transform rounded-full"></div>
 
                 <div class="mr-6 group">
                   <div class="flex items-center gap-1">
