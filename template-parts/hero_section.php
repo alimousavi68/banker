@@ -29,34 +29,8 @@ if ($featured_query->have_posts()) {
 <?php if (!empty($posts_array) && count($posts_array) > 0): ?>
   <!--START HERO SECTION-->
   <section class="h-fit max-w-[1400px] mx-auto px-4 border-b border-border pb-8 mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-    <!-- تصویر بزرگ -->
-    <div class="relative flex flex-col justify-end w-full h-[450px] sm:h-[450px] md:h-[450px] 
-    overflow-hidden group">
-      <a href="<?php echo esc_url($posts_array[0]['link']); ?>"> 
-        <!-- تصویر با افکت زوم -->
-        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-in-out group-hover:scale-105"
-          style="background-image: url('<?php echo esc_url($posts_array[0]['image']); ?>');"></div>
-        <!-- گرادیانت -->
-        <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent z-10"></div>
-
-        <!-- متن -->
-        <div class="relative z-20 w-full pb-3 px-3 flex flex-col gap-2 md:gap-4 transition-colors duration-500">
-          <p class="bg-white w-fit text-secondary text-[10px] py-1 px-2   transition-colors duration-500">
-            <!-- <?php //echo esc_html($posts_array[0]['category']); 
-                  ?> -->
-          </p>
-          <a href="<?php echo esc_url($posts_array[0]['link']); ?>" class="text-white font-semibold text-[22px] sm:text-[18px] md:text-[22px] leading-snug 
-        group-hover:text-secondary transition-colors duration-500">
-            <?php echo esc_html($posts_array[0]['title']); ?>
-          </a>
-        </div>
-      </a>
-    </div>
-
-
-
-    <!-- boxes -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4  md:border-r md:pr-4 border-border">
+    <!-- boxes - در موبایل اول نمایش داده می‌شود -->
+    <div class="order-2 md:order-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 md:border-r md:pr-4 border-border">
       <!--گرید دو باکس اول-->
       <div class="grid grid-cols-1 px-2 gap-4 md:border-l md:pl-4 border-border">
         <?php if (!empty($posts_array[1])): ?>
@@ -119,6 +93,29 @@ if ($featured_query->have_posts()) {
         <?php endif; ?>
       </div>
       <!--پایان گرید دو باکس دوم-->
+    </div>
+
+    <!-- تصویر بزرگ - در موبایل دوم نمایش داده می‌شود -->
+    <div class="order-1 md:order-1 relative flex flex-col justify-end w-full h-[300px] md:h-[450px] overflow-hidden group">
+      <a href="<?php echo esc_url($posts_array[0]['link']); ?>"> 
+        <!-- تصویر با افکت زوم -->
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-in-out group-hover:scale-105"
+          style="background-image: url('<?php echo esc_url($posts_array[0]['image']); ?>');"></div>
+        <!-- گرادیانت -->
+        <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent z-10"></div>
+
+        <!-- متن -->
+        <div class="relative z-20 w-full pb-3 px-3 flex flex-col gap-2 md:gap-4 transition-colors duration-500">
+          <p class="bg-white w-fit text-secondary text-[10px] py-1 px-2 transition-colors duration-500">
+            <!-- <?php //echo esc_html($posts_array[0]['category']); 
+                  ?> -->
+          </p>
+          <a href="<?php echo esc_url($posts_array[0]['link']); ?>" class="text-white font-semibold text-[18px] md:text-[22px] leading-snug 
+        group-hover:text-secondary transition-colors duration-500">
+            <?php echo esc_html($posts_array[0]['title']); ?>
+          </a>
+        </div>
+      </a>
     </div>
   </section>
 <?php endif; ?>

@@ -78,10 +78,10 @@ if ($latest_news_query->have_posts()) {
           <?php for ($i = 0; $i < $pishkhan_settings['main_posts_count'] && $i < count($pishkhan_posts); $i++): ?>
             <a href="<?php echo esc_url($pishkhan_posts[$i]['link']); ?>" class="group block">
               <div class="flex gap-4 py-4 <?php echo ($i < ($pishkhan_settings['main_posts_count'] - 1)) ? 'border-b border-border' : ''; ?> items-start md:items-center">
-                <div class="w-1/3 overflow-hidden md:w-1/4">
-                  <img src="<?php echo esc_url($pishkhan_posts[$i]['image']); ?>" alt="<?php echo esc_attr($pishkhan_posts[$i]['title']); ?>" class="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-80">
+                <div class="w-1/3 md:w-1/4 overflow-hidden">
+                  <img src="<?php echo esc_url($pishkhan_posts[$i]['image']); ?>" alt="<?php echo esc_attr($pishkhan_posts[$i]['title']); ?>" class="w-full h-[80px] md:h-[100px] object-cover transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-80">
                 </div>
-                <div class="flex w-2/3 md:w-3/4 flex-col gap-3">
+                <div class="flex w-2/3 md:w-3/4 flex-col gap-2 md:gap-3">
                   <p class="bg-lightBg text-secondary text-[10px] py-[2px] px-2 w-fit">
                     <?php echo wp_kses_post($pishkhan_posts[$i]['category']); ?>
                   </p>
@@ -168,13 +168,13 @@ if ($latest_news_query->have_posts()) {
           </div>
         </div>
         <!--پایان بخش اخرین اخبار -->
-        <div class="w-full md:w-1/3 md:pr-4 mt-4 md:mt-0  md:border-r border-border flex flex-col gap-6 md:sticky md:top-0 md:self-start">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif1.gif" class="w-full md:h-[80px]" alt="">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif2.gif" alt="" class="w-full md:h-[80px]">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif3.gif" alt="" class="w-full md:h-[80px]">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif4.gif" alt="" class="w-full md:h-[80px]">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif3.gif" alt="" class="w-full md:h-[80px]">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif1.gif" alt="" class="w-full md:h-[80px]">
+        <div class="w-full md:w-1/3 md:pr-4 mt-4 md:mt-0 md:border-r border-border flex flex-col gap-4 md:gap-6 md:sticky md:top-0 md:self-start">
+          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif1.gif" class="w-full h-[120px] md:h-[80px] object-cover" alt="">
+          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif2.gif" alt="" class="w-full h-[120px] md:h-[80px] object-cover">
+          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif3.gif" alt="" class="w-full h-[120px] md:h-[80px] object-cover">
+          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif4.gif" alt="" class="w-full h-[120px] md:h-[80px] object-cover">
+          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif3.gif" alt="" class="w-full h-[120px] md:h-[80px] object-cover">
+          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif1.gif" alt="" class="w-full h-[120px] md:h-[80px] object-cover">
         </div>
       </div>
     <?php endif; ?>

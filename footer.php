@@ -1,6 +1,6 @@
 <!--شروع فوتر-->
 <footer class="footer flex flex-col md:flex-row mt-8 bg-lightBg print:hidden">
-  <div class="container  flex flex-col md:flex-row gap-6 m-auto py-6 print:hidden">
+  <div class="container flex flex-col md:flex-row gap-6 m-auto py-6 px-4 md:px-6 print:hidden">
 
     <!-- بخش لوگو و توضیحات -->
     <div class="w-full md:w-1/3 md:pl-4 border-b pb-4 md:border-none md:border-l border-border flex flex-col gap-4  md:text-right">
@@ -120,15 +120,15 @@
 
 </footer>
 <div class="copy_bar bg-primary container-fluid py-4">
-  <div class="container w-full flex justify-between items-center mx-auto px-4">
-    <span class="text-white text-[12px]">
+  <div class="container w-full flex flex-col md:flex-row md:justify-between md:items-center gap-2 md:gap-0 mx-auto px-4">
+    <span class="text-white text-[12px] text-center md:text-right">
       <?php
       $copyright_text = banker_get_copyright_text();
       echo esc_html($copyright_text ?: 'نقل و نشر مطالب با ذکر نام بنکر به مطالب بلامانع است.');
       ?>
     </span>
 
-    <span>
+    <span class="text-center md:text-left">
       <a href="https://www.ihasht.ir/" target="_blank" class="text-white text-[13px] hover:text-[#004A8F] transition-colors duration-300">طراحی: هشت بهشت</a>
     </span>
   </div>

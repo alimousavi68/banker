@@ -81,11 +81,22 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
         <h1 class="text-2xl md:text-[25px] lg:text-[27px] font-bold line-clamp-4 text-black leading-relaxed mb-4 print:text-[35px]">
             <?php the_title(); ?>
         </h1>
-        <div class="flex flex-col lg:flex-row gap-6">
+        <div class="flex flex-col  gap-6">
             
 
+            
+
+            <!-- right Column: Featured Image -->
+            <div class="w-full">
+                <?php if (has_post_thumbnail()): ?>
+                    <div class=" overflow-hidden shadow-md h-auto print:max-h-[500px]">
+                        <?php the_post_thumbnail('large', array('class' => 'w-full h-auto object-cover')); ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
             <!-- left Column: Content -->
-            <div class="lg:w-1/2 flex flex-col lg:flex-col gap-4 ">
+            <div class="w-full flex flex-col lg:flex-col gap-4 ">
                 <!-- Title: full width -->
                 <div class="w-full flex flex-col lg:flex-row gap-4 justify-between">
                 </div>
@@ -94,15 +105,6 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
                 <?php if (has_excerpt()): ?>
                     <div class="w-full text-grayText line-clamp-2 leading-relaxed">
                         <?php the_excerpt(); ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-
-            <!-- right Column: Featured Image -->
-            <div class="lg:w-1/2">
-                <?php if (has_post_thumbnail()): ?>
-                    <div class=" overflow-hidden shadow-md max-h-[265px] print:max-h-[500px]">
-                        <?php the_post_thumbnail('large', array('class' => 'w-full h-auto object-cover')); ?>
                     </div>
                 <?php endif; ?>
             </div>
