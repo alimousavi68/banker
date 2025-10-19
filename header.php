@@ -14,7 +14,13 @@
     <header class=" bg-white">
       <div class="max-w-[1400px] mx-auto px-4 sm:px-4 lg:px-6 border-b border-border py-1 flex gap-4  items-center justify-between print:hidden">
         <p class="text-[12px] text-grayText font-normal">
-          <?php echo banker_get_persian_date(); ?>
+          <?php
+          if (function_exists('jdate')) {
+              echo jdate('l j F Y');
+          } else {
+              echo date_i18n('l j F Y');
+          }
+          ?>
         </p>
 
         <div class="flex gap-2">
