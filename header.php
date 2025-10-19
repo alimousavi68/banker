@@ -95,7 +95,7 @@
         <div class="flex items-center gap-4">
           <!-- لوگو -->
           <a href="<?php echo esc_url(home_url('/')); ?>" class="flex items-center gap-2">
-            <img src="<?php echo banker_get_logo_url(); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>" class="max-w-[190px] w-full h-[auto] py-2">
+            <img src="<?php echo banker_get_logo_url(); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>" class="logo max-w-[190px] w-full h-[auto] py-2 print:max-w-[190px]">
           </a>
         </div>
 
