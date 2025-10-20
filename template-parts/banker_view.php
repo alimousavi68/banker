@@ -135,9 +135,7 @@ if ($news_query->have_posts()) {
 
                 <!-- متن -->
                 <div class="flex w-2/3 flex-col gap-3">
-                  <p class="bg-lightBg text-secondary text-[10px] py-[2px] px-2 w-fit">
-                    <?php echo esc_html($banker_main_posts[1]['category']); ?>
-                  </p>
+
                   <p class="font-semibold text-white text-[14px] transition-colors duration-300 group-hover:text-secondary">
                     <?php echo esc_html($banker_main_posts[1]['title']); ?>
                   </p>
@@ -158,9 +156,7 @@ if ($news_query->have_posts()) {
 
                 <!-- متن -->
                 <div class="flex w-2/3 flex-col gap-3">
-                  <p class="bg-lightBg text-secondary text-[10px] py-[2px] px-2 w-fit">
-                    <?php echo esc_html($banker_main_posts[2]['category']); ?>
-                  </p>
+                 
                   <p class="font-semibold text-white text-[14px] transition-colors duration-300 group-hover:text-secondary">
                     <?php echo esc_html($banker_main_posts[2]['title']); ?>
                   </p>
@@ -180,9 +176,7 @@ if ($news_query->have_posts()) {
 
                 <!-- متن -->
                 <div class="flex w-2/3 flex-col gap-3">
-                  <p class="bg-lightBg text-secondary text-[10px] py-[2px] px-2 w-fit">
-                    <?php echo esc_html($banker_main_posts[3]['category']); ?>
-                  </p>
+                
                   <p class="font-semibold text-white text-[14px] transition-colors duration-300 group-hover:text-secondary">
                     <?php echo esc_html($banker_main_posts[3]['title']); ?>
                   </p>
@@ -202,9 +196,7 @@ if ($news_query->have_posts()) {
 
                 <!-- متن -->
                 <div class="flex w-2/3 flex-col gap-3">
-                  <p class="bg-lightBg text-secondary text-[10px] py-[2px] px-2 w-fit">
-                    <?php echo esc_html($banker_main_posts[4]['category']); ?>
-                  </p>
+                 
                   <p class="font-semibold text-white text-[14px] transition-colors duration-300 group-hover:text-secondary">
                     <?php echo esc_html($banker_main_posts[4]['title']); ?>
                   </p>

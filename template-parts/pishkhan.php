@@ -82,9 +82,7 @@ if ($latest_news_query->have_posts()) {
                   <img src="<?php echo esc_url($pishkhan_posts[$i]['image']); ?>" alt="<?php echo esc_attr($pishkhan_posts[$i]['title']); ?>" class="w-full h-[80px] md:h-[100px] object-cover transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-80">
                 </div>
                 <div class="flex w-2/3 md:w-3/4 flex-col gap-2 md:gap-3">
-                  <p class="bg-lightBg text-secondary text-[10px] py-[2px] px-2 w-fit">
-                    <?php echo wp_kses_post($pishkhan_posts[$i]['category']); ?>
-                  </p>
+                
                   <p class="font-semibold text-black text-[16px] md:text-[18px] transition-colors duration-300 ease-in-out group-hover:text-secondary">
                     <?php echo esc_html($pishkhan_posts[$i]['title']); ?>
                   </p>
