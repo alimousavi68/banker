@@ -23,9 +23,9 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
 <div class=" border-b border-border pb-4">
 
     <!-- Post Meta Section -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 pb-4 border-b border-gray-200">
+    <div class="flex flex-row justify-between items-start md:items-center mb-4 pb-4 border-b border-gray-200">
         <!-- Right Side: Breadcrumb -->
-        <div class="order-2 md:order-1 mb-3 md:mb-0">
+        <div class=" md:order-1 mt-2 md:mb-2">
             <nav class="text-sm text-grayText">
                 <a href="<?php echo home_url(); ?>" class="hover:text-secondary transition-colors">خانه</a>
                 <?php
@@ -45,7 +45,7 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
         </div>
 
         <!-- Left Side: Date, Print, Share -->
-        <div class="order-1 md:order-2 flex items-center gap-4 print:justify-start">
+        <div class=" md:order-2 flex items-center gap-4 print:justify-start">
             <!-- Publication Date -->
             <div class="flex flex-row items-center gap-2 text-sm text-grayText print:justify-start">
                 <svg width="16" height="16" class="print:hidden" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
