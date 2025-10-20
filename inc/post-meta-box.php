@@ -48,6 +48,10 @@ class Banker_Post_Meta_Box {
         $note_author = get_post_meta($post->ID, '_banker_note_author', true);
         $note_author_image = get_post_meta($post->ID, '_banker_note_author_image', true);
         
+        // مقادیر فعلی فیلدهای منبع (اختیاری)
+        $source_name = get_post_meta($post->ID, '_banker_source_name', true);
+        $source_link = get_post_meta($post->ID, '_banker_source_link', true);
+        
         // Set default values
         if (empty($post_type)) {
             $post_type = 'simple';
@@ -137,6 +141,25 @@ class Banker_Post_Meta_Box {
                 
             </div>
             
+            <!-- اطلاعات منبع (اختیاری) -->
+            <div class="banker-field-group" style="margin-bottom: 20px;">
+                <label for="banker_source_name" style="display: block; font-weight: 600; margin-bottom: 8px; color: #1d2327;">
+                    نام منبع (اختیاری):
+                </label>
+                <input type="text" name="banker_source_name" id="banker_source_name" value="<?php echo esc_attr($source_name); ?>" 
+                       style="width: 100%; padding: 8px; border: 1px solid #8c8f94; border-radius: 4px;" 
+                       >
+            </div>
+            
+            <div class="banker-field-group" style="margin-bottom: 20px;">
+                <label for="banker_source_link" style="display: block; font-weight: 600; margin-bottom: 8px; color: #1d2327;">
+                    لینک منبع (اختیاری):
+                </label>
+                <input type="url" name="banker_source_link" id="banker_source_link" value="<?php echo esc_attr($source_link); ?>" 
+                       style="width: 100%; padding: 8px; border: 1px solid #8c8f94; border-radius: 4px;" 
+                       >
+            </div>
+            
         </div>
         
         <style>
@@ -145,6 +168,7 @@ class Banker_Post_Meta_Box {
             }
             
             .banker-meta-box input[type="text"],
+            .banker-meta-box input[type="url"],
             .banker-meta-box select {
                 font-size: 13px;
             }
@@ -210,6 +234,24 @@ class Banker_Post_Meta_Box {
                 // Remove note-specific fields if post type is not 'note'
                 delete_post_meta($post_id, '_banker_note_author');
                 delete_post_meta($post_id, '_banker_note_author_image');
+            }
+        }
+        
+        // Save source fields (optional)
+        if (isset($_POST['banker_source_name'])) {
+            $source_name = sanitize_text_field($_POST['banker_source_name']);
+            if ($source_name !== '') {
+                update_post_meta($post_id, '_banker_source_name', $source_name);
+            } else {
+                delete_post_meta($post_id, '_banker_source_name');
+            }
+        }
+        if (isset($_POST['banker_source_link'])) {
+            $source_link = esc_url_raw($_POST['banker_source_link']);
+            if ($source_link !== '') {
+                update_post_meta($post_id, '_banker_source_link', $source_link);
+            } else {
+                delete_post_meta($post_id, '_banker_source_link');
             }
         }
     }

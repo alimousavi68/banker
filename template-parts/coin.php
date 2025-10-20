@@ -44,7 +44,7 @@ if ($crypto_query->have_posts()) {
         <?php echo esc_html($crypto_settings['title']); ?>
       </h4>
       <div class="flex items-center gap-2">
-        <a href="#" class="text-[12px] text-secondary  font-medium">
+        <a href="<?php echo esc_url(get_category_link($crypto_settings['category'])); ?>" class="text-[12px] text-secondary  font-medium">
           مشاهده بیشتر
         </a>
         <span>
@@ -254,7 +254,7 @@ if ($crypto_query->have_posts()) {
         <?php echo esc_html($crypto_settings['gold_title']); ?>
       </h4>
       <div class="flex items-center gap-2">
-        <a href="#" class="text-[12px] text-secondary  font-medium">
+        <a href="<?php echo esc_url(get_category_link($crypto_settings['gold_category'])); ?>" class="text-[12px] text-secondary  font-medium">
           مشاهده بیشتر
         </a>
         <span>

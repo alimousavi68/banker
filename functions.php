@@ -50,6 +50,17 @@ function banker_register_sidebars() {
         'before_title'  => '<h3 class="widget-title text-lg font-bold text-black mb-4 flex items-center gap-2"><div class="w-1 h-5 bg-secondary rounded"></div>',
         'after_title'   => '</h3><div class="space-y-[2px] mb-4"><div class="border-t-2 border-dotted border-border"></div><div class="border-t-2 border-dotted border-border"></div><div class="border-t-2 border-dotted border-border"></div></div>',
     ));
+
+    // سایدبار جدید برای ناحیه پیشخوان
+    register_sidebar(array(
+        'name'          => __('سایدبار پیشخوان', 'banker'),
+        'id'            => 'pishkhan-sidebar',
+        'description'   => __('سایدبار ناحیه پیشخوان برای نمایش ویجت‌ها در قسمت راست تایم‌لاین.', 'banker'),
+        'before_widget' => '<div id="%1$s" class="widget w-full %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title text-base font-bold text-black mb-2">',
+        'after_title'   => '</h3>',
+    ));
 }
 add_action('widgets_init', 'banker_register_sidebars');
 

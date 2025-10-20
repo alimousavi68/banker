@@ -37,7 +37,7 @@ if ($banking_query->have_posts()) {
         <?php echo esc_html($banking_settings['title']); ?>
       </h4>
       <div class="flex items-center gap-2">
-        <a href="#" class="text-[12px] text-secondary  font-medium">
+        <a href="<?php echo esc_url(get_category_link($banking_settings['category'])); ?>" class="text-[12px] text-secondary  font-medium">
           مشاهده بیشتر
         </a>
         <span>

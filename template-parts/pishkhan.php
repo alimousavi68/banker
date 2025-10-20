@@ -169,12 +169,9 @@ if ($latest_news_query->have_posts()) {
         </div>
         <!--پایان بخش اخرین اخبار -->
         <div class="w-full md:w-1/3 md:pr-4 mt-4 md:mt-0 md:border-r border-border flex flex-col gap-4 md:gap-6 md:sticky md:top-0 md:self-start">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif1.gif" class="w-full h-[120px] md:h-[80px] object-cover" alt="">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif2.gif" alt="" class="w-full h-[120px] md:h-[80px] object-cover">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif3.gif" alt="" class="w-full h-[120px] md:h-[80px] object-cover">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif4.gif" alt="" class="w-full h-[120px] md:h-[80px] object-cover">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif3.gif" alt="" class="w-full h-[120px] md:h-[80px] object-cover">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/gifs/gif1.gif" alt="" class="w-full h-[120px] md:h-[80px] object-cover">
+          <?php if (is_active_sidebar('pishkhan-sidebar')) :
+            dynamic_sidebar('pishkhan-sidebar');
+          endif; ?>
         </div>
       </div>
     <?php endif; ?>

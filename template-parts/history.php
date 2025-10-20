@@ -27,7 +27,7 @@ $notes_posts = new WP_Query(array(
         <?php echo esc_html($history_settings['main_title']); ?>
       </h4>
       <div class="flex items-center gap-2">
-        <a href="#" class="text-[12px] text-secondary  font-medium">
+        <a href="<?php echo esc_url(get_category_link($history_settings['main_category'])); ?>" class="text-[12px] text-secondary  font-medium">
           مشاهده بیشتر
         </a>
         <span>

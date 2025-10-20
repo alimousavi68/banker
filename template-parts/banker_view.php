@@ -66,7 +66,7 @@ if ($news_query->have_posts()) {
             <?php echo esc_html($banker_view_settings['main_title']); ?>
           </h4>
           <div class="flex items-center gap-2">
-            <a href="#" class="text-[12px] text-white  font-medium">
+            <a href="<?php echo esc_url(get_category_link($banker_view_settings['main_category'])); ?>" class="text-[12px] text-white  font-medium">
               مشاهده بیشتر
             </a>
             <span>
@@ -228,7 +228,7 @@ if ($news_query->have_posts()) {
           دیگه چه خبر
         </h4>
         <div class="flex items-center gap-2 text-white">
-          <a href="#" class="text-[12px] text-white font-medium">
+          <a href="<?php echo esc_url(get_category_link($banker_view_settings['news_category'])); ?>" class="text-[12px] text-white font-medium">
             مشاهده بیشتر
           </a>
           <span>

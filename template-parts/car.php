@@ -30,7 +30,6 @@ if ($car_query->have_posts()) {
 $economy_query = new WP_Query(array(
     'cat' => $car_settings['economy_category'],
     'posts_per_page' => $car_settings['economy_posts_count'],
-    'offset' => 2,
     'post_status' => 'publish'
 ));
 
@@ -61,7 +60,7 @@ if ($economy_query->have_posts()) {
         <?php echo esc_html($car_settings['car_title']); ?>
       </h4>
       <div class="flex items-center gap-2">
-        <a href="#" class="text-[12px] text-secondary font-medium">
+        <a href="<?php echo esc_url(get_category_link($car_settings['car_category'])); ?>" class="text-[12px] text-secondary font-medium">
           مشاهده بیشتر
         </a>
         <span>
@@ -180,7 +179,8 @@ if ($economy_query->have_posts()) {
         <?php echo esc_html($car_settings['economy_title']); ?>
       </h4>
       <div class="flex items-center gap-2">
-        <a href="#" class="text-[12px] text-secondary font-medium">
+        <a href="<?php echo esc_url(get_category_link($car_settings['economy_category'])); ?>" class="text-[12px] text-secondary font-medium">
+
           مشاهده بیشتر
         </a>
         <span>

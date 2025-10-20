@@ -10,13 +10,24 @@ $content = get_the_content();
     <!-- Main Content -->
     <div class="prose prose-lg max-w-none">
         <div class="text-black leading-relaxed space-y-4">
-            
-          
+
+
 
             <?php
             // Apply content filters and display
             echo apply_filters('the_content', $content);
+
+
+            // add source 
+            // مقادیر فعلی فیلدهای منبع (اختیاری)
+            $source_name = get_post_meta($post->ID, '_banker_source_name', true);
+            $source_link = get_post_meta($post->ID, '_banker_source_link', true);
+            if (!empty($source_name) || !empty($source_link)) {
+                echo '<p class="text-sm text-gray-500">منبع: <a href="' . esc_url($source_link) . '" target="_blank">' . esc_html($source_name) . '</a></p>';
+            }
             ?>
+
+
         </div>
     </div>
 
