@@ -9,6 +9,8 @@ $featured_query = new WP_Query(array(
   'post_status' => 'publish'
 ));
 
+
+
 // Prepare posts array
 $posts_array = array();
 
@@ -16,14 +18,16 @@ if ($featured_query->have_posts()) {
   while ($featured_query->have_posts()) {
     $featured_query->the_post();
     $posts_array[] = array(
+      'id' => get_the_ID(),
       'title' => get_the_title(),
       'link' => get_permalink(),
       'image' => get_the_post_thumbnail_url(get_the_ID(), 'large') ?: get_template_directory_uri() . '/assets/images/default-image.jpg',
-      'category' => get_the_category_list(', ')
+      'category' => get_the_category()[0]->name,
     );
   }
   wp_reset_postdata();
 }
+
 ?>
 
 <?php if (!empty($posts_array) && count($posts_array) > 0): ?>
@@ -40,7 +44,7 @@ if ($featured_query->have_posts()) {
             </div>
             <p class="flex items-start gap-2 pr-2">
               <span class="w-[7px] h-[10px] bg-secondary mt-2 rounded-full  inline-block"></span>
-              <span class="text-md w-11/12  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium line-clamp-2 min-h-[48px]"> 
+              <span class="text-md w-11/12  transition-color duration-300 ease-in-out group-hover:text-secondary  font-medium line-clamp-2 min-h-[48px]">
                 <?php echo esc_html($posts_array[1]['title']); ?>
               </span>
             </p>
@@ -97,7 +101,7 @@ if ($featured_query->have_posts()) {
 
     <!-- تصویر بزرگ - در موبایل دوم نمایش داده می‌شود -->
     <div class="order-1 md:order-1 relative flex flex-col justify-end w-full h-[300px] md:h-[450px] overflow-hidden group">
-      <a href="<?php echo esc_url($posts_array[0]['link']); ?>"> 
+      <a href="<?php echo esc_url($posts_array[0]['link']); ?>">
         <!-- تصویر با افکت زوم -->
         <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-in-out group-hover:scale-105"
           style="background-image: url('<?php echo esc_url($posts_array[0]['image']); ?>');"></div>
@@ -107,8 +111,13 @@ if ($featured_query->have_posts()) {
         <!-- متن -->
         <div class="relative z-20 w-full pb-3 px-3 flex flex-col gap-2 md:gap-4 transition-colors duration-500">
           <p class="bg-white w-fit text-secondary text-[10px] py-1 px-2 transition-colors duration-500">
-            <!-- <?php //echo esc_html($posts_array[0]['category']); 
-                  ?> -->
+            <?php
+            if ($main_cat = get_post_meta($posts_array[0]['id'], '_banker_main_category', true)) {
+              echo esc_html(get_category($main_cat)->name);
+            } else {
+              echo esc_html($posts_array[0]['category']);
+            }
+            ?>
           </p>
           <a href="<?php echo esc_url($posts_array[0]['link']); ?>" class="text-white font-semibold text-[18px] md:text-[22px] leading-snug 
         group-hover:text-secondary transition-colors duration-500">

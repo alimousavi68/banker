@@ -105,15 +105,10 @@ if ($banking_query->have_posts()) {
 
             <!-- متن -->
             <div class="flex w-3/4 md:w-3/4 flex-col gap-3">
-              <?php if ($banking_settings['show_category']): ?>
-                <p class="bg-lightBg text-secondary text-[10px] py-[2px] px-2 w-fit">
-                  <?php echo esc_html($banking_posts[$i]['category']); ?>
-                </p>
-              <?php endif; ?>
-              <p class="font-semibold text-black text-[14px] transition-colors duration-300 group-hover:text-secondary">
+              <p class="font-semibold text-black text-[16px] transition-colors duration-300 group-hover:text-secondary">
                 <?php echo esc_html($banking_posts[$i]['title']); ?>
               </p>
-              <p class="text-[14px] limit-words-10 text-justify text-grayText">
+              <p class="text-[14px]  line-clamp-2 text-justify text-grayText">
                 <?php echo esc_html($banking_posts[$i]['excerpt']); ?>
               </p>
             </div>

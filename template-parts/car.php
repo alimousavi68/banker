@@ -207,12 +207,11 @@ if ($economy_query->have_posts()) {
 
       <!-- متن -->
       <div class="relative z-10 w-full pb-3 px-3 flex flex-col gap-2 md:gap-4 text-white">
-        <p class="bg-white w-fit text-secondary text-[10px] py-1 px-2">
-          <?php echo esc_html($economy_posts[0]['category']); ?>
-        </p>
-        <h4 class="text-lightBg font-semibold text-[22px] sm:text-[18px] md:text-[22px] leading-snug">
+        
+        <h4 class="text-lightBg font-bold text-[20px] sm:text-[18px] md:text-[22px] leading-snug">
           <?php echo esc_html($economy_posts[0]['title']); ?>
         </h4>
+        
       </div>
 
     </a>
@@ -220,7 +219,7 @@ if ($economy_query->have_posts()) {
     <div class="w-full mt-4 m-auto bg-border h-[1px]">
     </div>
     <?php if (isset($economy_posts[1])): ?>
-    <a href="<?php echo esc_url($economy_posts[1]['link']); ?>" class="flex gap-4 py-4 border-b group border-border items-center cursor-pointer transition duration-300 no-underline">
+    <a href="<?php echo esc_url($economy_posts[1]['link']); ?>" class="flex gap-4 py-4 border-b group border-border cursor-pointer transition duration-300 no-underline">
       <!-- تصویر -->
       <div class="overflow-hidden">
         <img src="<?php echo esc_url($economy_posts[1]['image'] ?: get_template_directory_uri() . '/assets/images/bekrSection3.jpg'); ?>"
@@ -230,18 +229,33 @@ if ($economy_query->have_posts()) {
 
       <!-- متن -->
       <div class="flex flex-col gap-3">
-        <p class="bg-lightBg text-secondary text-[10px] py-[2px] px-2 w-fit">
-          <?php echo esc_html($economy_posts[1]['category']); ?>
-        </p>
-        <h6 class="font-semibold text-black text-[14px] transition-colors duration-300 group-hover:text-secondary">
+        <h6 class="font-semibold text-black text-[15px] transition-colors duration-300 group-hover:text-secondary">
           <?php echo esc_html($economy_posts[1]['title']); ?>
         </h6>
+          <!-- زمان -->
+        <div class="flex justify-end gap-1 items-center">
+          <span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_51_1872)">
+                <path d="M6 3V6L8 7M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z"
+                  stroke="#858585" stroke-linecap="round" stroke-linejoin="round" />
+              </g>
+              <defs>
+                <clipPath id="clip0_51_1872">
+                  <rect width="12" height="12" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </span>
+          <p class="text-[10px] pt-[3px] text-grayText"><?php echo esc_html($economy_posts[0]['time_diff']); ?></p>
+        </div>
+
       </div>
     </a>
     <?php endif; ?>
     
     <?php if (isset($economy_posts[2])): ?>
-    <a href="<?php echo esc_url($economy_posts[2]['link']); ?>" class="flex gap-4 py-4 group  items-center cursor-pointer transition duration-300 no-underline">
+    <a href="<?php echo esc_url($economy_posts[2]['link']); ?>" class="flex gap-4 py-4 group  items-start cursor-pointer transition duration-300 no-underline">
       <!-- تصویر -->
       <div class="overflow-hidden">
         <img src="<?php echo esc_url($economy_posts[2]['image'] ?: get_template_directory_uri() . '/assets/images/bekrSection3.jpg'); ?>"
@@ -251,12 +265,26 @@ if ($economy_query->have_posts()) {
 
       <!-- متن -->
       <div class="flex flex-col gap-3">
-        <p class="bg-lightBg text-secondary text-[10px] py-[2px] px-2 w-fit">
-          <?php echo esc_html($economy_posts[2]['category']); ?>
-        </p>
-        <h6 class="font-semibold text-black text-[14px] transition-colors duration-300 group-hover:text-secondary">
+        <h6 class="font-semibold text-black text-[15px] transition-colors duration-300 group-hover:text-secondary">
           <?php echo esc_html($economy_posts[2]['title']); ?>
         </h6>
+        <!-- زمان -->
+        <div class="flex justify-end gap-1 items-center">
+          <span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_51_1872)">
+                <path d="M6 3V6L8 7M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z"
+                  stroke="#858585" stroke-linecap="round" stroke-linejoin="round" />
+              </g>
+              <defs>
+                <clipPath id="clip0_51_1872">
+                  <rect width="12" height="12" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </span>
+          <p class="text-[10px] pt-[3px] text-grayText"><?php echo esc_html($economy_posts[0]['time_diff']); ?></p>
+        </div>
       </div>
     </a>
     <?php endif; ?>
