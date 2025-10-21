@@ -2,6 +2,7 @@ class PriceTicker {
     constructor() {
         this.apiToken = 'bo2fmBJhQlBEww7XaJ1EKaqeijnKpbM53R4Xl_Ufd_c=';
         this.baseUrl = 'https://api.nerkh.io/v1/prices';
+        this.localJsonUrl = (window.bankerTicker && window.bankerTicker.jsonUrl) || '/wp-content/uploads/ticker/price-ticker.json';
         this.tickerElement = document.getElementById('ticker');
         this.previousPrices = {}; // Store previous prices for trend calculation
         this.retryCount = 0; // Track retry attempts
@@ -22,7 +23,7 @@ class PriceTicker {
 
     async init() {
         try {
-            // Fetch all price data using optimized single request
+            // Fetch all price data from local JSON produced by server cron
             const allPrices = await this.fetchAllPrices();
             
             if (allPrices) {
@@ -31,7 +32,7 @@ class PriceTicker {
                 this.updateTicker(currencyData, goldData, cryptoData);
             }
             
-            // Set up periodic updates (every 5 minutes with jitter)
+            // Set up periodic updates (every ~1 minute with jitter)
             this.scheduleNextUpdate();
             
         } catch (error) {
@@ -105,99 +106,39 @@ class PriceTicker {
         }
     }
 
-    // Optimized method to fetch all prices in a single request with retry mechanism
+    // Optimized method now reads from local JSON to avoid external API limits
     async fetchAllPrices(isRetry = false) {
         try {
-            // Use Promise.all to fetch all data simultaneously for better performance
-            const [currencyResponse, goldResponse, cryptoResponse] = await Promise.all([
-                fetch(`${this.baseUrl}/xml/currency`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.apiToken}`
-                    }
-                }),
-                fetch(`${this.baseUrl}/xml/gold`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.apiToken}`
-                    }
-                }),
-                fetch(`${this.baseUrl}/xml/crypto`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.apiToken}`
-                    }
-                })
-            ]);
-
-            // Check for rate limiting (429) errors specifically
-            const responses = [currencyResponse, goldResponse, cryptoResponse];
-            const rateLimitedResponses = responses.filter(response => response.status === 429);
-            if (rateLimitedResponses.length > 0) {
-                const backoffTime = Math.min(this.rateLimitBackoff, this.maxBackoff);
-                console.warn(`خطای محدودیت نرخ (429) دریافت شد. تأخیر ${Math.ceil(backoffTime / 60000)} دقیقه‌ای اعمال می‌شود.`);
-                
-                // Exponential backoff for rate limiting
-                this.rateLimitBackoff = Math.min(this.rateLimitBackoff * 2, this.maxBackoff);
-                
-                // Schedule next update with backoff delay
-                setTimeout(() => {
-                    this.scheduleNextUpdate();
-                }, backoffTime);
-                
-                throw new Error(`Rate limited - backing off for ${Math.ceil(backoffTime / 60000)} minutes`);
+            const response = await fetch(this.localJsonUrl, { cache: 'no-store' });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
-            // Check if all responses are successful
-            if (!currencyResponse.ok || !goldResponse.ok || !cryptoResponse.ok) {
-                throw new Error(`API request failed - Status: ${currencyResponse.status}, ${goldResponse.status}, ${cryptoResponse.status}`);
-            }
+            const data = await response.json();
 
-            // Parse all responses simultaneously
-            const [currencyXML, goldXML, cryptoXML] = await Promise.all([
-                currencyResponse.text(),
-                goldResponse.text(),
-                cryptoResponse.text()
-            ]);
+            const currencyData = data.currency || null;
+            const goldData = data.gold || null;
+            const cryptoData = data.crypto || null;
 
-            // Parse all XML data simultaneously
-            const [currencyData, goldData, cryptoData] = await Promise.all([
-                Promise.resolve(this.parseXMLCurrency(currencyXML)),
-                Promise.resolve(this.parseXMLGold(goldXML)),
-                Promise.resolve(this.parseXMLCrypto(cryptoXML))
-            ]);
-
-            // Reset retry count and rate limit backoff on successful request
+            // Reset retry/backoff on successful read
             this.retryCount = 0;
-            this.rateLimitBackoff = 60000; // Reset to 1 minute
+            this.rateLimitBackoff = 60000; // Reset
             this.lastSuccessfulUpdate = Date.now();
 
             return { currencyData, goldData, cryptoData };
         } catch (error) {
             // Only log error if it's not a retry attempt or if we've exceeded max retries
             if (!isRetry || this.retryCount >= this.maxRetries) {
-                console.error('خطا در دریافت همه قیمت‌ها:', error.message);
-                
-                // If we've been failing for more than 10 minutes, show a warning
-                const timeSinceLastSuccess = Date.now() - this.lastSuccessfulUpdate;
-                if (timeSinceLastSuccess > 600000) { // 10 minutes
-                    console.warn('قیمت‌ها برای مدت طولانی به‌روزرسانی نشده‌اند. لطفاً اتصال اینترنت خود را بررسی کنید.');
-                }
+                console.error('خطا در دریافت JSON داخلی قیمت‌ها:', error.message);
             }
-            
+
             // Attempt retry if we haven't exceeded max retries
             if (this.retryCount < this.maxRetries && !isRetry) {
                 this.retryCount++;
                 console.log(`تلاش مجدد ${this.retryCount} از ${this.maxRetries} در ${this.retryDelay/1000} ثانیه...`);
-                
-                // Wait before retrying
                 await new Promise(resolve => setTimeout(resolve, this.retryDelay));
                 return this.fetchAllPrices(true);
             }
-            
+
             return null;
         }
     }
@@ -429,10 +370,10 @@ class PriceTicker {
 
     // Schedule next update with jitter to prevent synchronized requests
     scheduleNextUpdate() {
-        // Base interval: 5 minutes (300000ms)
-        // Add random jitter: ±30 seconds (±30000ms)
-        const baseInterval = 300000; // 5 minutes
-        const jitter = (Math.random() - 0.5) * 60000; // ±30 seconds
+        // Base interval: ~1 minute (60000ms)
+        // Add random jitter: ±10 seconds (±10000ms)
+        const baseInterval = 60000; // 1 minute
+        const jitter = (Math.random() - 0.5) * 20000; // ±10 seconds
         const nextInterval = baseInterval + jitter;
         
         setTimeout(() => {
@@ -442,7 +383,7 @@ class PriceTicker {
     }
 
     async updatePrices() {
-        // Circuit breaker: Skip API calls if we've had too many consecutive failures
+        // Circuit breaker: Skip calls if we've had too many consecutive failures
         if (this.consecutiveFailures >= this.maxConsecutiveFailures) {
             const timeSinceLastFailure = Date.now() - this.lastSuccessfulUpdate;
             if (timeSinceLastFailure < this.circuitBreakerTimeout) {
@@ -456,7 +397,7 @@ class PriceTicker {
         }
 
         try {
-            // Use optimized single request for updates
+            // Read from local JSON for updates
             const allPrices = await this.fetchAllPrices();
             
             if (allPrices) {
@@ -465,8 +406,8 @@ class PriceTicker {
                 this.consecutiveFailures = 0; // Reset failure count on success
             } else {
                 this.consecutiveFailures++;
-                // If API fails, keep showing last known prices
-                console.log('API در دسترس نیست، آخرین قیمت‌های دریافتی نمایش داده می‌شود.');
+                // If local JSON fails, keep showing last known prices
+                console.log('JSON داخلی در دسترس نیست، آخرین قیمت‌های دریافتی نمایش داده می‌شود.');
             }
         } catch (error) {
             this.consecutiveFailures++;
