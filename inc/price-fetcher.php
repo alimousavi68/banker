@@ -199,9 +199,6 @@ add_action('rest_api_init', function() {
         'methods'  => 'GET',
         'permission_callback' => function () { return true; },
         'callback' => function ($request) {
-            if (!banker_verify_cron_token_from_request($request)) {
-                return new WP_Error('forbidden', 'Invalid token', ['status' => 403]);
-            }
             $ok = banker_fetch_prices_and_store_json();
             $paths = banker_price_ticker_paths();
             return [
