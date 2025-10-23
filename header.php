@@ -146,19 +146,40 @@
       <!-- Overlay برای پشت منو -->
       <div id="overlay" class="fixed inset-0 bg-black/60 bg-opacity-10 hidden z-40"></div>
 
-      <!--شروع نوار قیمت-->
-      <div class="price_ticker bg-blue-900 text-white py-2 overflow-hidden">
-        <div id="ticker" class="flex items-center gap-12 text-[12px] whitespace-nowrap animate-scroll px-4">
+      <!-- TGJU Ticker -->
+      <tgju
+        type="ticker-tap"
+        items="398096,137121,137203,137205,137138,137137,137120,137119,398110"
+        columns="dot"
+        speed="55"
+        token="webservice"
+        styles='{
+          "background": "#1e3a8a",
+          "hover": "#d11947",
+          "title": "#ffffff",
+          "dot": "#fc1919",
+          "price": "#ededed",
+          "high": "#17bf6b",
+          "copyright": "#ffffff",
+          "copyright_fix": "#1e3a8a",
+          "copyright_fix_text": "#1e3a8a"
+        }'></tgju>
+      <script src="https://api.tgju.org/v1/widget/v2" defer></script>
+      <style>
+        .tgju-copyright,
+        .tgju-copyright a {
+          color: #ffffff !important;
+        }
 
-        </div>
-      </div>
-      <!--پایان نوار قیمت-->
+        .tgju-widget-title-text,.marquee-row .tgju-widget-current-price,
+        .marquee-row .tgju-widget-change .widget-change-price,
+        .marquee-row .tgju-widget-change .widget-change
+         {
+          font-size: 13px !important;
+          font-weight: 400 !important;
+        }
 
-      <?php if (function_exists('banker_price_ticker_paths')) { $paths = banker_price_ticker_paths(); $json_url = $paths['url']; } else { $json_url = content_url('uploads/ticker/price-ticker.json'); } ?>
-      <script>window.bankerTicker = { jsonUrl: '<?php echo esc_url( $json_url ); ?>' };</script>
-      <script src="<?php echo get_template_directory_uri(); ?>/js/price-ticker.js"></script>
+      </style>
 
     </header>
     <!--END HEADER-->
-
-
