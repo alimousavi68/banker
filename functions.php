@@ -189,6 +189,7 @@ require_once get_template_directory() . '/inc/customizer/homepage-helpers.php';
 require_once get_template_directory() . '/inc/customizer/menu-content-customizer.php';
 require_once get_template_directory() . '/inc/customizer/post-settings-customizer.php';
 require_once get_template_directory() . '/inc/customizer/post-settings-helpers.php';
+require_once get_template_directory() . '/inc/customizer/ticker-customizer.php';
 
 /**
  * Include Meta Box Files
@@ -279,12 +280,63 @@ function banker_enqueue_assets() {
     
     // Enqueue custom JavaScript if needed
     wp_enqueue_script('banker-script', get_template_directory_uri() . '/assets/js/main.js', array(), '1.0.0', true);
+
+    // Enqueue news ticker script
+    wp_enqueue_script('banker-news-ticker', get_template_directory_uri() . '/assets/js/ticker.js', array(), '1.0.0', true);
     
     // Enqueue price ticker script
     wp_enqueue_script('banker-price-ticker', get_template_directory_uri() . '/js/price-ticker.js', array(), '1.0.0', true);
 
 }
 add_action('wp_enqueue_scripts', 'banker_enqueue_assets');
+
+function banker_render_news_ticker() {
+    $enabled = get_theme_mod('banker_news_ticker_enabled', true);
+    if (!$enabled) { return; }
+
+    $count = max(1, (int) get_theme_mod('banker_news_ticker_posts_count', 10));
+    $category = (int) get_theme_mod('banker_news_ticker_category', 0);
+
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => $count,
+        'no_found_rows' => true,
+        'ignore_sticky_posts' => true,
+    );
+    if ($category > 0) { $args['cat'] = $category; }
+
+    $q = new WP_Query($args);
+
+    // Fallback: بدون فیلتر دسته اگر خروجی خالی بود
+    if (!$q->have_posts()) {
+        $q = new WP_Query(array(
+            'post_type' => 'post',
+            'posts_per_page' => $count,
+            'no_found_rows' => true,
+            'ignore_sticky_posts' => true,
+        ));
+    }
+
+    if (!$q->have_posts()) { return; }
+
+    echo '<div class="banker-news-ticker w-full bg-primary py-2">';
+    echo '<div class="ticker-container overflow-hidden whitespace-nowrap">';
+
+    // ترک اصلی که با CSS/JS به صورت بی‌نهایت حرکت می‌کند
+    echo '<div class="ticker-track">';
+    while ($q->have_posts()) { $q->the_post();
+        $title = get_the_title();
+        $permalink = get_permalink();
+        echo '<a class="ticker-item inline-block text-white hover:text-secondary transition-colors duration-100" href="'.esc_url($permalink).'" title="'.esc_attr($title).'">'.esc_html($title).'</a>';
+    }
+    echo '</div>';
+
+    echo '</div>'; // .ticker-container
+    echo '</div>'; // .banker-news-ticker
+
+    wp_reset_postdata();
+}
+
 
 /**
  * Get Social Media Links

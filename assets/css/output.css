@@ -7,6 +7,7 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-100: oklch(93.6% 0.032 17.717);
     --color-red-600: oklch(57.7% 0.245 27.325);
     --color-yellow-50: oklch(98.7% 0.026 102.212);
     --color-yellow-200: oklch(94.5% 0.129 101.54);
@@ -17,7 +18,6 @@
     --color-blue-50: oklch(97% 0.014 254.604);
     --color-blue-200: oklch(88.2% 0.059 254.128);
     --color-blue-600: oklch(54.6% 0.245 262.881);
-    --color-blue-900: oklch(37.9% 0.146 265.522);
     --color-gray-50: oklch(98.5% 0.002 247.839);
     --color-gray-100: oklch(96.7% 0.003 264.542);
     --color-gray-200: oklch(92.8% 0.006 264.531);
@@ -330,9 +330,6 @@
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
-  .mt-3 {
-    margin-top: calc(var(--spacing) * 3);
-  }
   .mt-4 {
     margin-top: calc(var(--spacing) * 4);
   }
@@ -363,17 +360,8 @@
   .mr-24 {
     margin-right: calc(var(--spacing) * 24);
   }
-  .\!mb-0 {
-    margin-bottom: calc(var(--spacing) * 0) !important;
-  }
-  .\!mb-2 {
-    margin-bottom: calc(var(--spacing) * 2) !important;
-  }
   .\!mb-3 {
     margin-bottom: calc(var(--spacing) * 3) !important;
-  }
-  .mb-0 {
-    margin-bottom: calc(var(--spacing) * 0);
   }
   .mb-1 {
     margin-bottom: calc(var(--spacing) * 1);
@@ -398,9 +386,6 @@
   }
   .ml-1 {
     margin-left: calc(var(--spacing) * 1);
-  }
-  .ml-2 {
-    margin-left: calc(var(--spacing) * 2);
   }
   .ml-4 {
     margin-left: calc(var(--spacing) * 4);
@@ -468,9 +453,6 @@
   .h-16 {
     height: calc(var(--spacing) * 16);
   }
-  .h-18 {
-    height: calc(var(--spacing) * 18);
-  }
   .h-24 {
     height: calc(var(--spacing) * 24);
   }
@@ -491,9 +473,6 @@
   }
   .h-\[100px\] {
     height: 100px;
-  }
-  .h-\[120px\] {
-    height: 120px;
   }
   .h-\[140px\] {
     height: 140px;
@@ -567,14 +546,8 @@
   .w-16 {
     width: calc(var(--spacing) * 16);
   }
-  .w-18 {
-    width: calc(var(--spacing) * 18);
-  }
   .w-24 {
     width: calc(var(--spacing) * 24);
-  }
-  .w-58 {
-    width: calc(var(--spacing) * 58);
   }
   .w-64 {
     width: calc(var(--spacing) * 64);
@@ -690,17 +663,8 @@
   .flex-row {
     flex-direction: row;
   }
-  .flex-row-reverse {
-    flex-direction: row-reverse;
-  }
   .flex-wrap {
     flex-wrap: wrap;
-  }
-  .content-end {
-    align-content: flex-end;
-  }
-  .content-start {
-    align-content: flex-start;
   }
   .items-center {
     align-items: center;
@@ -740,9 +704,6 @@
   }
   .gap-8 {
     gap: calc(var(--spacing) * 8);
-  }
-  .gap-12 {
-    gap: calc(var(--spacing) * 12);
   }
   .space-y-2 {
     :where(& > :not(:last-child)) {
@@ -874,9 +835,6 @@
   }
   .bg-blue-50 {
     background-color: var(--color-blue-50);
-  }
-  .bg-blue-900 {
-    background-color: var(--color-blue-900);
   }
   .bg-border {
     background-color: var(--color-border);
@@ -1029,9 +987,6 @@
   }
   .py-16 {
     padding-block: calc(var(--spacing) * 16);
-  }
-  .py-\[2px\] {
-    padding-block: 2px;
   }
   .pe-6 {
     padding-inline-end: calc(var(--spacing) * 6);
@@ -1300,6 +1255,10 @@
     transition-property: transform, translate, scale, rotate;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .duration-100 {
+    --tw-duration: 100ms;
+    transition-duration: 100ms;
   }
   .duration-200 {
     --tw-duration: 200ms;
@@ -1668,11 +1627,6 @@
       margin-right: calc(var(--spacing) * 4);
     }
   }
-  .md\:mb-0 {
-    @media (width >= 48rem) {
-      margin-bottom: calc(var(--spacing) * 0);
-    }
-  }
   .md\:mb-2 {
     @media (width >= 48rem) {
       margin-bottom: calc(var(--spacing) * 2);
@@ -1696,11 +1650,6 @@
   .md\:h-28 {
     @media (width >= 48rem) {
       height: calc(var(--spacing) * 28);
-    }
-  }
-  .md\:h-\[80px\] {
-    @media (width >= 48rem) {
-      height: 80px;
     }
   }
   .md\:h-\[100px\] {
@@ -2317,6 +2266,47 @@ body {
   }
   .flex-col, .lg\:flex-row {
     display: block !important;
+  }
+}
+.banker-news-ticker {
+  background-color: var(--color-primary);
+}
+.banker-news-ticker .ticker-container {
+  direction: rtl;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.banker-news-ticker .ticker-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  animation: tickerScrollRTL 120s linear infinite;
+  will-change: transform;
+}
+.banker-news-ticker .ticker-item {
+  color: #fff;
+  margin: 0 40px;
+  position: relative;
+  font-size: 14px;
+}
+.banker-news-ticker .ticker-item::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-secondary);
+  border-radius: 9999px;
+  margin-inline: 12px;
+}
+.banker-news-ticker .ticker-item:hover {
+  color: var(--color-red-100);
+}
+@keyframes tickerScrollRTL {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 @property --tw-translate-x {

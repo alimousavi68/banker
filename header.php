@@ -146,40 +146,7 @@
       <!-- Overlay برای پشت منو -->
       <div id="overlay" class="fixed inset-0 bg-black/60 bg-opacity-10 hidden z-40"></div>
 
-      <!-- TGJU Ticker -->
-      <tgju
-        type="ticker-tap"
-        items="137119,137121,137120,137203,137205,137206,137138,137137,137139,137140,137141,398096"
-        columns="dot"
-        speed="70"
-        token="webservice"
-        styles='{
-          "background": "#1e3a8a",
-          "hover": "#d11947",
-          "title": "#ffffff",
-          "dot": "#fc1919",
-          "price": "#ededed",
-          "high": "#17bf6b",
-          "copyright": "#ffffff",
-          "copyright_fix": "#1e3a8a",
-          "copyright_fix_text": "#1e3a8a"
-        }'></tgju>
-      <script src="https://api.tgju.org/v1/widget/v2" defer></script>
-      <style>
-        .tgju-copyright,
-        .tgju-copyright a {
-          color: #ffffff !important;
-        }
-
-        .tgju-widget-title-text,.marquee-row .tgju-widget-current-price,
-        .marquee-row .tgju-widget-change .widget-change-price,
-        .marquee-row .tgju-widget-change .widget-change
-         {
-          font-size: 13px !important;
-          font-weight: 400 !important;
-        }
-
-      </style>
+      <?php if (function_exists('banker_render_news_ticker')) { banker_render_news_ticker(); } ?>
 
     </header>
     <!--END HEADER-->

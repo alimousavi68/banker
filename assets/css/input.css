@@ -346,3 +346,12 @@ body {
     display: block !important;
   }
 }
+
+/* News Ticker Styles */
+.banker-news-ticker { background-color: var(--color-primary); }
+.banker-news-ticker .ticker-container { direction: rtl; overflow: hidden; white-space: nowrap; }
+.banker-news-ticker .ticker-track { display: inline-flex; align-items: center; gap: 0; animation: tickerScrollRTL 120s linear infinite; will-change: transform; }
+.banker-news-ticker .ticker-item { color: #fff; margin: 0 40px; position: relative; font-size: 14px; }
+.banker-news-ticker .ticker-item::before { content: ""; display: inline-block; width: 6px; height: 6px; background-color: var(--color-secondary); border-radius: 9999px; margin-inline: 12px; }
+.banker-news-ticker .ticker-item:hover { color: var(--color-red-100); }
+@keyframes tickerScrollRTL { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
