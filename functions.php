@@ -286,6 +286,21 @@ function banker_enqueue_assets() {
 
 }
 add_action('wp_enqueue_scripts', 'banker_enqueue_assets');
+add_action('wp_enqueue_scripts', 'banker_conditionally_disable_wp_block_css', 100);
+function banker_conditionally_disable_wp_block_css() {
+    if ( is_admin() ) {
+        return;
+    }
+    if ( is_singular() ) {
+        global $post;
+        if ( isset($post) && $post instanceof WP_Post && function_exists('has_blocks') && ! has_blocks( $post->post_content ) ) {
+            wp_dequeue_style('wp-block-library');
+            wp_dequeue_style('wp-block-library-theme');
+            wp_dequeue_style('global-styles');
+            wp_dequeue_style('classic-theme-styles');
+        }
+    }
+}
 
 function banker_render_news_ticker() {
     $enabled = get_theme_mod('banker_news_ticker_enabled', true);
