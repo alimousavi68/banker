@@ -2,7 +2,7 @@
 /**
  * Banker Theme Functions
  */
-require_once get_template_directory() . '/inc/price-fetcher.php';
+
 
 // Prevent direct access
 if (!defined('ABSPATH')) {
