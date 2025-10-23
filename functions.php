@@ -355,6 +355,13 @@ function banker_get_logo_url() {
     $custom_logo_id = get_theme_mod('custom_logo');
     if ($custom_logo_id) {
         $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
+        // Remove width and height attributes from the logo image
+        add_filter('wp_get_attachment_image_attributes', 'banker_logo_img_attrs', 10, 2);
+        function banker_logo_img_attrs($attr, $attachment) {
+            if (isset($attr['width'])) unset($attr['width']);
+            if (isset($attr['height'])) unset($attr['height']);
+            return $attr;
+        }
         return $logo_url;
     }
     // Default logo path
@@ -570,3 +577,12 @@ class Banker_Desktop_Walker extends Walker_Nav_Menu {
         }
     }
 }
+
+// Remove Tailwind CDN script injected by i8-custom-posts-widget (frontend only)
+function banker_remove_tailwind_cdn() {
+    if ( function_exists('wp_script_is') && ( wp_script_is('tailwindcss', 'enqueued') || wp_script_is('tailwindcss', 'registered') ) ) {
+        wp_dequeue_script('tailwindcss');
+        wp_deregister_script('tailwindcss');
+    }
+}
+add_action('wp_enqueue_scripts', 'banker_remove_tailwind_cdn', 999);

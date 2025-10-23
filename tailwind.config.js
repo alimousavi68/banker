@@ -4,7 +4,10 @@ module.exports = {
     "./*.php",
     "./template-parts/**/*.php",
     "./assets/js/**/*.js",
-    "./**/*.html"
+    "./**/*.html",
+    "../plugins/i8-custom-posts-widget/**/*.php",
+    "../plugins/i8-custom-posts-widget/**/*.js",
+    "../plugins/i8-custom-posts-widget/**/*.html"
   ],
   theme: {
     extend: {
