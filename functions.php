@@ -278,12 +278,8 @@ function banker_enqueue_assets() {
     // Enqueue main stylesheet
     wp_enqueue_style('banker-style', get_template_directory_uri() . '/assets/css/output.css', array(), '1.0.0');
     
-    // Enqueue custom JavaScript if needed
-    wp_enqueue_script('banker-script', get_template_directory_uri() . '/assets/js/main.js', array(), '1.0.0', true);
-
-    // Enqueue news ticker script
-    wp_enqueue_script('banker-news-ticker', get_template_directory_uri() . '/assets/js/ticker.js', array(), '1.0.0', true);
-
+    // Enqueue unified JavaScript (merged main.js + ticker.js)
+    wp_enqueue_script('banker-script', get_template_directory_uri() . '/assets/js/script.js', array(), '1.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'banker_enqueue_assets');
 add_action('wp_enqueue_scripts', 'banker_conditionally_disable_wp_block_css', 100);
@@ -601,3 +597,53 @@ function banker_remove_tailwind_cdn() {
     }
 }
 add_action('wp_enqueue_scripts', 'banker_remove_tailwind_cdn', 999);
+
+// Force disable Gutenberg block CSS globally on frontend
+function banker_disable_all_block_css() {
+    if ( is_admin() ) {
+        return;
+    }
+    $handles = array(
+        'wp-block-library',
+        'wp-block-library-theme',
+        'global-styles',
+        'classic-theme-styles',
+        'wc-blocks-style',
+    );
+    foreach ( $handles as $h ) {
+        if ( wp_style_is( $h, 'enqueued' ) || wp_style_is( $h, 'registered' ) ) {
+            wp_dequeue_style( $h );
+            wp_deregister_style( $h );
+        }
+    }
+    if ( function_exists('wp_enqueue_global_styles') ) {
+        remove_action('wp_enqueue_scripts', 'wp_enqueue_global_styles');
+    }
+    if ( function_exists('wp_enqueue_classic_theme_styles') ) {
+        remove_action('wp_enqueue_scripts', 'wp_enqueue_classic_theme_styles');
+    }
+}
+add_action('wp_enqueue_scripts', 'banker_disable_all_block_css', 9999);
+add_action('wp_print_styles', 'banker_disable_all_block_css', 9999);
+
+// Disable WordPress emojis on frontend and admin
+function banker_disable_wp_emojis() {
+    remove_action('wp_head', 'print_emoji_detection_script', 7);
+    remove_action('admin_print_scripts', 'print_emoji_detection_script');
+    remove_action('wp_print_styles', 'print_emoji_styles');
+    remove_action('admin_print_styles', 'print_emoji_styles');
+    remove_filter('the_content_feed', 'wp_staticize_emoji');
+    remove_filter('comment_text_rss', 'wp_staticize_emoji');
+    remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
+    add_filter('emoji_svg_url', '__return_false');
+}
+add_action('init', 'banker_disable_wp_emojis');
+
+// Disable TinyMCE emoji plugin
+function banker_disable_emojis_tinymce($plugins) {
+    if (is_array($plugins)) {
+        return array_diff($plugins, array('wpemoji'));
+    }
+    return $plugins;
+}
+add_filter('tiny_mce_plugins', 'banker_disable_emojis_tinymce');
