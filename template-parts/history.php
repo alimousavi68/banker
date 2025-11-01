@@ -193,7 +193,7 @@ $notes_posts = new WP_Query(array(
         // Fallback to default avatar if no avatar is found
         if (!$author_avatar) {
           $author_avatar = get_template_directory_uri() . '/assets/images/default-avatar.svg';
-        }
+        }  
 
         $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'medium');
         $excerpt = get_the_excerpt();
