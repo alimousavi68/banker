@@ -110,16 +110,8 @@ if ($featured_query->have_posts()) {
 
         <!-- متن -->
         <div class="relative z-20 w-full pb-3 px-3 flex flex-col gap-2 md:gap-4 transition-colors duration-500">
-          <p class="bg-white w-fit text-secondary text-[10px] py-1 px-2 transition-colors duration-500">
-            <?php
-            if ($main_cat = get_post_meta($posts_array[0]['id'], '_banker_main_category', true)) {
-              echo esc_html(get_category($main_cat)->name);
-            } else {
-              echo esc_html($posts_array[0]['category']);
-            }
-            ?>
-          </p>
-          <a href="<?php echo esc_url($posts_array[0]['link']); ?>" class="text-white font-semibold text-[18px] md:text-[22px] leading-snug 
+          
+          <a href="<?php echo esc_url($posts_array[0]['link']); ?>" class="text-white pb-3 font-semibold text-[18px] md:text-[22px] leading-snug 
         group-hover:text-secondary transition-colors duration-500">
             <?php echo esc_html($posts_array[0]['title']); ?>
           </a>
