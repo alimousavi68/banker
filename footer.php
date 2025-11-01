@@ -130,7 +130,7 @@
 
     <span class="text-center md:text-left">
       <a href="https://www.ihasht.ir/" target="_blank" class="text-white text-[13px] hover:text-[#004A8F] transition-colors duration-300">طراحی: هشت بهشت</a>
-    </span>
+    </span> 
   </div>
 </div>
 
@@ -139,6 +139,9 @@
 </div>
 <script src="<?php echo get_template_directory_uri(); ?>/assets/js/script.js"></script>
 <?php wp_footer(); ?>
+
+
+
 </body>
 
 </html>

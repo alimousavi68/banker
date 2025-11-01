@@ -66,89 +66,22 @@
     }
   }
 
-  // --- News Ticker (merged from ticker.js) ---
-  function outerWidth(el){
-    var s = window.getComputedStyle(el);
-    var ml = parseFloat(s.marginLeft) || 0;
-    var mr = parseFloat(s.marginRight) || 0;
-    return el.offsetWidth + ml + mr;
-  }
-  function ensureTickerContent(track){
-    if (!track) return;
-    var container = track.parentElement;
-    if (!container) return;
-    if (!track.dataset.originalCount){
-      track.dataset.originalCount = track.children.length;
-    }
-    var originalCount = parseInt(track.dataset.originalCount, 10);
-    var containerWidth = container.offsetWidth;
-    var trackWidth = track.scrollWidth;
-    var safety = 0;
-    while (trackWidth < containerWidth * 2 && safety < 50){
-      var children = Array.from(track.children).slice(0, originalCount);
-      children.forEach(function(child){
-        track.appendChild(child.cloneNode(true));
-      });
-      trackWidth = track.scrollWidth;
-      safety++;
-    }
-  }
-  function stopTickerLoop(track){
-    var st = track._tickerState;
-    if (st && st.rafId){
-      cancelAnimationFrame(st.rafId);
-      st.rafId = null;
-    }
-  }
-  function startTickerLoop(track){
-    track.style.animation = 'none';
-    var state = track._tickerState || { pos: 0, speed: 0.5, rafId: null };
-    track._tickerState = state;
-    function step(){
-      state.pos -= state.speed;
-      track.style.transform = 'translateX(' + state.pos + 'px)';
-      var first = track.firstElementChild;
-      if (first){
-        var w = outerWidth(first);
-        if (-state.pos >= w){
-          track.appendChild(first);
-          state.pos += w;
-          track.style.transform = 'translateX(' + state.pos + 'px)';
-        }
-      }
-      state.rafId = requestAnimationFrame(step);
-    }
-    stopTickerLoop(track);
-    state.rafId = requestAnimationFrame(step);
-  }
-  function initTicker(){
-    var tracks = document.querySelectorAll('.banker-news-ticker .ticker-track');
-    tracks.forEach(function(track){
-      ensureTickerContent(track);
-      startTickerLoop(track);
-    });
-    var timeout;
-    window.addEventListener('resize', function(){
-      clearTimeout(timeout);
-      timeout = setTimeout(function(){
-        tracks.forEach(function(track){
-          stopTickerLoop(track);
-          var st = track._tickerState; if (st) { st.pos = 0; }
-          track.style.transform = 'translateX(0)';
-          var originalCount = parseInt(track.dataset.originalCount || track.children.length, 10);
-          while (track.children.length > originalCount){ track.removeChild(track.lastChild); }
-          ensureTickerContent(track);
-          startTickerLoop(track);
-        });
-      }, 200);
-    });
-  }
+  
 
   function init(){
     initMenu();
     initWordLimit();
     initSubmenus();
-    initTicker();
+
+    // Initialize jQuery Breaking News Ticker (replaces previous custom marquee)
+    if (window.jQuery && typeof jQuery.fn.breakingNews === 'function'){
+      jQuery('#banker-breaking-news').breakingNews({
+				direction: 'rtl',
+        delayTimer: 500,
+        scrollSpeed: 1,
+        stopOnHover: true
+			});
+    }
   }
 
   if (document.readyState === 'loading'){

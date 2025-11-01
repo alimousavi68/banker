@@ -146,7 +146,10 @@
       <!-- Overlay برای پشت منو -->
       <div id="overlay" class="fixed inset-0 bg-black/60 bg-opacity-10 hidden z-40"></div>
 
+      
       <?php if (function_exists('banker_render_news_ticker')) { banker_render_news_ticker(); } ?>
+    
+   
 
     </header>
     <!--END HEADER-->
