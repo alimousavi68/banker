@@ -36,7 +36,7 @@ $main_economy_query = new WP_Query(array(
 // کوئری مجزا برای 3 پست کوچکتر اقتصاد و بیمه
 $small_economy_query = new WP_Query(array(
     'cat' => $car_settings['economy_category'],
-    'posts_per_page' => $car_settings['small_economy_posts_count'],
+    'posts_per_page' => $car_settings['economy_posts_count'],
     'offset' => 1, // Exclude the main post
     'post_status' => 'publish'
 ));
