@@ -14,12 +14,11 @@ $notes_posts = new WP_Query(array(
   'cat' => $history_settings['notes_category'],
   'posts_per_page' => $history_settings['notes_posts_count'],
   'post_status' => 'publish',
-
 ));
 ?>
 
 <!--شروع بخش تاریخ و اقتصاد -->
-<section class="mt-8 md:pb-8 max-w-[1400px] mx-auto px-4  sm:px-4 lg:px-6 border-border border-b flex flex-col md:flex-row gap-4 ">
+<section class="mt-8 md:pb-8 max-w-[1400px] mx-auto px-4 sm:px-4 lg:px-6 border-border border-b flex flex-col md:flex-row gap-4 ">
   <div class="w-full md:border-l md:border-border md:ml-4 md:pl-4 md:w-3/4">
     <div class="flex justify-between items-center">
       <h4 class="font-medium text-2xl text-black">
