@@ -2,10 +2,18 @@
 // Get history section settings from customizer
 $history_settings = banker_get_history_section_settings();
 
-// Query for History and Economy section (5 posts from category 8)
-$history_posts = new WP_Query(array(
+// Query for the main large post (1 post)
+$main_history_query = new WP_Query(array(
   'cat' => $history_settings['main_category'],
-  'posts_per_page' => $history_settings['main_posts_count'],
+  'posts_per_page' => 1,
+  'post_status' => 'publish',
+));
+
+// Query for the four smaller posts (4 posts with offset)
+$small_history_query = new WP_Query(array(
+  'cat' => $history_settings['main_category'],
+  'posts_per_page' => 4,
+  'offset' => 1, // Skip the first post which is handled by main_history_query
   'post_status' => 'publish',
 ));
 
@@ -41,13 +49,13 @@ $notes_posts = new WP_Query(array(
       <div class="border-t-2  border-dotted border-border"></div>
       <div class="border-t-2  border-dotted border-border"></div>
     </div>
-    <?php if ($history_posts->have_posts()) : ?>
+    <?php if ($small_history_query->have_posts()) : ?>
       <div class="flex flex-col md:flex-row mt-4  gap-4">
         <div class="w-full md:w-1/2 md:border-l md:ml-4 md:pl-4 border-border">
           <?php
           $post_count = 0;
-          while ($history_posts->have_posts() && $post_count < 4) :
-            $history_posts->the_post();
+          while ($small_history_query->have_posts()) :
+            $small_history_query->the_post();
             $post_count++;
             $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'banker_411x231');
             if (!$featured_image) {
@@ -75,24 +83,20 @@ $notes_posts = new WP_Query(array(
 
             </a>
           <?php endwhile; ?>
+          <?php wp_reset_postdata(); ?>
 
         </div>
         <?php
-        // Reset query and get the 5th post for featured section
-        $history_posts->rewind_posts();
-        $featured_post_count = 0;
-        while ($history_posts->have_posts()) :
-          $history_posts->the_post();
-          $featured_post_count++;
-          if ($featured_post_count == 5) : // Show the 5th post as featured
-            $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'banker_411x231');
-            if (!$featured_image) {
-              $featured_image = get_template_directory_uri() . '/assets/images/tarickImg.jpg';
-            }
-            $excerpt = get_the_excerpt();
-            if (empty($excerpt)) {
-              $excerpt = wp_trim_words(get_the_content(), 30, '...');
-            }
+        if ($main_history_query->have_posts()) :
+          $main_history_query->the_post();
+          $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'banker_672x378');
+          if (!$featured_image) {
+            $featured_image = get_template_directory_uri() . '/assets/images/tarickImg.jpg';
+          }
+          $excerpt = get_the_excerpt();
+          if (empty($excerpt)) {
+            $excerpt = wp_trim_words(get_the_content(), 30, '...');
+          }
         ?>
             <a href="<?php the_permalink(); ?>" class="flex w-full md:w-1/2 gap-6 flex-col group cursor-pointer transition duration-300 rounded p-2 no-underline">
               <!-- تصویر -->
@@ -135,8 +139,8 @@ $notes_posts = new WP_Query(array(
 
             </a>
         <?php
-          endif;
-        endwhile;
+        endif;
+        wp_reset_postdata();
         ?>
 
       </div>
