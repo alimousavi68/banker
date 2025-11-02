@@ -179,7 +179,7 @@ $notes_posts = new WP_Query(array(
           if (!empty($custom_author_image_id)) {
             $author_avatar = wp_get_attachment_image_url($custom_author_image_id, 'banker_42x42');
           } else {
-            $author_avatar = get_avatar_url(get_the_author_meta('ID'), array('size' => 32));
+            $author_avatar = get_avatar_url(get_the_author_meta('ID'), array('size' => 45));
           }
         } else {
           // For non-note posts, use default author data
@@ -220,7 +220,7 @@ $notes_posts = new WP_Query(array(
               </div>
 
               <div class="flex items-center gap-2 mt-2">
-                <img src="<?php echo esc_url($author_avatar); ?>" class="w-9 h-9 rounded-full" alt="<?php echo esc_attr($author_name); ?>">
+                <img src="<?php echo esc_url($author_avatar); ?>" class="w-[45px] h-[45px]  grayscale rounded-full" alt="<?php echo esc_attr($author_name); ?>">
                 <span class="text-grayText font-semibold text-[12px]"><?php echo esc_html($author_name); ?></span>
               </div>
             </div>
@@ -244,7 +244,7 @@ $notes_posts = new WP_Query(array(
             </a>
 
             <div class="flex group items-center gap-2 mt-2 ">
-              <img src="<?php echo esc_url($author_avatar); ?>" class="w-9  h-9 rounded-full" alt="<?php echo esc_attr($author_name); ?>">
+              <img src="<?php echo esc_url($author_avatar); ?>" class="w-[45px] h-[45px]  grayscale rounded-full" alt="<?php echo esc_attr($author_name); ?>">
               <span class="text-grayText font-semibold text-[12px]"><?php echo esc_html($author_name); ?></span>
             </div>
           </div>
