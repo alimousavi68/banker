@@ -220,7 +220,7 @@ $notes_posts = new WP_Query(array(
               </div>
 
               <div class="flex items-center gap-2 mt-2">
-                <img src="<?php echo esc_url($author_avatar); ?>" class="w-[45px] h-[45px]  grayscale rounded-full" alt="<?php echo esc_attr($author_name); ?>">
+                <img src="<?php echo esc_url($author_avatar); ?>" class="w-[45px] h-[45px] object-cover grayscale rounded-full" alt="<?php echo esc_attr($author_name); ?>">
                 <span class="text-grayText font-semibold text-[12px]"><?php echo esc_html($author_name); ?></span>
               </div>
             </div>
@@ -244,7 +244,7 @@ $notes_posts = new WP_Query(array(
             </a>
 
             <div class="flex group items-center gap-2 mt-2 ">
-              <img src="<?php echo esc_url($author_avatar); ?>" class="w-[45px] h-[45px]  grayscale rounded-full" alt="<?php echo esc_attr($author_name); ?>">
+              <img src="<?php echo esc_url($author_avatar); ?>" class="w-[45px] h-[45px] object-cover grayscale rounded-full" alt="<?php echo esc_attr($author_name); ?>">
               <span class="text-grayText font-semibold text-[12px]"><?php echo esc_html($author_name); ?></span>
             </div>
           </div>
