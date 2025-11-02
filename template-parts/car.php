@@ -16,7 +16,7 @@ if ($car_query->have_posts()) {
         $car_posts[] = array(
             'title' => get_the_title(),
             'link' => get_permalink(),
-            'image' => get_the_post_thumbnail_url(get_the_ID(), 'full'),
+            'image' => get_the_post_thumbnail_url(get_the_ID(), 'banker_411x231'),  
             'excerpt' => get_the_excerpt(),
             'category' => get_the_category()[0]->name ?? '',
             'date' => get_the_date(),
@@ -26,29 +26,21 @@ if ($car_query->have_posts()) {
     wp_reset_postdata();
 }
 
-// کوئری مجزا برای بخش اقتصاد و بیمه (3 پست)
-$economy_query = new WP_Query(array(
+// کوئری مجزا برای پست اصلی اقتصاد و بیمه (1 پست)
+$main_economy_query = new WP_Query(array(
     'cat' => $car_settings['economy_category'],
-    'posts_per_page' => $car_settings['economy_posts_count'],
+    'posts_per_page' => 1,
     'post_status' => 'publish'
 ));
 
-$economy_posts = array();
-if ($economy_query->have_posts()) {
-    while ($economy_query->have_posts()) {
-        $economy_query->the_post();
-        $economy_posts[] = array(
-            'title' => get_the_title(),
-            'link' => get_permalink(),
-            'image' => get_the_post_thumbnail_url(get_the_ID(), 'full'),
-            'excerpt' => get_the_excerpt(),
-            'category' => get_the_category()[0]->name ?? '',
-            'date' => get_the_date(),
-            'time_diff' => human_time_diff(get_the_time('U'), current_time('timestamp')) . ' پیش'
-        );
-    }
-    wp_reset_postdata();
-}
+// کوئری مجزا برای 3 پست کوچکتر اقتصاد و بیمه
+$small_economy_query = new WP_Query(array(
+    'cat' => $car_settings['economy_category'],
+    'posts_per_page' => 3,
+    'offset' => 1, // Exclude the main post
+    'post_status' => 'publish'
+));
+
 ?>
 
 <!--شروع بخش  خودرو-->
@@ -172,7 +164,7 @@ if ($economy_query->have_posts()) {
     <!--پایان باکس های بخش بانکداری-->
   </div>
   <!---------------------------------->
-  <?php if (!empty($economy_posts)): ?>
+  <?php if ($main_economy_query->have_posts() || $small_economy_query->have_posts()): ?>
   <div class="w-full md:w-1/3">
     <div class="flex justify-between items-center">
       <h4 class="font-medium text-2xl text-black">
@@ -197,40 +189,46 @@ if ($economy_query->have_posts()) {
       <div class="border-t-2  border-dotted border-border"></div>
     </div>
 
-    <?php if (isset($economy_posts[0])): ?>
-    <a href="<?php echo esc_url($economy_posts[0]['link']); ?>" style="margin-top: 24px !important;" class="relative flex flex-col  justify-end w-full h-[239px] bg-cover bg-center overflow-hidden group">
+    <?php if ($main_economy_query->have_posts()): $main_economy_query->the_post();
+      $main_economy_image_url = get_the_post_thumbnail_url(get_the_ID(), 'banker_672x378') ?: get_template_directory_uri() . '/assets/images/shobe.jpg';
+    ?>
+    <a href="<?php echo esc_url(get_permalink()); ?>" style="margin-top: 24px !important;" class="relative flex flex-col  justify-end w-full h-[239px] overflow-hidden group">
 
       <!-- تصویر با افکت زوم -->
-      <div class="absolute inset-0  bg-cover bg-center 
-              transition-transform duration-500 ease-in-out group-hover:scale-110" style="background-image: url('<?php echo esc_url($economy_posts[0]['image'] ?: get_template_directory_uri() . '/assets/images/shobe.jpg'); ?>');"></div>
+      <img src="<?php echo esc_url($main_economy_image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110">
       <div class="absolute mt-4 inset-0 bg-gradient-to-t from-primary via-transparent to-transparent z-0"></div>
 
       <!-- متن -->
       <div class="relative z-10 w-full pb-3 px-3 flex flex-col gap-2 md:gap-4 text-white">
         
         <h4 class="text-lightBg font-bold text-[20px] sm:text-[18px] md:text-[22px] leading-snug">
-          <?php echo esc_html($economy_posts[0]['title']); ?>
+          <?php echo esc_html(get_the_title()); ?>
         </h4>
         
       </div>
 
     </a>
     <?php endif; ?>
+    <?php wp_reset_postdata(); ?>
+
     <div class="w-full mt-4 m-auto bg-border h-[1px]">
     </div>
-    <?php if (isset($economy_posts[1])): ?>
-    <a href="<?php echo esc_url($economy_posts[1]['link']); ?>" class="flex gap-4 py-4 border-b group border-border cursor-pointer transition duration-300 no-underline">
+
+    <?php while ($small_economy_query->have_posts()): $small_economy_query->the_post();
+      $small_economy_image_url = get_the_post_thumbnail_url(get_the_ID(), 'banker_411x231') ?: get_template_directory_uri() . '/assets/images/bekrSection3.jpg';
+    ?>
+    <a href="<?php echo esc_url(get_permalink()); ?>" class="flex gap-4 py-4 border-b group border-border cursor-pointer transition duration-300 no-underline">
       <!-- تصویر -->
       <div class="overflow-hidden">
-        <img src="<?php echo esc_url($economy_posts[1]['image'] ?: get_template_directory_uri() . '/assets/images/bekrSection3.jpg'); ?>"
+        <img src="<?php echo esc_url($small_economy_image_url); ?>"
           class="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-80 h-[100px] w-[148px]"
-          alt="<?php echo esc_attr($economy_posts[1]['title']); ?>">
+          alt="<?php echo esc_attr(get_the_title()); ?>">
       </div>
 
       <!-- متن -->
       <div class="flex flex-col gap-3">
         <h6 class="font-semibold text-black text-[15px] transition-colors duration-300 group-hover:text-secondary">
-          <?php echo esc_html($economy_posts[1]['title']); ?>
+          <?php echo esc_html(get_the_title()); ?>
         </h6>
           <!-- زمان -->
         <div class="flex justify-end gap-1 items-center">
@@ -247,47 +245,13 @@ if ($economy_query->have_posts()) {
               </defs>
             </svg>
           </span>
-          <p class="text-[10px] pt-[3px] text-grayText"><?php echo esc_html($economy_posts[0]['time_diff']); ?></p>
+          <p class="text-[10px] pt-[3px] text-grayText"><?php echo esc_html(human_time_diff(get_the_time('U'), current_time('timestamp')) . ' پیش'); ?></p>
         </div>
 
       </div>
     </a>
-    <?php endif; ?>
-    
-    <?php if (isset($economy_posts[2])): ?>
-    <a href="<?php echo esc_url($economy_posts[2]['link']); ?>" class="flex gap-4 py-4 group  items-start cursor-pointer transition duration-300 no-underline">
-      <!-- تصویر -->
-      <div class="overflow-hidden">
-        <img src="<?php echo esc_url($economy_posts[2]['image'] ?: get_template_directory_uri() . '/assets/images/bekrSection3.jpg'); ?>"
-          class="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:opacity-80 h-[100px] w-[148px]"
-          alt="<?php echo esc_attr($economy_posts[2]['title']); ?>">
-      </div>
-
-      <!-- متن -->
-      <div class="flex flex-col gap-3">
-        <h6 class="font-semibold text-black text-[15px] transition-colors duration-300 group-hover:text-secondary">
-          <?php echo esc_html($economy_posts[2]['title']); ?>
-        </h6>
-        <!-- زمان -->
-        <div class="flex justify-end gap-1 items-center">
-          <span>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_51_1872)">
-                <path d="M6 3V6L8 7M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z"
-                  stroke="#858585" stroke-linecap="round" stroke-linejoin="round" />
-              </g>
-              <defs>
-                <clipPath id="clip0_51_1872">
-                  <rect width="12" height="12" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-          </span>
-          <p class="text-[10px] pt-[3px] text-grayText"><?php echo esc_html($economy_posts[0]['time_diff']); ?></p>
-        </div>
-      </div>
-    </a>
-    <?php endif; ?>
+    <?php endwhile; ?>
+    <?php wp_reset_postdata(); ?>
 
   </div>
   <?php endif; ?>

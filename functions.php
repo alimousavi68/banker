@@ -26,6 +26,10 @@ function banker_theme_setup()
     // Add theme support for post thumbnails
     add_theme_support('post-thumbnails');
 
+    // Add custom image sizes
+    add_image_size('banker_411x231', 411, 231, true);
+    add_image_size('banker_672x378', 672, 378, true);
+
     // Add theme support for title tag
     add_theme_support('title-tag');
 

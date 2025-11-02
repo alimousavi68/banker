@@ -108,7 +108,7 @@ $comments_count = get_comments_number();
     </div>
     <?php endif; ?>
 
-    <div class="comments-area bg-white  border-border rounded-sm p-6 mb-8">
+
         <?php if (have_comments()) : ?>
             <h3 class="comments-title text-lg font-bold text-black mb-6 flex items-center gap-2">
                 <div class="w-1 h-5 bg-secondary rounded"></div>
@@ -167,7 +167,7 @@ $comments_count = get_comments_number();
         <?php endif; ?>
 
 
-    </div>
+ 
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {

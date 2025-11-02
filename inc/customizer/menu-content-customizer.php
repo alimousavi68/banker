@@ -137,6 +137,19 @@ function banker_menu_content_customize_register($wp_customize) {
         'type'     => 'url',
     ));
 
+    // Instagram
+    $wp_customize->add_setting('banker_enhanced_instagram', array(
+        'default'           => get_theme_mod('banker_instagram', ''),
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'postMessage',
+    ));
+    
+    $wp_customize->add_control('banker_enhanced_instagram', array(
+        'label'    => __('لینک اینستاگرام', 'banker'),
+        'section'  => 'banker_enhanced_social_media',
+        'type'     => 'url',
+    ));
+
     // ========================================
     // Footer Menu Section
     // ========================================
@@ -226,6 +239,7 @@ function banker_get_enhanced_social_links() {
         'twitter' => get_theme_mod('banker_enhanced_twitter', get_theme_mod('banker_twitter', '')),
         'telegram' => get_theme_mod('banker_enhanced_telegram', get_theme_mod('banker_telegram', '')),
         'rss' => get_theme_mod('banker_enhanced_rss', get_theme_mod('banker_rss', get_bloginfo('rss2_url'))),
+        'instagram' => get_theme_mod('banker_enhanced_instagram', get_theme_mod('banker_instagram', '')),
     );
 }
 

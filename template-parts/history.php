@@ -50,7 +50,7 @@ $notes_posts = new WP_Query(array(
           while ($history_posts->have_posts() && $post_count < 4) :
             $history_posts->the_post();
             $post_count++;
-            $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+            $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'banker_411x231');
             if (!$featured_image) {
               $featured_image = get_template_directory_uri() . '/assets/images/tarickImg.jpg';
             }
@@ -86,7 +86,7 @@ $notes_posts = new WP_Query(array(
           $history_posts->the_post();
           $featured_post_count++;
           if ($featured_post_count == 5) : // Show the 5th post as featured
-            $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'large');
+            $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'banker_411x231');
             if (!$featured_image) {
               $featured_image = get_template_directory_uri() . '/assets/images/tarickImg.jpg';
             }
@@ -162,10 +162,8 @@ $notes_posts = new WP_Query(array(
 
     <?php if ($notes_posts->have_posts()) : ?>
       <?php
-      $notes_count = 0;
-      while ($notes_posts->have_posts() && $notes_count < 3) :
+      while ($notes_posts->have_posts()) :
         $notes_posts->the_post();
-        $notes_count++;
 
         // Get post type from meta box
         $post_type_meta = get_post_meta(get_the_ID(), '_banker_post_type', true);
@@ -180,14 +178,14 @@ $notes_posts = new WP_Query(array(
 
           // Use custom author image if available, otherwise fallback to default
           if (!empty($custom_author_image_id)) {
-            $author_avatar = wp_get_attachment_image_url($custom_author_image_id, 'thumbnail');
+            $author_avatar = wp_get_attachment_image_url($custom_author_image_id, 'banker_42x42');
           } else {
             $author_avatar = get_avatar_url(get_the_author_meta('ID'), array('size' => 32));
           }
         } else {
           // For non-note posts, use default author data
           $author_name = get_the_author();
-          $author_avatar = get_avatar_url(get_the_author_meta('ID'), array('size' => 32));
+          $author_avatar = get_avatar_url(get_the_author_meta('ID'), array('size' => 42));
         }
 
         // Fallback to default avatar if no avatar is found
@@ -195,7 +193,7 @@ $notes_posts = new WP_Query(array(
           $author_avatar = get_template_directory_uri() . '/assets/images/default-avatar.svg';
         }  
 
-        $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+        $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'banker_411x231');
         $excerpt = get_the_excerpt();
         if (empty($excerpt)) {
           $excerpt = wp_trim_words(get_the_content(), 15, '...');
@@ -233,7 +231,7 @@ $notes_posts = new WP_Query(array(
         ?>
 
           <!--start Quote section-->
-          <div class="<?php echo ($notes_count < 3) ? 'border-b border-border' : ''; ?> py-4 text-right">
+          <div class="border-b border-border py-4 text-right">
             <a href="<?php the_permalink(); ?>" class="flex items-center gap-3 group cursor-pointer transition duration-300 no-underline">
               <span class="flex-shrink-0">
                 <svg width="20" height="20" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">

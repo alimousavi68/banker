@@ -2,31 +2,20 @@
 // Get banker view section settings from customizer
 $banker_view_settings = banker_get_banker_view_section_settings();
 
-// WordPress query for category ID 8 (banker view main section)
-$banker_main_query = new WP_Query(array(
+// WordPress query for the main banker view post
+$main_banker_view_query = new WP_Query(array(
   'cat' => $banker_view_settings['main_category'],
-  'posts_per_page' => $banker_view_settings['main_posts_count'],
+  'posts_per_page' => 1,
   'post_status' => 'publish',
-
 ));
 
-$banker_main_posts = array();
-if ($banker_main_query->have_posts()) {
-  while ($banker_main_query->have_posts()) {
-    $banker_main_query->the_post();
-    $post_id = get_the_ID();
-    $banker_main_posts[] = array(
-      'title' => get_the_title(),
-      'link' => get_permalink(),
-      'image' => get_the_post_thumbnail_url($post_id, 'full'),
-      'excerpt' => get_the_excerpt(),
-      'category' => get_the_category($post_id)[0]->name ?? '',
-      'date' => get_the_date('Y-m-d H:i:s'),
-      'time_diff' => human_time_diff(get_the_time('U'), current_time('timestamp')) . ' پیش'
-    );
-  }
-  wp_reset_postdata();
-}
+// WordPress query for the 4 smaller banker view posts
+$small_banker_view_query = new WP_Query(array(
+  'cat' => $banker_view_settings['main_category'],
+  'posts_per_page' => 4,
+  'offset' => 1, // Exclude the main post
+  'post_status' => 'publish',
+));
 
 // WordPress query for category ID 8 (what else is new section)
 $news_query = new WP_Query(array(
@@ -55,7 +44,7 @@ if ($news_query->have_posts()) {
 }
 ?>
 
-<?php if (!empty($banker_main_posts)): ?>
+<?php if ($main_banker_view_query->have_posts() || $small_banker_view_query->have_posts()): ?>
   <!--شروع بخش نگاه بنکر-->
   <section class=" mt-8 py-16  bg-primary">
     <div class="flex flex-col md:flex-row max-w-[1400px] mx-auto px-4  sm:px-4 lg:px-6 ">
@@ -84,20 +73,23 @@ if ($news_query->have_posts()) {
         </div>
         <!--start boxes-->
         <div class="flex flex-col md:flex-row mt-4">
-          <?php if (isset($banker_main_posts[0])): ?>
-            <a href="<?php echo esc_url($banker_main_posts[0]['link']); ?>" class="w-full md:w-1/2 md:border-l md:pl-4 md:ml-4 border-[#535353] flex flex-col gap-4 group cursor-pointer  transition-colors duration-300">
+          <?php if ($main_banker_view_query->have_posts()): $main_banker_view_query->the_post();
+            $main_image_url = get_the_post_thumbnail_url(get_the_ID(), 'banker_672x378') ?: get_template_directory_uri() . '/assets/images/default-image.jpg';
+          ?>
+            <a href="<?php echo esc_url(get_permalink()); ?>" class="w-full md:w-1/2 md:border-l md:pl-4 md:ml-4 border-[#535353] flex flex-col gap-4 group cursor-pointer  transition-colors duration-300">
               <!-- عکس -->
-              <div class="h-full bg-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-                style="background-image: url('<?php echo esc_url($banker_main_posts[0]['image']); ?>');"></div>
+              <div class="overflow-hidden">
+                <img src="<?php echo esc_url($main_image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110">
+              </div>
 
               <!-- عنوان -->
               <p class="font-bold text-white text-[18px] transition-colors duration-300 group-hover:text-secondary">
-                <?php echo esc_html($banker_main_posts[0]['title']); ?>
+                <?php echo esc_html(get_the_title()); ?>
               </p>
 
               <!-- توضیح -->
               <p class="text-justify text-gray-300 text-[14px] transition-colors duration-300 line-clamp-3">
-                <?php echo esc_html($banker_main_posts[0]['excerpt']); ?>
+                <?php echo esc_html(get_the_excerpt()); ?>
               </p>
 
               <!-- زمان -->
@@ -114,95 +106,35 @@ if ($news_query->have_posts()) {
                     </defs>
                   </svg>
                 </span>
-                <p class="text-[10px] pt-[3px] text-grayText"><?php echo esc_html($banker_main_posts[0]['time_diff']); ?></p>
+                <p class="text-[10px] pt-[3px] text-grayText"><?php echo esc_html(human_time_diff(get_the_time('U'), current_time('timestamp')) . ' پیش'); ?></p>
               </div>
-
-
             </a>
           <?php endif; ?>
+          <?php wp_reset_postdata(); ?>
 
           <div class="w-full mt-4 md:mt-0 md:w-1/2">
 
-            <!-- box 1 -->
-            <?php if (isset($banker_main_posts[1])): ?>
-              <a href="<?php echo esc_url($banker_main_posts[1]['link']); ?>" class="flex border-b border-[#535353] gap-4 pb-4 items-center group cursor-pointer transition duration-300 ">
+            <?php while ($small_banker_view_query->have_posts()): $small_banker_view_query->the_post();
+              $small_image_url = get_the_post_thumbnail_url(get_the_ID(), 'banker_411x231') ?: get_template_directory_uri() . '/assets/images/default-image.jpg';
+            ?>
+              <a href="<?php echo esc_url(get_permalink()); ?>" class="flex border-b border-[#535353] gap-4 pb-4 items-center group cursor-pointer transition duration-300 ">
                 <!-- تصویر -->
                 <div class="w-1/3 overflow-hidden">
-                  <img src="<?php echo esc_url($banker_main_posts[1]['image']); ?>"
+                  <img src="<?php echo esc_url($small_image_url); ?>"
                     class="w-[140px] h-auto transition duration-300 group-hover:scale-105 group-hover:brightness-110"
-                    alt="<?php echo esc_attr($banker_main_posts[1]['title']); ?>">
+                    alt="<?php echo esc_attr(get_the_title()); ?>">
                 </div>
 
                 <!-- متن -->
                 <div class="flex w-2/3 flex-col gap-3">
 
                   <p class="font-semibold text-white text-[14px] transition-colors duration-300 group-hover:text-secondary">
-                    <?php echo esc_html($banker_main_posts[1]['title']); ?>
+                    <?php echo esc_html(get_the_title()); ?>
                   </p>
                 </div>
               </a>
-            <?php endif; ?>
-
-
-            <!-- box 2 -->
-            <?php if (isset($banker_main_posts[2])): ?>
-              <a href="<?php echo esc_url($banker_main_posts[2]['link']); ?>" class="flex pt-2 border-b border-[#535353] gap-4 pb-4 items-center group cursor-pointer transition duration-300 ">
-                <!-- تصویر -->
-                <div class="w-1/3 overflow-hidden">
-                  <img src="<?php echo esc_url($banker_main_posts[2]['image']); ?>"
-                    class="w-[140px] h-auto transition duration-300 group-hover:scale-105 group-hover:brightness-110"
-                    alt="<?php echo esc_attr($banker_main_posts[2]['title']); ?>">
-                </div>
-
-                <!-- متن -->
-                <div class="flex w-2/3 flex-col gap-3">
-                 
-                  <p class="font-semibold text-white text-[14px] transition-colors duration-300 group-hover:text-secondary">
-                    <?php echo esc_html($banker_main_posts[2]['title']); ?>
-                  </p>
-                </div>
-              </a>
-            <?php endif; ?>
-
-            <!-- box 3 -->
-            <?php if (isset($banker_main_posts[3])): ?>
-              <a href="<?php echo esc_url($banker_main_posts[3]['link']); ?>" class="flex  pt-2 border-b border-[#535353] gap-4 pb-4 items-center group cursor-pointer transition duration-300 ">
-                <!-- تصویر -->
-                <div class="w-1/3 overflow-hidden">
-                  <img src="<?php echo esc_url($banker_main_posts[3]['image']); ?>"
-                    class="w-[140px] h-auto transition duration-300 group-hover:scale-105 group-hover:brightness-110"
-                    alt="<?php echo esc_attr($banker_main_posts[3]['title']); ?>">
-                </div>
-
-                <!-- متن -->
-                <div class="flex w-2/3 flex-col gap-3">
-                
-                  <p class="font-semibold text-white text-[14px] transition-colors duration-300 group-hover:text-secondary">
-                    <?php echo esc_html($banker_main_posts[3]['title']); ?>
-                  </p>
-                </div>
-              </a>
-            <?php endif; ?>
-
-            <!-- box 4 -->
-            <?php if (isset($banker_main_posts[4])): ?>
-              <a href="<?php echo esc_url($banker_main_posts[4]['link']); ?>" class="flex  pt-2 gap-4 pb-4 items-center group cursor-pointer transition duration-300 ">
-                <!-- تصویر -->
-                <div class="w-1/3 overflow-hidden">
-                  <img src="<?php echo esc_url($banker_main_posts[4]['image']); ?>"
-                    class="w-[140px] h-auto transition duration-300 group-hover:scale-105 group-hover:brightness-110"
-                    alt="<?php echo esc_attr($banker_main_posts[4]['title']); ?>">
-                </div>
-
-                <!-- متن -->
-                <div class="flex w-2/3 flex-col gap-3">
-                 
-                  <p class="font-semibold text-white text-[14px] transition-colors duration-300 group-hover:text-secondary">
-                    <?php echo esc_html($banker_main_posts[4]['title']); ?>
-                  </p>
-                </div>
-              </a>
-            <?php endif; ?>
+            <?php endwhile; ?>
+            <?php wp_reset_postdata(); ?>
 
           </div>
 

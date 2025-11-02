@@ -18,7 +18,7 @@ if ($pishkhan_query->have_posts()) {
     $pishkhan_posts[] = array(
       'title' => get_the_title(),
       'link' => get_permalink(),
-      'image' => get_the_post_thumbnail_url(get_the_ID(), 'medium'),
+      'image' => get_the_post_thumbnail_url(get_the_ID(), 'banker_411x231'),
       'excerpt' => get_the_excerpt(),
       'category' => get_the_category()[0]->name,
       'date' => get_the_date(),
