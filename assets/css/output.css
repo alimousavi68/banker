@@ -2436,7 +2436,7 @@ body {
   float: right;
 }
 @media print {
-  footer, .sidebar, nav:not(header nav), .navigation:not(header .navigation), .comments, .comment-form, .related-posts, .tags-social, .breadcrumb, .print-hide, [class*="sidebar"], [class*="widget"], [class*="social"]:not(header [class*="social"]), [class*="share"], [class*="comment"], [class*="related"], [class*="tag"], .copy_bar, .footer {
+  footer, .sidebar, nav:not(header nav), .navigation:not(header .navigation), .comments, .comment-form, .related-posts, .tags-social, .breadcrumb, .print-hide, [class*="sidebar"], [class*="widget"], [class*="social"]:not(header [class*="social"]), [class*="share"], [class*="comment"], [class*="related"], [class*="tag"], .copy_bar, .footer, #banker-breaking-news, [id^="yn-"], [class^="yn-"], [class*=" yn-"] {
     display: none !important;
   }
   header {
