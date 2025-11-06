@@ -132,7 +132,7 @@ if (class_exists('WP_Customize_Control')) {
                         // Reset customizer settings
                         wp.customize('banker_ad_' + id + '_enable').set(false);
                         wp.customize('banker_ad_' + id + '_code').set('');
-                        wp.customize('banker_ad_' + id + '_position').set('post_start');
+                        wp.customize('banker_ad_' + id + '_position').set('above_title');
                         
                         this.currentCount--;
                     },
@@ -146,7 +146,7 @@ if (class_exists('WP_Customize_Control')) {
                             wp.customize.create('banker_ad_' + id + '_code', '');
                         }
                         if (!wp.customize('banker_ad_' + id + '_position')) {
-                            wp.customize.create('banker_ad_' + id + '_position', 'post_start');
+                            wp.customize.create('banker_ad_' + id + '_position', 'above_title');
                         }
                     },
                     
@@ -154,7 +154,7 @@ if (class_exists('WP_Customize_Control')) {
                         data = data || {};
                         var isEnabled = data.enable || false;
                         var code = data.code || '';
-                        var position = data.position || 'post_start';
+                        var position = data.position || 'above_title';
                         
                         return '<div class="ad-item" id="ad-item-' + id + '">' +
                             '<div class="ad-header">' +
@@ -178,6 +178,7 @@ if (class_exists('WP_Customize_Control')) {
                                     '<label>موقعیت نمایش:</label>' +
                                     '<select class="ad-position-select" data-ad-id="' + id + '">' +
                                         '<option value="post_start"' + (position === 'post_start' ? ' selected' : '') + '>ابتدای پست</option>' +
+                                        '<option value="above_title"' + (position === 'above_title' ? ' selected' : '') + '>بالای تیتر</option>' +
                                         '<option value="paragraph_1"' + (position === 'paragraph_1' ? ' selected' : '') + '>پاراگراف اول</option>' +
                                         '<option value="paragraph_2"' + (position === 'paragraph_2' ? ' selected' : '') + '>پاراگراف دوم</option>' +
                                         '<option value="paragraph_3"' + (position === 'paragraph_3' ? ' selected' : '') + '>پاراگراف سوم</option>' +

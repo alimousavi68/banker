@@ -73,7 +73,7 @@ function banker_get_advertisement_settings()
     for ($i = 1; $i <= 10; $i++) {
         if (get_theme_mod("banker_ad_{$i}_enable", false)) {
             $code = get_theme_mod("banker_ad_{$i}_code", '');
-            $position = get_theme_mod("banker_ad_{$i}_position", 'post_start');
+            $position = get_theme_mod("banker_ad_{$i}_position", 'none');
 
             if (!empty($code)) {
                 $ads[] = array(
@@ -316,6 +316,29 @@ function banker_insert_related_inline_content($content, $settings)
 
     return $processed;
 }
+
+/**
+ * Display Ad by Position
+ */
+function banker_display_ad_by_position($position_name)
+{
+    $ads = banker_get_advertisement_settings();
+    error_log(print_r($ads, true));
+    if (empty($ads)) {
+        return;
+    }
+
+    foreach ($ads as $ad) {
+        if ($ad['position'] === $position_name) {
+            echo '<div class="banker-ad banker-ad-' . esc_attr($position_name) . '">' . $ad['code'] . '</div>';
+        }
+    }
+}
+
+add_action('banker_before_post_title_ad', function() {
+    banker_display_ad_by_position('above_title');
+    
+});
 
 /**
  * Add Custom CSS for Post Settings

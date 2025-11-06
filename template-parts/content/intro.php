@@ -78,9 +78,10 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
 
     <!-- Post Intro Section -->
     <div class="mb-6">
-        <h1 class="text-2xl md:text-[25px] lg:text-[27px] font-bold line-clamp-4 text-black leading-relaxed mb-4 print:text-[35px]">
-            <?php the_title(); ?>
-        </h1>
+         <?php do_action('banker_before_post_title_ad'); ?>
+         <h1 class="post-title entry-title text-[22px] md:text-[28px] lg:text-[32px] leading-normal font-bold text-gray-900 dark:text-white mb-4">
+              <?php the_title(); ?>
+          </h1>
 
         <div class="flex flex-col  gap-6">
             <!-- right Column: Featured Image -->

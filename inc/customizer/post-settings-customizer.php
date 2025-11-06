@@ -256,6 +256,7 @@ function banker_sanitize_ad_code($input) {
 function banker_sanitize_ad_position($input) {
     $valid_positions = array(
         'post_start',
+        'above_title',
         'paragraph_1',
         'paragraph_2', 
         'paragraph_3',
