@@ -703,15 +703,23 @@ tbody tr:last-child td {
   border-bottom: 2px solid var(--color-primary);
 }
 
-/* Mobile: stack rows */
+/* Mobile: stack rows with visible headers */
 @media (max-width: 768px) {
   thead {
-    display: none;
+    display: block;
+    width: 100%;
+  }
+  th {
+    display: block;
+    width: 100%;
+    text-align: right;
+    padding: 12px 16px;
+    background-color: var(--color-primary);
+    color: #fff;
   }
   table,
   tbody,
-  tr,
-  td {
+  tr {
     display: block;
     width: 100%;
   }
@@ -722,23 +730,19 @@ tbody tr:last-child td {
     overflow: hidden;
   }
   td {
+    display: block;
+    width: 100%;
     border: none;
     border-bottom: 1px solid var(--color-border);
-    position: relative;
-    padding-right: 50%;
-    white-space: normal;
+    padding: 12px 16px;
     text-align: right;
+    position: static;
+    white-space: normal;
   }
   td:last-child {
     border-bottom: 0;
   }
   td::before {
-    content: attr(data-label);
-    position: absolute;
-    right: 16px;
-    width: 45%;
-    font-weight: 600;
-    color: var(--color-primary);
-    white-space: nowrap;
+    display: none;
   }
 }
