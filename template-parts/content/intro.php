@@ -79,7 +79,7 @@ $featured_image = get_the_post_thumbnail_url($post_id, 'large');
     <!-- Post Intro Section -->
     <div class="mb-6">
          <?php do_action('banker_before_post_title_ad'); ?>
-         <h1 class="post-title entry-title text-[22px] md:text-[28px] lg:text-[32px] leading-normal font-bold text-gray-900 dark:text-white mb-4">
+         <h1 class="post-title entry-title text-[30px] md:text-[28px] lg:text-[30px] leading-normal leading-[1.9] font-bold text-gray-900 dark:text-white mb-4">
               <?php the_title(); ?>
           </h1>
 
