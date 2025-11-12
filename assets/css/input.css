@@ -665,3 +665,80 @@ body {
     display: block !important;
   }
 }
+
+/* Global Table Styles – applies to ALL tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 14px;
+  direction: rtl;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.05);
+}
+
+thead {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+th,
+td {
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  text-align: right;
+  vertical-align: middle;
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--color-lightBg);
+}
+
+tbody tr:hover {
+  background-color: rgba(0, 74, 143, 0.08);
+  transition: background-color .2s ease;
+}
+
+tbody tr:last-child td {
+  border-bottom: 2px solid var(--color-primary);
+}
+
+/* Mobile: stack rows */
+@media (max-width: 768px) {
+  thead {
+    display: none;
+  }
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+  }
+  tr {
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  td {
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    position: relative;
+    padding-right: 50%;
+    white-space: normal;
+    text-align: right;
+  }
+  td:last-child {
+    border-bottom: 0;
+  }
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    right: 16px;
+    width: 45%;
+    font-weight: 600;
+    color: var(--color-primary);
+    white-space: nowrap;
+  }
+}
