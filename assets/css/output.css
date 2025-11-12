@@ -2608,17 +2608,13 @@ tbody tr:last-child td {
     color: #fff;
   }
   table, tbody, tr {
-    display: block;
     width: 100%;
   }
   tr {
-    margin-bottom: 1rem;
     border: 1px solid var(--color-border);
-    border-radius: 4px;
     overflow: hidden;
   }
   td {
-    display: block;
     width: 100%;
     border: none;
     border-bottom: 1px solid var(--color-border);
