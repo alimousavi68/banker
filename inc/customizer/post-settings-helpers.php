@@ -323,7 +323,7 @@ function banker_insert_related_inline_content($content, $settings)
 function banker_display_ad_by_position($position_name)
 {
     $ads = banker_get_advertisement_settings();
-    error_log(print_r($ads, true));
+    // error_log(print_r($ads, true));
     if (empty($ads)) {
         return;
     }
