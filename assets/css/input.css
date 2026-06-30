@@ -703,46 +703,88 @@ tbody tr:last-child td {
   border-bottom: 2px solid var(--color-primary);
 }
 
-/* Mobile: stack rows with visible headers */
+/* Mobile responsive tables – CSS only, no PHP wrapper needed */
+/* The .prose container in main-content.php already wraps the_content() output */
 @media (max-width: 768px) {
-  thead {
-    display: block;
-    width: 100%;
+  .prose {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
-  th {
-    display: block;
-    width: 100%;
-    text-align: right;
-    padding: 12px 16px;
-    background-color: var(--color-primary);
-    color: #fff;
+
+  .prose table {
+    min-width: 500px;
+    margin: 1rem 0;
   }
-  table,
-  tbody,
-  tr {
-    /* display: block; */
-    width: 100%;
+
+  .prose::-webkit-scrollbar {
+    height: 5px;
   }
-  tr {
-    /* margin-bottom: 1rem; */
-    border: 1px solid var(--color-border);
-    /* border-radius: 4px; */
-    overflow: hidden;
+
+  .prose::-webkit-scrollbar-track {
+    background: var(--color-lightBg);
   }
-  td {
-    /* display: block; */
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid var(--color-border);
-    padding: 12px 16px;
-    text-align: right;
-    position: static;
-    white-space: normal;
+
+  .prose::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 3px;
   }
-  td:last-child {
-    border-bottom: 0;
-  }
-  td::before {
-    display: none;
-  }
+}
+
+/* Custom Bullet and Ordered List Styles inside .prose */
+.prose ul {
+  list-style-type: none;
+  padding-right: 0;
+  margin: 1.5rem 0;
+}
+
+.prose ul li {
+  position: relative;
+  padding-right: 1.75rem;
+  margin-bottom: 0.75rem;
+  line-height: 180%;
+  font-size: 17px;
+  color: #202020;
+}
+
+.prose ul li::before {
+  content: "";
+  position: absolute;
+  right: 0.25rem;
+  top: 0.65rem;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-secondary, #CD3737);
+  border-radius: 2px;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.prose ul li:hover::before {
+  background-color: var(--color-primary, #004A8F);
+  transform: rotate(90deg) scale(1.15);
+}
+
+.prose ol {
+  list-style-type: none;
+  counter-reset: section;
+  padding-right: 0;
+  margin: 1.5rem 0;
+}
+
+.prose ol li {
+  position: relative;
+  padding-right: 1.75rem;
+  margin-bottom: 0.75rem;
+  line-height: 180%;
+  font-size: 17px;
+  color: #202020;
+}
+
+.prose ol li::before {
+  counter-increment: section;
+  content: counter(section, decimal) ".";
+  position: absolute;
+  right: 0.25rem;
+  font-weight: 700;
+  color: var(--color-primary, #004A8F);
 }
